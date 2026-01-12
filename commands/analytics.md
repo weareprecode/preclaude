@@ -1,7 +1,7 @@
 ---
 description: Check analytics setup and guide installation of PostHog, Google Analytics, or other providers
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-model: sonnet
+model: opus
 argument-hint: [posthog|google|plausible|check]
 ---
 

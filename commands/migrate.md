@@ -1,7 +1,7 @@
 ---
 description: Run migrations - database schema, API versions, major dependency upgrades
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch, AskUserQuestion
-model: sonnet
+model: opus
 argument-hint: [migration-type]
 ---
 

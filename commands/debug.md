@@ -1,7 +1,7 @@
 ---
 description: Analyse error and suggest fixes - paste error message or stack trace
 allowed-tools: Read, Grep, Glob, WebSearch
-model: sonnet
+model: opus
 argument-hint: [error-message or "paste"]
 ---
 

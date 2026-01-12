@@ -1,7 +1,7 @@
 ---
 description: Polish UI to match a design reference - URL, Figma, or screenshot
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, mcp__figma__get_figma_data, mcp__figma__download_figma_images, AskUserQuestion
-model: sonnet
+model: opus
 argument-hint: [component-or-page]
 ---
 

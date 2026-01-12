@@ -1,7 +1,7 @@
 ---
 description: Check dependencies - outdated packages, security vulnerabilities, bundle size
 allowed-tools: Bash, Read, Glob, WebSearch
-model: sonnet
+model: opus
 ---
 
 # Check Dependencies

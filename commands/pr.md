@@ -1,7 +1,7 @@
 ---
 description: Create pull request from current branch with auto-generated description
 allowed-tools: Read, Bash, Glob, Grep
-model: sonnet
+model: opus
 argument-hint: [base-branch]
 ---
 
