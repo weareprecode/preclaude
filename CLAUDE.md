@@ -33,32 +33,46 @@ When not specified by project, prefer:
 - **Hosting**: Vercel (web), Railway (backend)
 - **Auth**: Better Auth or Supabase Auth
 
-## Commands Available
-- `/learn` — Analyze session, propose CLAUDE.md updates
-- `/commit` — Conventional commit from staged changes
-- `/kickoff [name]` — Initialize new project
-- `/prd [description]` — Generate comprehensive technical PRD
-- `/ralph [prd-path]` — Convert PRD to autonomous execution format
+## Commands Available (20)
 - `/full-build [description]` — Complete workflow: PRD → Ralph → Build
 - `/implement [feature]` — Full feature implementation
+- `/prd [description]` — Generate comprehensive technical PRD
+- `/kickoff [name]` — Initialize new project
+- `/ralph [prd-path]` — Convert PRD to autonomous execution format
+- `/build` — Run Ralph autonomous build loop on existing prd.json
+- `/research [idea]` — Deep research on competitors, market gaps, idea validation
+- `/commit` — Conventional commit from staged changes
+- `/pr [base-branch]` — Create pull request with auto-generated description
 - `/review` — Code review current changes
+- `/test [file]` — Generate tests for existing code
+- `/debug [error]` — Analyse error messages and suggest fixes
+- `/status` — Quick health check: git, lint, types, tests
+- `/seo` — Audit and fix SEO: meta tags, Open Graph, favicon, sitemap
+- `/analytics` — Check and setup analytics: PostHog, GA, Plausible
+- `/learn` — Analyze session, propose CLAUDE.md updates
 - `/marketing [feature]` — Generate marketing content
+- `/stakeholder [type]` — Generate stakeholder updates: daily, weekly, or full pack
 - `/project-complete` — Generate full doc suite (journal, features, marketing)
 - `/handoff` — Session handoff notes
 - `/deploy-check` — Pre-deployment checklist
 
-## Agents Available
+## Agents Available (15)
 Invoke with @agent-name for specialized tasks:
-- `@frontend-developer` — React, Next.js, UI
-- `@backend-developer` — APIs, databases
-- `@database-architect` — Schema, queries
-- `@devops-engineer` — CI/CD, infrastructure
-- `@security-auditor` — Security review
-- `@test-engineer` — Testing
-- `@code-reviewer` — Code review
-- `@technical-writer` — Documentation
-- `@ui-designer` — Design systems
-- `@product-analyst` — PRDs, requirements
+- `@frontend-developer` — React, Next.js, UI components, state management
+- `@backend-developer` — APIs, server-side logic, database operations
+- `@database-architect` — Schema design, queries, migrations, indexing
+- `@devops-engineer` — CI/CD, Docker, Kubernetes, infrastructure
+- `@security-auditor` — Security reviews, vulnerability analysis
+- `@test-engineer` — Unit tests, integration tests, E2E tests
+- `@code-reviewer` — Code review, best practices
+- `@technical-writer` — Documentation, guides, tutorials
+- `@ui-designer` — Design systems, accessibility, animations
+- `@ux-researcher` — User research, usability testing
+- `@product-analyst` — PRDs, user stories, requirements
+- `@performance-engineer` — Core Web Vitals, bundle analysis, optimisation
+- `@expo-developer` — React Native with Expo
+- `@ios-developer` — Swift, iOS development
+- `@android-developer` — Kotlin, Android development
 
 ## Response Format
 - No yapping — get to the point

@@ -17,6 +17,34 @@ Execute the Ralph autonomous build loop on an existing `prd.json`.
 
 If $ARGUMENTS includes a path, use that. Otherwise, use `scripts/ralph/prd.json`.
 
+## Design Reference (Optional)
+
+Before starting, ask if user has a design reference:
+
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Do you have a design reference to follow? I can extract the design system from it.",
+    "header": "Design",
+    "options": [
+      {"label": "Website URL", "description": "Paste a URL to extract colours, typography, layout"},
+      {"label": "Figma link", "description": "Extract design tokens from Figma"},
+      {"label": "Screenshot", "description": "Analyse a screenshot for design patterns"},
+      {"label": "No, use defaults", "description": "Continue with existing project styling"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+*If user provides reference:*
+- **URL**: Use WebFetch to analyse and extract design system
+- **Figma**: Use mcp__figma__get_figma_data to extract design tokens
+- **Screenshot**: Analyse for colours, typography, spacing
+
+Document extracted design system in `docs/design-system.md` for consistency across stories.
+
 ## Pre-Flight Checks
 
 Before starting the loop, verify:

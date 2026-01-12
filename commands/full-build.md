@@ -147,7 +147,70 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to paste a custom preset URL.*
 
-**Question 6: Project Name**
+**Question 6: Design Reference**
+*Ask if user has a design reference to extract design system from.*
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Do you have a design reference? I can extract colours, typography, spacing, and layout from it.",
+    "header": "Design",
+    "options": [
+      {"label": "Website URL", "description": "I'll paste a URL to use as design inspiration"},
+      {"label": "Figma link", "description": "I have a Figma file to extract designs from"},
+      {"label": "Screenshot", "description": "I'll provide a screenshot to analyse"},
+      {"label": "No reference", "description": "Start fresh with default styling"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+*If user selects URL, Figma, or Screenshot:*
+- **URL**: Use WebFetch to analyse the site and extract the full design system (colours, typography, spacing, border-radius, shadows, layout patterns, animations)
+- **Figma**: Ask user to paste Figma link, use mcp__figma__get_figma_data to extract design tokens
+- **Screenshot**: Ask user to provide screenshot path, analyse it for design system
+
+Store extracted design system in config for later use by ui-designer agent.
+
+**Question 7: Deep Research**
+*Ask if user wants competitive analysis before building.*
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Want me to research competitors and market gaps before building?",
+    "header": "Research",
+    "options": [
+      {"label": "Yes, deep research", "description": "Analyse competitors, find gaps, validate idea (adds ~5 min)"},
+      {"label": "Quick scan", "description": "Brief look at top 3 competitors"},
+      {"label": "Skip research", "description": "I've already done my research"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+*If user selects "Yes, deep research":*
+First, warn the user:
+```markdown
+⏱️ **Deep research typically takes 5-10 minutes** as I'll be:
+- Searching for 10+ competitors
+- Analysing features, pricing, and UX patterns
+- Reading reviews and user feedback
+- Identifying gaps and opportunities
+
+Starting research now...
+```
+
+Then:
+- Use WebSearch to find competitors in the space
+- Analyse their features, pricing, UX patterns
+- Read reviews and sentiment
+- Identify gaps and opportunities
+- Add findings to PRD
+
+**Question 8: Project Name**
 *Generate 2-3 suggested names based on the product description, then let user pick or type their own.*
 Use AskUserQuestion tool:
 ```json
@@ -165,7 +228,7 @@ Use AskUserQuestion tool:
 ```
 *Replace [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
 
-**Question 7: Auto-Start Build**
+**Question 9: Auto-Start Build**
 Use AskUserQuestion tool:
 ```json
 {
@@ -186,7 +249,7 @@ Use AskUserQuestion tool:
 
 ### After All Questions
 
-Once all 7 questions are answered, parse into configuration:
+Once all 9 questions are answered, parse into configuration:
 
 ```yaml
 config:
@@ -204,9 +267,19 @@ config:
     auth: "Better Auth"
     hosting: "Vercel"
   shadcn_preset: "[style name → convert to URL]"
-  project_name: "[answer 6]"
+  design_reference:
+    type: "[url/figma/screenshot/none]"
+    source: "[URL or path if provided]"
+    extracted_system:
+      colors: {}
+      typography: {}
+      spacing: {}
+      border_radius: {}
+      shadows: {}
+  competitive_research: "[deep/quick/skip]"
+  project_name: "[answer 8]"
   ralph_iterations: "auto"  # Calculate as story_count × 1.5
-  auto_start: "[answer 7: yes/no]"
+  auto_start: "[answer 9: yes/no]"
 ```
 
 ### shadcn Preset URL Mapping
