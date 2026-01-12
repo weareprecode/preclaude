@@ -27,7 +27,7 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 | `/handoff` | Create session handoff notes |
 | `/deploy-check` | Pre-deployment verification checklist |
 
-### 10 Specialist Agents
+### 13 Specialist Agents
 
 | Agent | Use For |
 |-------|---------|
@@ -41,6 +41,9 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 | `@technical-writer` | Docs, READMEs, API documentation |
 | `@ui-designer` | Design systems, accessibility |
 | `@product-analyst` | PRDs, user stories, requirements |
+| `@expo-developer` | React Native, Expo, cross-platform mobile |
+| `@ios-developer` | Swift, SwiftUI, native iOS apps |
+| `@android-developer` | Kotlin, Jetpack Compose, native Android |
 
 ### Ralph Autonomous Builder
 

@@ -18,6 +18,9 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 | `@technical-writer` | Docs, READMEs, API documentation |
 | `@ui-designer` | Design systems, accessibility, responsive |
 | `@product-analyst` | PRDs, user stories, requirements |
+| `@expo-developer` | React Native, Expo, cross-platform mobile |
+| `@ios-developer` | Swift, SwiftUI, native iOS |
+| `@android-developer` | Kotlin, Jetpack Compose, native Android |
 
 ---
 
@@ -389,3 +392,118 @@ Agents are automatically invoked during Ralph iterations based on story category
 - `database` → database-architect patterns
 - `backend` → backend-developer patterns
 - `frontend` → frontend-developer patterns
+- `mobile` → expo-developer patterns
+
+---
+
+## @expo-developer
+
+**React Native with Expo, cross-platform mobile apps, Expo Router navigation, EAS builds, and mobile-specific UI patterns.**
+
+### Expertise
+- Expo SDK 52+ and Expo Router
+- React Native 0.76+ (New Architecture)
+- TypeScript for mobile development
+- EAS Build, Submit, and Update
+- React Native Reanimated and Gesture Handler
+
+### Key Patterns
+
+**Navigation:**
+- Expo Router for file-based routing
+- Tab and stack navigation
+- Type-safe navigation with params
+
+**Cross-Platform:**
+- Platform.select() for platform-specific code
+- File-based platform extensions (.ios.tsx, .android.tsx)
+- NativeWind for Tailwind-style styling
+
+**Performance:**
+- FlashList for long lists
+- Reanimated for 60fps animations
+- Gesture Handler for native gestures
+
+### When to Use
+```bash
+@expo-developer Build a cross-platform mobile app
+@expo-developer Set up EAS builds for App Store and Play Store
+@expo-developer Add gesture-based navigation
+```
+
+---
+
+## @ios-developer
+
+**Native iOS development with Swift, SwiftUI, UIKit, Core Data, and App Store deployment.**
+
+### Expertise
+- Swift 5.9+ and Swift Concurrency
+- SwiftUI (iOS 17+) and UIKit
+- Core Data and SwiftData
+- Combine and async/await
+- Xcode, Instruments, and TestFlight
+
+### Key Patterns
+
+**SwiftUI:**
+- @State, @Binding, @StateObject, @ObservedObject
+- NavigationStack for navigation
+- Custom ViewModifiers
+- Async/await with .task modifier
+
+**Architecture:**
+- MVVM with ObservableObject
+- Actors for thread-safe state
+- Repository pattern for data access
+
+**Testing:**
+- XCTest for unit tests
+- XCUITest for UI tests
+- Swift Testing (new framework)
+
+### When to Use
+```bash
+@ios-developer Build a native iOS app with SwiftUI
+@ios-developer Implement Core Data persistence
+@ios-developer Prepare app for App Store submission
+```
+
+---
+
+## @android-developer
+
+**Native Android development with Kotlin, Jetpack Compose, Room, and Play Store deployment.**
+
+### Expertise
+- Kotlin 2.0+ and Coroutines
+- Jetpack Compose (Material 3)
+- Android Architecture Components
+- Room, DataStore, and Hilt
+- Android Studio and Gradle
+
+### Key Patterns
+
+**Jetpack Compose:**
+- @Composable functions
+- State hoisting
+- remember and derivedStateOf
+- LazyColumn and LazyRow
+
+**Architecture:**
+- MVVM with ViewModel
+- StateFlow for UI state
+- Hilt for dependency injection
+- Repository pattern
+
+**Testing:**
+- JUnit and MockK
+- Compose UI testing
+- Instrumented tests
+
+### When to Use
+```bash
+@android-developer Build a native Android app with Compose
+@android-developer Set up Room database with migrations
+@android-developer Configure Hilt dependency injection
+```

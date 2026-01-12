@@ -30,12 +30,12 @@ const commands = [
 const agents = [
   { name: "@frontend-developer", desc: "React, Next.js, UI" },
   { name: "@backend-developer", desc: "APIs, databases" },
-  { name: "@database-architect", desc: "Schema, queries" },
+  { name: "@expo-developer", desc: "React Native, Expo" },
+  { name: "@ios-developer", desc: "Swift, SwiftUI" },
+  { name: "@android-developer", desc: "Kotlin, Compose" },
   { name: "@devops-engineer", desc: "CI/CD, Docker" },
   { name: "@security-auditor", desc: "Security review" },
   { name: "@test-engineer", desc: "Testing" },
-  { name: "@code-reviewer", desc: "Code quality" },
-  { name: "@technical-writer", desc: "Documentation" },
 ];
 
 function CopyButton({ text }: { text: string }) {
@@ -130,7 +130,7 @@ export default function Home() {
               <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
                 <Users className="w-5 h-5 text-blue-400" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">10 Specialist Agents</h3>
+              <h3 className="text-lg font-semibold mb-2">13 Specialist Agents</h3>
               <p className="text-zinc-400 text-sm mb-4">
                 Expert personas for specific tasks
               </p>
@@ -239,7 +239,7 @@ export default function Home() {
               <Users className="w-5 h-5 text-blue-400" />
               <div>
                 <h3 className="font-semibold">Agents</h3>
-                <p className="text-sm text-zinc-400">10 specialist personas</p>
+                <p className="text-sm text-zinc-400">13 specialist personas</p>
               </div>
               <ExternalLink className="w-4 h-4 text-zinc-500 ml-auto" />
             </a>
