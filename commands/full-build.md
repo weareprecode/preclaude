@@ -462,30 +462,60 @@ set -e
 
 MAX_ITERATIONS=${1:-[ralph_iterations]}
 ITERATION=0
+BUILD_LOG="scripts/ralph/build-log.json"
+TOTAL_STORIES=$(cat scripts/ralph/prd.json | jq '.userStories | length')
+
+# Initialize build log if not exists
+if [ ! -f "$BUILD_LOG" ]; then
+    echo "{
+  \"project\": \"[project_name]\",
+  \"startedAt\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+  \"completedAt\": null,
+  \"totalStories\": $TOTAL_STORIES,
+  \"storiesCompleted\": 0,
+  \"iterations\": 0,
+  \"stories\": []
+}" > "$BUILD_LOG"
+fi
 
 echo ""
 echo "🤖 RALPH AUTONOMOUS BUILD"
 echo "═══════════════════════════════════════════════════════════════════"
 echo "Project:    [project_name]"
 echo "Iterations: $MAX_ITERATIONS max"
-echo "Stories:    $(cat scripts/ralph/prd.json | jq '.userStories | length') total"
+echo "Stories:    $TOTAL_STORIES total"
 echo "Remaining:  $(cat scripts/ralph/prd.json | jq '[.userStories[] | select(.passes == false)] | length')"
 echo "═══════════════════════════════════════════════════════════════════"
 echo ""
 
 while [ $ITERATION -lt $MAX_ITERATIONS ]; do
     ITERATION=$((ITERATION + 1))
-    
+
     # Check completion
     REMAINING=$(cat scripts/ralph/prd.json | jq '[.userStories[] | select(.passes == false)] | length')
-    
+
     if [ "$REMAINING" = "0" ]; then
+        # Update build log completion
+        jq --arg time "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+           --arg iterations "$ITERATION" \
+           '.completedAt = $time | .iterations = ($iterations | tonumber)' \
+           "$BUILD_LOG" > tmp.json && mv tmp.json "$BUILD_LOG"
+
+        COMPLETED=$(jq '[.stories[] | select(.status == "completed")] | length' "$BUILD_LOG")
+        FIRST_TRY=$(jq '[.stories[] | select(.attempts == 1)] | length' "$BUILD_LOG" 2>/dev/null || echo "0")
+
         echo ""
         echo "═══════════════════════════════════════════════════════════════════"
         echo "🎉 ALL STORIES COMPLETE!"
+        echo "───────────────────────────────────────────────────────────────────"
+        echo "  Stories:     $COMPLETED/$TOTAL_STORIES"
+        echo "  Iterations:  $ITERATION"
+        if [ "$COMPLETED" -gt 0 ] && [ "$FIRST_TRY" != "0" ]; then
+            echo "  First-try:   $FIRST_TRY stories ($(( FIRST_TRY * 100 / COMPLETED ))%)"
+        fi
         echo "═══════════════════════════════════════════════════════════════════"
         echo ""
-        echo "Completed in $((ITERATION - 1)) iterations"
+        echo "Build log: scripts/ralph/build-log.json"
         echo ""
         echo "Next steps:"
         echo "  1. Review: /review"
@@ -495,14 +525,18 @@ while [ $ITERATION -lt $MAX_ITERATIONS ]; do
         echo ""
         exit 0
     fi
-    
+
     echo "───────────────────────────────────────────────────────────────────"
     echo "  Iteration $ITERATION/$MAX_ITERATIONS | Remaining: $REMAINING stories"
     echo "───────────────────────────────────────────────────────────────────"
-    
+
     # Run Claude with iteration prompt
     claude -p "$(cat scripts/ralph/prompt.md)"
-    
+
+    # Update iteration count in build log
+    jq --arg iterations "$ITERATION" '.iterations = ($iterations | tonumber)' \
+       "$BUILD_LOG" > tmp.json && mv tmp.json "$BUILD_LOG"
+
     sleep 2
 done
 
@@ -512,6 +546,7 @@ echo "⚠️  MAX ITERATIONS REACHED ($MAX_ITERATIONS)"
 echo "═══════════════════════════════════════════════════════════════════"
 REMAINING=$(cat scripts/ralph/prd.json | jq '[.userStories[] | select(.passes == false)] | length')
 echo "Remaining stories: $REMAINING"
+echo "Check build-log.json for story breakdown"
 echo ""
 echo "Options:"
 echo "  ./scripts/ralph/ralph.sh 20    # Run 20 more iterations"
@@ -530,25 +565,47 @@ You are in a Ralph autonomous loop for **[project_name]**.
 
 1. Read `scripts/ralph/prd.json`
 2. Find the **highest priority** story where `passes: false`
-3. Implement **ONLY** that one story
-4. Run checks:
+3. Check `scripts/ralph/build-log.json` for this story's attempt count
+4. Implement **ONLY** that one story
+5. Run checks:
    ```bash
    npm run typecheck
    npm run lint
    npm run test  # if tests exist for this feature
    ```
-5. For frontend stories: `Verify in browser using dev-browser skill`
-6. If ALL checks pass:
+6. For frontend stories: `Verify in browser using dev-browser skill`
+7. If ALL checks pass:
    ```bash
    git add .
    git commit -m "feat([scope]): [what you did]"
    ```
-   Then update `scripts/ralph/prd.json`: set that story's `passes: true`
-7. Add learnings to `scripts/ralph/progress.txt`
+   Then:
+   - Update `scripts/ralph/prd.json`: set that story's `passes: true`
+   - Update `scripts/ralph/build-log.json`: add story entry with attempts and status
+8. If checks FAIL:
+   - Update `scripts/ralph/build-log.json`: increment attempts for this story
+   - Fix the issues and retry
+9. Add learnings to `scripts/ralph/progress.txt`
+
+## Build Log Updates
+
+When completing a story, add/update in build-log.json stories array:
+```json
+{
+  "id": "story-id",
+  "title": "Story title",
+  "attempts": 1,
+  "status": "completed",
+  "completedAt": "ISO timestamp"
+}
+```
+
+When a story fails checks, increment its attempts count before retrying.
 
 ## Rules
 - **ONE** story per iteration
 - Commit after completing each story
+- Track attempts in build-log.json
 - If stuck >5 min, add notes to story's `notes` field and continue
 - Never modify stories that already have `passes: true`
 
@@ -562,6 +619,9 @@ cat scripts/ralph/prd.json | jq '[.userStories[] | select(.passes == false)][0]'
 
 # Check progress notes
 cat scripts/ralph/progress.txt
+
+# Check build stats
+cat scripts/ralph/build-log.json | jq '{iterations, stories: [.stories[] | {title, attempts}]}'
 ```
 
 ## Project Context
