@@ -626,15 +626,6 @@ export default function Home() {
               </svg>
               GitHub
             </a>
-            <span className="text-xs text-[#666665]">·</span>
-            <a
-              href="https://precode.co"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-[#666665] hover:text-[#9C9C99] transition-colors"
-            >
-              Built by Precode
-            </a>
             <a
               href="https://x.com/weareprecode"
               target="_blank"
