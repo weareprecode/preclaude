@@ -153,4 +153,4 @@ PRs welcome! See the command and agent files for examples of the format.
 
 ## License
 
-MIT
+CC BY-NC 4.0 — Free to use and modify, but not for commercial purposes.

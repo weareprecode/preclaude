@@ -264,7 +264,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-zinc-800">
         <div className="max-w-4xl mx-auto flex items-center justify-between text-sm text-zinc-500">
-          <p>MIT License</p>
+          <p>CC BY-NC 4.0</p>
           <a
             href="https://github.com/weareprecode/preclaude"
             target="_blank"
