@@ -10,3 +10,26 @@ Thumbs.db
 
 # Local overrides (if any)
 *.local.md
+
+# Claude Code local data (never commit)
+cache/
+debug/
+downloads/
+file-history/
+history.jsonl
+ide/
+plans/
+plugins/
+projects/
+session-env/
+shell-snapshots/
+stats-cache.json
+statsig/
+telemetry/
+todos/
+.claude/
+
+# Landing page build artifacts
+landing/node_modules/
+landing/.next/
+landing/out/

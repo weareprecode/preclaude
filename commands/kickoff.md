@@ -8,17 +8,87 @@ argument-hint: [project-name]
 
 Initialize a new project with production-ready structure.
 
-## Step 1: Gather Requirements
+## Step 1: Gather Requirements (Sequential Questions)
 
-Before scaffolding, clarify:
+**IMPORTANT**: Ask ONE question at a time using the AskUserQuestion tool. Wait for each response before asking the next.
 
-1. **Project type**: Web app / Mobile app / API / Full-stack / Package
-2. **Primary framework**: Next.js / React Native / Node API / Other
-3. **Database**: PostgreSQL / Supabase / MongoDB / None
-4. **Auth**: Better Auth / Supabase Auth / Clerk / None
-5. **Key integrations**: Stripe / SendGrid / S3 / Other
+### Question Flow
 
-If $ARGUMENTS doesn't include these, ask before proceeding.
+**Question 1: Project Type**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "What type of project are you building?",
+    "header": "Type",
+    "options": [
+      {"label": "Full-stack Web (Recommended)", "description": "Next.js with API routes and database"},
+      {"label": "Web App (Frontend Only)", "description": "Next.js or React without backend"},
+      {"label": "Mobile App", "description": "React Native with Expo"},
+      {"label": "API Only", "description": "Node.js backend without frontend"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**Question 2: Database**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which database would you like to use?",
+    "header": "Database",
+    "options": [
+      {"label": "Supabase (Recommended)", "description": "PostgreSQL with real-time, auth, and storage built-in"},
+      {"label": "PostgreSQL", "description": "Self-managed PostgreSQL with Prisma/Drizzle"},
+      {"label": "MongoDB", "description": "NoSQL document database"},
+      {"label": "None", "description": "No database needed"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**Question 3: Authentication**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which authentication solution?",
+    "header": "Auth",
+    "options": [
+      {"label": "Better Auth (Recommended)", "description": "Simple, flexible auth with social providers"},
+      {"label": "Supabase Auth", "description": "Built-in auth if using Supabase"},
+      {"label": "Clerk", "description": "Managed auth with UI components"},
+      {"label": "None", "description": "No authentication needed"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**Question 4: Key Integrations**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Any key integrations needed? (Select all that apply)",
+    "header": "Integrations",
+    "options": [
+      {"label": "Stripe", "description": "Payments and subscriptions"},
+      {"label": "Resend", "description": "Transactional emails"},
+      {"label": "S3/R2", "description": "File storage"},
+      {"label": "None", "description": "No integrations needed yet"}
+    ],
+    "multiSelect": true
+  }]
+}
+```
+
+### After All Questions
+
+Parse selections into project configuration, then proceed with scaffolding.
 
 ## Step 2: Create Directory Structure
 

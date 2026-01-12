@@ -1,144 +1,130 @@
-# Claude Code Configuration
+# Claude Config
 
-Personal Claude Code configuration for cross-machine, cross-project consistency.
+Supercharge Claude Code with slash commands, specialist agents, and autonomous workflows.
 
-## Quick Install
+## One-Line Install
 
 ```bash
-git clone git@github.com:YOUR_USERNAME/claude-config.git ~/claude-config
-cd ~/claude-config
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash
 ```
+
+## What You Get
+
+### 12 Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/commit` | Generate conventional commit from staged changes |
+| `/review` | Comprehensive code review of recent changes |
+| `/learn` | Analyse session and propose CLAUDE.md updates |
+| `/kickoff` | Initialise new project with full structure |
+| `/prd` | Generate comprehensive technical PRD |
+| `/ralph` | Convert PRD to autonomous execution format |
+| `/full-build` | Complete workflow: PRD -> Ralph -> Build |
+| `/implement` | Execute feature from discovery to completion |
+| `/marketing` | Generate multi-platform marketing content |
+| `/project-complete` | Generate end-of-project documentation suite |
+| `/handoff` | Create session handoff notes |
+| `/deploy-check` | Pre-deployment verification checklist |
+
+### 10 Specialist Agents
+
+| Agent | Use For |
+|-------|---------|
+| `@frontend-developer` | React, Next.js, UI components, styling |
+| `@backend-developer` | APIs, Node, Python, databases |
+| `@database-architect` | Schema design, queries, migrations |
+| `@devops-engineer` | CI/CD, Docker, Terraform, deployment |
+| `@security-auditor` | Vulnerability review, OWASP compliance |
+| `@test-engineer` | Unit, integration, E2E tests |
+| `@code-reviewer` | PR reviews, quality checks |
+| `@technical-writer` | Docs, READMEs, API documentation |
+| `@ui-designer` | Design systems, accessibility |
+| `@product-analyst` | PRDs, user stories, requirements |
+
+### Ralph Autonomous Builder
+
+Build entire products autonomously:
+
+```bash
+/full-build "Invoice tracker for freelancers"
+```
+
+Ralph will:
+1. Generate a comprehensive PRD with 20+ user stories
+2. Convert to atomic implementation tasks
+3. Build each feature iteratively
+4. Run quality checks (typecheck, lint, tests)
+5. Commit on success, move to next story
 
 ## Documentation
 
 | Document | Description |
 |----------|-------------|
-| [SETUP-GUIDE.md](docs/SETUP-GUIDE.md) | Full installation and setup instructions |
-| [COMMANDS.md](docs/COMMANDS.md) | Detailed reference for all slash commands |
-| [AGENTS.md](docs/AGENTS.md) | Guide to specialised agent personas |
-| [RALPH-WALKTHROUGH.md](docs/RALPH-WALKTHROUGH.md) | Step-by-step autonomous build guide |
+| [Commands Reference](docs/COMMANDS.md) | Detailed guide for all slash commands |
+| [Agents Reference](docs/AGENTS.md) | Guide to specialist agent personas |
+| [Ralph Walkthrough](docs/RALPH-WALKTHROUGH.md) | Step-by-step autonomous build guide |
 
-## What's Included
+## Customisation
 
-### Commands (`/command`)
-| Command | Description |
-|---------|-------------|
-| `/learn` | Analyze session, propose CLAUDE.md updates with scoring |
-| `/commit` | Conventional commit from staged changes |
-| `/kickoff` | Initialize new project with full structure |
-| `/prd` | Generate comprehensive technical PRD |
-| `/ralph` | Convert PRD to prd.json for autonomous execution |
-| `/full-build` | **Complete workflow**: PRD → Ralph → Setup → Execute |
-| `/implement` | Execute feature from PRD through to completion |
-| `/review` | Comprehensive code review |
-| `/marketing` | Generate marketing content from feature/release |
-| `/project-complete` | Generate full documentation suite (journal, features, marketing) |
-| `/handoff` | Create session handoff notes |
-| `/deploy-check` | Pre-deployment verification checklist |
+### Your Preferences
 
-### Skills (Auto-invoked)
-| Skill | Triggers On |
-|-------|-------------|
-| `claude-md-learner` | Session analysis, CLAUDE.md maintenance |
-| `prd` | PRD creation, requirements documentation |
-| `ralph` | PRD to JSON conversion, autonomous execution setup |
-| `prd-to-json` | Legacy: Requirements extraction |
-| `marketing-content` | Content generation, social media, blogs |
-| `project-kickoff` | New project initialization |
-| `project-complete` | End-of-project documentation |
-| `dev-browser` | Browser automation, visual verification |
+Edit `~/.claude-config/CLAUDE.md` to customise:
+- Code style preferences
+- Communication style
+- Default tech stack
+- Response format
 
-### Agents (`@agent-name`)
-| Agent | Use For |
-|-------|---------|
-| `frontend-developer` | React, Next.js, React Native, UI components |
-| `backend-developer` | APIs, Node, Python, databases |
-| `database-architect` | Schema design, queries, migrations |
-| `devops-engineer` | CI/CD, Docker, Terraform, deployment |
-| `security-auditor` | Vulnerability review, OWASP compliance |
-| `test-engineer` | Unit, integration, E2E tests |
-| `code-reviewer` | PR reviews, quality checks |
-| `technical-writer` | Docs, READMEs, API documentation |
-| `ui-designer` | Design systems, accessibility, responsive |
-| `product-analyst` | PRDs, user stories, requirements |
+See [CLAUDE.example.md](CLAUDE.example.md) for a template.
 
-## Structure
+### Permissions
 
-```
-~/claude-config/
-├── install.sh              # Symlinks to ~/.claude
-├── CLAUDE.md               # Global preferences
-├── commands/               # Slash commands
-│   ├── learn.md
-│   ├── commit.md
-│   ├── kickoff.md
-│   ├── implement.md
-│   ├── review.md
-│   ├── marketing.md
-│   ├── handoff.md
-│   └── deploy-check.md
-├── skills/                 # Auto-invoked capabilities
-│   ├── claude-md-learner/
-│   ├── prd-to-json/
-│   ├── marketing-content/
-│   └── project-kickoff/
-└── agents/                 # Specialized personas
-    ├── frontend-developer.md
-    ├── backend-developer.md
-    └── ...
-```
+Edit `~/.claude-config/settings.local.json` to control what Claude can do:
+- Allow specific Bash commands
+- Deny dangerous operations
+- Control file access
 
-## Usage
+See [settings.example.json](settings.example.json) for a template.
 
-### Commands
+### Add Your Own Commands
+
+Create new commands in `~/.claude-config/commands/`:
+
 ```bash
-# In any Claude Code session
-/learn              # Analyze session for CLAUDE.md updates
-/commit             # Generate conventional commit
-/kickoff myproject  # Initialize new project
+touch ~/.claude-config/commands/my-command.md
 ```
 
-### Agents
+## Manual Installation
+
+If you prefer not to use the curl installer:
+
 ```bash
-# Invoke specific expertise
-@frontend-developer Build a responsive navbar with mobile menu
-@security-auditor Review the auth implementation for vulnerabilities
-@test-engineer Write integration tests for the user API
-```
-
-### Skills
-Skills activate automatically based on your request:
-- "Convert this PRD to JSON" → triggers prd-to-json
-- "Generate social media posts for this feature" → triggers marketing-content
-
-## Customization
-
-### Add Project-Specific Overrides
-Create `.claude/CLAUDE.md` in any project to add local context that extends (not replaces) the global config.
-
-### Add New Commands
-```bash
-# Create new command file
-touch ~/claude-config/commands/my-command.md
-```
-
-### Modify Global Preferences
-Edit `~/claude-config/CLAUDE.md` for preferences that apply everywhere.
-
-## Sync Across Machines
-
-This repo IS your sync mechanism. On a new machine:
-```bash
-git clone git@github.com:YOUR_USERNAME/claude-config.git ~/claude-config
-cd ~/claude-config
+git clone https://github.com/mattthornhill/claude-config.git ~/.claude-config
+cd ~/.claude-config
 ./install.sh
 ```
 
-## For Claude.ai (Web)
+## Updating
 
-The web interface doesn't support this structure directly. Options:
+Re-run the installer to update:
 
-1. **Projects**: Create a "Dev Standards" project, upload skill files as knowledge
-2. **Memory**: Key principles are remembered across conversations
-3. **Paste**: Copy relevant skill content into conversations as needed
+```bash
+curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash
+```
+
+## How It Works
+
+The installer:
+1. Clones this repo to `~/.claude-config`
+2. Creates `~/.claude` directory
+3. Symlinks commands, agents, skills, and settings
+
+Claude Code automatically picks up files in `~/.claude`, giving you access to all commands and agents in every project.
+
+## Contributing
+
+PRs welcome! See the command and agent files for examples of the format.
+
+## License
+
+MIT

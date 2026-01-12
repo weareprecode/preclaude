@@ -9,113 +9,128 @@ argument-hint: [product-description]
 
 Complete workflow from product idea to autonomous implementation.
 
-## Phase 1: Interview (Gather All Inputs First)
+## Phase 1: Interview (Sequential Questions)
 
-**IMPORTANT**: Ask ALL questions before starting any work. Present as a numbered list and wait for answers.
+**IMPORTANT**: Ask ONE question at a time using the AskUserQuestion tool. Wait for each response before asking the next question.
 
-### Questions to Ask
+### Question Flow
 
-```markdown
-## 🚀 Full Build Setup
+**Question 1: Product Description**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "What are you building? Describe the core functionality and value proposition.",
+    "header": "Product",
+    "options": [
+      {"label": "Other", "description": "I'll describe my product"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+*User will select "Other" and type their description.*
 
-Before I start building, I need a few details. Please answer all questions:
-
----
-
-### 1. Product Description
-What are you building? Describe the core functionality and value proposition.
-> Example: "A mobile CRM for UK tradespeople to track jobs, send invoices, and manage customers"
-
-**Your answer:**
-
----
-
-### 2. Target Audience  
-Who will use this? What's their technical sophistication?
-> Example: "Small business owners and solo tradespeople, not very technical, need simple mobile-first UX"
-
-**Your answer:**
-
----
-
-### 3. MVP Features (3-5 only)
-What MUST be in v1? Everything else is v2. Be ruthless.
-> Example:
-> - User auth (email/password)
-> - Job CRUD (create, view, edit, delete jobs)
-> - Basic invoicing (generate PDF invoice)
-> - Customer list
-> - Mobile-responsive
-
-**Your answer:**
-
----
-
-### 4. Tech Stack
-Any specific requirements? Or use our defaults?
-
-**Defaults:**
-- Frontend: Next.js 15, React 19, TypeScript, Tailwind
-- UI: shadcn/ui
-- Backend: Server Actions + API routes
-- Database: Supabase (PostgreSQL)
-- Auth: Better Auth
-- Hosting: Vercel
-
-**Your answer** (defaults / or specify changes):
-
----
-
-### 5. shadcn/ui Style
-Do you have a preset URL from https://ui.shadcn.com?
-
-Go to the site, customize your style, and copy the preset URL.
-Or choose from: vega | nova | maia | lyra (default) | mira
-
-**Your answer** (paste URL or style name):
-
----
-
-### 6. Project Name
-What should the folder/repo be called? (use-kebab-case)
-> Example: invoice-tracker, job-crm, client-portal
-
-**Your answer:**
-
----
-
-### 7. Ralph Iterations
-How many autonomous build iterations should Ralph attempt?
-
-| Stories | Recommended Iterations |
-|---------|----------------------|
-| 5-10    | 15 iterations        |
-| 10-20   | 25 iterations        |
-| 20-30   | 40 iterations        |
-| 30+     | 50+ iterations       |
-
-**Your answer** (number, or "auto" to let me decide based on story count):
-
----
-
-### 8. Auto-Start Build?
-After setup is complete, should I immediately start the Ralph autonomous loop?
-
-- **yes** - Start building right away
-- **no** - Just set up everything, I'll start manually
-
-**Your answer:**
-
----
-
-Please provide your answers and I'll get started!
+**Question 2: Target Audience**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Who will use this? What's their technical sophistication?",
+    "header": "Audience",
+    "options": [
+      {"label": "Other", "description": "I'll describe my target users"}
+    ],
+    "multiSelect": false
+  }]
+}
 ```
 
-### Wait for Responses
+**Question 3: MVP Features**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "What 3-5 features MUST be in v1? Everything else is v2. Be ruthless.",
+    "header": "MVP",
+    "options": [
+      {"label": "Other", "description": "I'll list my MVP features"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
 
-**DO NOT PROCEED** until user provides answers to all 8 questions.
+**Question 4: Tech Stack**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which tech stack would you like to use?",
+    "header": "Stack",
+    "options": [
+      {"label": "Defaults (Recommended)", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth, Vercel"},
+      {"label": "Custom", "description": "I'll specify my own stack"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+*If user selects "Custom", ask follow-up for their stack preferences.*
 
-Once received, parse into configuration:
+**Question 5: shadcn Style**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which shadcn/ui visual style would you like?",
+    "header": "Style",
+    "options": [
+      {"label": "lyra (Recommended)", "description": "Boxy, sharp edges - modern look"},
+      {"label": "vega", "description": "Classic shadcn look"},
+      {"label": "nova", "description": "Compact padding"},
+      {"label": "maia", "description": "Soft, rounded corners"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+*If user selects "Other", they can paste a custom preset URL.*
+
+**Question 6: Project Name**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "What should the project folder be called? (use-kebab-case, e.g. invoice-tracker)",
+    "header": "Name",
+    "options": [
+      {"label": "Other", "description": "I'll type the project name"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**Question 7: Auto-Start Build**
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Start the Ralph autonomous build immediately after setup?",
+    "header": "Auto-start",
+    "options": [
+      {"label": "Yes (Recommended)", "description": "Start building right away"},
+      {"label": "No", "description": "Just set up everything, I'll start manually"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+### After All Questions
+
+Once all 7 questions are answered, parse into configuration:
 
 ```yaml
 config:
@@ -128,13 +143,14 @@ config:
   tech_stack:
     frontend: "Next.js 15, React 19, TypeScript, Tailwind"
     ui: "shadcn/ui"
-    backend: "[answer or default]"
-    database: "[answer or default]"
-    auth: "[answer or default]"
-  shadcn_preset: "[URL or style name → convert to URL]"
+    backend: "Server Actions + API routes"
+    database: "Supabase (PostgreSQL)"
+    auth: "Better Auth"
+    hosting: "Vercel"
+  shadcn_preset: "[style name → convert to URL]"
   project_name: "[answer 6]"
-  ralph_iterations: "[answer 7 or calculated]"
-  auto_start: "[answer 8]"
+  ralph_iterations: "auto"  # Calculate as story_count × 1.5
+  auto_start: "[answer 7: yes/no]"
 ```
 
 ### shadcn Preset URL Mapping
@@ -157,11 +173,10 @@ Show summary and get explicit confirmation:
 
 | Setting | Value |
 |---------|-------|
-| **Product** | [project_name] |
+| **Project** | [project_name] |
 | **Description** | [1 sentence summary] |
 | **Audience** | [target_audience] |
-| **shadcn Style** | [style name] |
-| **Iterations** | [ralph_iterations] |
+| **Style** | [shadcn style] |
 | **Auto-Start** | [yes/no] |
 
 ### MVP Features
@@ -170,11 +185,12 @@ Show summary and get explicit confirmation:
 3. [feature 3]
 
 ### Tech Stack
-- Frontend: [frontend]
-- UI: [ui]
-- Backend: [backend]
-- Database: [database]
-- Auth: [auth]
+- Frontend: Next.js 15, React 19, TypeScript, Tailwind
+- UI: shadcn/ui ([style])
+- Backend: Server Actions + API routes
+- Database: Supabase (PostgreSQL)
+- Auth: Better Auth
+- Hosting: Vercel
 
 ---
 
@@ -182,7 +198,7 @@ Show summary and get explicit confirmation:
 1. Generate a full PRD with 20+ user stories
 2. Convert to Ralph format for autonomous execution
 3. Scaffold the Next.js project with shadcn
-4. Set up Ralph scripts
+4. Set up Ralph scripts (iterations auto-calculated)
 [5. Start autonomous build] ← if auto_start: yes
 
 Type **"go"** to start, or tell me what to change.
