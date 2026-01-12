@@ -10,7 +10,14 @@ cd ~/claude-config
 ./install.sh
 ```
 
-**📖 Full setup instructions**: See [docs/SETUP-GUIDE.md](docs/SETUP-GUIDE.md)
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [SETUP-GUIDE.md](docs/SETUP-GUIDE.md) | Full installation and setup instructions |
+| [COMMANDS.md](docs/COMMANDS.md) | Detailed reference for all slash commands |
+| [AGENTS.md](docs/AGENTS.md) | Guide to specialised agent personas |
+| [RALPH-WALKTHROUGH.md](docs/RALPH-WALKTHROUGH.md) | Step-by-step autonomous build guide |
 
 ## What's Included
 
