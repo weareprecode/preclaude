@@ -377,7 +377,7 @@ export default function Home() {
           <div className="flex items-center gap-2 text-[#858585]">
             <Terminal className="w-5 h-5" />
             <span className="font-medium text-white">Preclaude</span>
-            <span className="text-sm">CC BY-NC 4.0</span>
+            <span className="text-sm">MIT License</span>
           </div>
           <div className="flex items-center gap-6">
             <a
