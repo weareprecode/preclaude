@@ -218,11 +218,11 @@ claude
 # 2. Create PRD for the feature
 /prd "Add Stripe subscription billing with free trial"
 
-# 3. Convert to Ralph format
-/ralph docs/prd/stripe-billing-prd.md
+# 3. Convert to prd.json format
+/prd-json docs/prd/stripe-billing-prd.md
 
 # 4. Run autonomous implementation
-./scripts/ralph/ralph.sh 15
+/build 15
 
 # 5. Review and test
 /review
@@ -451,8 +451,8 @@ cd ~/claude-config && ./install.sh
 
 # Feature development
 /prd "feature description"
-/ralph docs/prd/feature-prd.md
-./scripts/ralph/ralph.sh 25
+/prd-json docs/prd/feature-prd.md
+/build 25
 
 # Session management
 /handoff                    # End of session notes

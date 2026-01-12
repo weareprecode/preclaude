@@ -1,13 +1,13 @@
 ---
-description: Convert PRD to prd.json format for autonomous Ralph execution
+description: Convert PRD to prd.json format for autonomous build execution
 allowed-tools: Read, Write, Glob
 model: opus
 argument-hint: [path-to-prd]
 ---
 
-# Convert PRD to Ralph Format
+# Convert PRD to JSON Format
 
-Convert a PRD document to `prd.json` for autonomous execution.
+Convert a PRD document to `prd.json` for autonomous build execution with `/build`.
 
 ## Find PRD
 
@@ -47,19 +47,18 @@ Also create `scripts/ralph/` directory structure if it doesn't exist.
 ## After Completion
 
 ```markdown
-## Ralph Conversion Complete
+## PRD Conversion Complete
 
 **Project**: [Name]
-**Branch**: ralph/[feature]
 **Stories**: [N] user stories
 
-### Ready to Execute
+### Ready to Build
 ```bash
-# Start Ralph loop (default 10 iterations)
-./scripts/ralph/ralph.sh
+# Start build with Ralph Wiggum
+/build
 
 # Or with custom max iterations
-./scripts/ralph/ralph.sh 25
+/build 25
 ```
 
 ### Monitor Progress

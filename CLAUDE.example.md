@@ -38,8 +38,8 @@ When not specified by project, prefer:
 - `/commit` - Conventional commit from staged changes
 - `/kickoff [name]` - Initialise new project
 - `/prd [description]` - Generate comprehensive technical PRD
-- `/ralph [prd-path]` - Convert PRD to autonomous execution format
-- `/full-build [description]` - Complete workflow: PRD -> Ralph -> Build
+- `/prd-json [prd-path]` - Convert PRD to prd.json for autonomous build
+- `/full-build [description]` - Complete workflow: PRD -> prd.json -> Build (Ralph Wiggum)
 - `/implement [feature]` - Full feature implementation
 - `/review` - Code review current changes
 - `/marketing [feature]` - Generate marketing content

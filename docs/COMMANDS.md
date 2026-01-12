@@ -14,7 +14,7 @@ Complete reference for all available slash commands.
 | `/handoff` | Session notes | Stopping work mid-task |
 | `/kickoff` | New project | Starting fresh project |
 | `/prd` | Generate PRD | Planning new feature |
-| `/ralph` | PRD to JSON | Preparing for autonomous build |
+| `/prd-json` | PRD to JSON | Preparing for autonomous build |
 | `/build` | Run Ralph loop | Have prd.json, ready to build |
 | `/full-build` | Complete workflow | New product from scratch |
 | `/implement` | Feature build | Smaller features |
@@ -259,14 +259,14 @@ project-name/
 
 ---
 
-## `/ralph [path-to-prd]`
+## `/prd-json [path-to-prd]`
 
-**Convert PRD to prd.json for autonomous execution.**
+**Convert PRD to prd.json for autonomous build execution.**
 
 ### When to Use
 - Have a PRD ready
 - Want autonomous implementation
-- Preparing for Ralph loop
+- Preparing for `/build` command
 
 ### What It Does
 1. Analyses PRD for all features
@@ -283,10 +283,8 @@ project-name/
 
 ### Output
 ```bash
-/ralph docs/prd/invoice-tracker-prd.md
+/prd-json docs/prd/invoice-tracker-prd.md
 # Creates: scripts/ralph/prd.json
-# Creates: scripts/ralph/ralph.sh
-# Creates: scripts/ralph/prompt.md
 ```
 
 ---
@@ -296,7 +294,7 @@ project-name/
 **Run Ralph autonomous build loop on existing prd.json.**
 
 ### When to Use
-- You've already run `/prd` and `/ralph`
+- You've already run `/prd` and `/prd-json`
 - Have an existing `prd.json` ready
 - Want to run/resume the build loop
 
@@ -329,9 +327,9 @@ project-name/
 ### Workflow
 ```bash
 # Full workflow (separate commands)
-/prd "Invoice tracker app"      # Generate PRD
-/ralph docs/prd/invoice-prd.md  # Convert to prd.json
-/build                          # Run the loop
+/prd "Invoice tracker app"          # Generate PRD
+/prd-json docs/prd/invoice-prd.md   # Convert to prd.json
+/build                              # Run the loop
 
 # Or all-in-one
 /full-build "Invoice tracker app"

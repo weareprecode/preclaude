@@ -34,12 +34,12 @@ When not specified by project, prefer:
 - **Auth**: Better Auth or Supabase Auth
 
 ## Commands Available (24)
-- `/full-build [description]` — Complete workflow: PRD → Ralph → Build
+- `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
 - `/kickoff [name]` — Initialize new project
-- `/ralph [prd-path]` — Convert PRD to autonomous execution format
-- `/build` — Run Ralph autonomous build loop on existing prd.json
+- `/prd-json [prd-path]` — Convert PRD to prd.json for autonomous build
+- `/build` — Run Ralph Wiggum autonomous loop (completion promise + build-log tracking)
 - `/research [idea]` — Deep research on competitors, market gaps, idea validation
 - `/commit` — Conventional commit from staged changes
 - `/pr [base-branch]` — Create pull request with auto-generated description

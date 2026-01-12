@@ -379,12 +379,12 @@ Proceeding to Ralph conversion...
 
 ---
 
-## Phase 4: Convert to Ralph Format
+## Phase 4: Convert to prd.json Format
 
-Follow the **ralph skill** methodology:
+Follow the **prd-json** methodology:
 
 ```markdown
-### 🔄 Converting to Ralph format...
+### 🔄 Converting PRD to prd.json...
 ```
 
 1. Analyze PRD for all implementation steps
@@ -750,14 +750,9 @@ git commit -m "chore: initial project setup via /full-build"
 
 ---
 
-## 🤖 Starting Ralph...
+## 🤖 Starting Ralph Wiggum...
 
 **Note**: Environment variables (.env.local) are NOT required to start Ralph. Ralph generates code and can build the entire codebase without database/auth credentials. You'll only need env vars when you want to actually run and test the app.
-
-```bash
-cd [project_name]
-./scripts/ralph/ralph.sh
-```
 
 **Start Ralph now, or configure env vars first?**
 
@@ -768,19 +763,26 @@ Use AskUserQuestion tool:
     "question": "Ralph can build without env vars. Configure them now or start building?",
     "header": "Start",
     "options": [
-      {"label": "Start Ralph now (Recommended)", "description": "Build first, configure env vars later when testing"},
+      {"label": "Start Ralph Wiggum (Recommended)", "description": "Autonomous loop - builds until all stories complete"},
       {"label": "Set up Supabase first", "description": "I'll guide you through creating a project and getting keys"},
-      {"label": "I'll configure manually", "description": "Skip - I'll set up env vars and run ralph.sh myself"}
+      {"label": "I'll start manually", "description": "Skip - I'll run /build myself"}
     ],
     "multiSelect": false
   }]
 }
 ```
 
-If user selects "Start Ralph now", immediately run:
+**If user selects "Start Ralph Wiggum"**:
+
+Calculate iterations: `story_count × 1.5` (minimum 10)
+
+Invoke `/build`:
+
 ```bash
-./scripts/ralph/ralph.sh [iterations]
+/build [iterations] scripts/ralph/prd.json
 ```
+
+This uses the Ralph Wiggum plugin's stop hook mechanism with completion promise - the loop continues until all stories pass, then outputs `<promise>BUILD_COMPLETE</promise>` to exit.
 
 Watch the progress below. I'll notify you when complete!
 

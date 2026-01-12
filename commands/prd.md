@@ -37,6 +37,6 @@ Suggest next steps:
 ```
 PRD Complete! Next steps:
 1. Review and refine with stakeholders
-2. Run /ralph to convert to prd.json for autonomous execution
-3. Run /implement to start building
+2. Run /prd-json to convert to prd.json for autonomous execution
+3. Run /build to start the Ralph Wiggum loop
 ```

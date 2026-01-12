@@ -2,6 +2,8 @@
 
 Complete step-by-step guide to building a product autonomously using Ralph.
 
+> **Attribution**: The Ralph Wiggum autonomous build loop was created by [Geoffrey Huntley](https://github.com/ghuntley). Original plugin: [Ralph Wiggum](https://github.com/anthropics/claude-code/tree/main/plugins/official/ralph-loop)
+
 ---
 
 ## What is Ralph?
