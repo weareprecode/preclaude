@@ -16,7 +16,8 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 | `@test-engineer` | Unit, integration, E2E tests |
 | `@code-reviewer` | PR reviews, quality checks |
 | `@technical-writer` | Docs, READMEs, API documentation |
-| `@ui-designer` | Design systems, accessibility, responsive |
+| `@ui-designer` | Design systems, component libraries, styling |
+| `@ux-researcher` | User research, flows, wireframes, usability |
 | `@product-analyst` | PRDs, user stories, requirements |
 | `@expo-developer` | React Native, Expo, cross-platform mobile |
 | `@ios-developer` | Swift, SwiftUI, native iOS |
@@ -328,6 +329,47 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 @ui-designer Create a design system for this project
 @ui-designer Make this component accessible
 @ui-designer Add micro-interactions to the form
+```
+
+---
+
+## @ux-researcher
+
+**User research, information architecture, user flows, wireframes, usability testing, personas, and UX strategy.**
+
+### Expertise
+- User research planning and execution
+- Information architecture and content strategy
+- User flows and journey mapping
+- Wireframing and low-fidelity prototyping
+- Usability testing and heuristic evaluation
+- Persona development and jobs-to-be-done
+
+### Distinction from UI Designer
+
+| UX Researcher | UI Designer |
+|---------------|-------------|
+| What to build and why | How it looks and feels |
+| User research and insights | Visual design systems |
+| Information architecture | Component libraries |
+| Wireframes and flows | High-fidelity mockups |
+| Usability testing | Accessibility implementation |
+
+### Key Deliverables
+- User research plans
+- Personas and journey maps
+- User flow diagrams
+- Wireframes (low/mid fidelity)
+- Usability test reports
+- Information architecture (site maps)
+- Competitive analysis
+
+### When to Use
+```bash
+@ux-researcher Create user personas for this product
+@ux-researcher Map the checkout user flow
+@ux-researcher Design a usability test for the onboarding
+@ux-researcher Evaluate IA for the dashboard navigation
 ```
 
 ---

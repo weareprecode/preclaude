@@ -20,21 +20,21 @@ const commands = [
   { name: "/commit", desc: "Conventional commit from staged changes" },
   { name: "/review", desc: "Comprehensive code review" },
   { name: "/full-build", desc: "PRD -> Ralph -> Autonomous Build" },
+  { name: "/build", desc: "Run Ralph loop on existing prd.json" },
   { name: "/kickoff", desc: "Initialise new project with structure" },
   { name: "/prd", desc: "Generate technical PRD" },
   { name: "/implement", desc: "Feature implementation" },
-  { name: "/marketing", desc: "Multi-platform content" },
   { name: "/deploy-check", desc: "Pre-deployment checklist" },
 ];
 
 const agents = [
   { name: "@frontend-developer", desc: "React, Next.js, UI" },
   { name: "@backend-developer", desc: "APIs, databases" },
+  { name: "@ux-researcher", desc: "User research, flows" },
   { name: "@expo-developer", desc: "React Native, Expo" },
   { name: "@ios-developer", desc: "Swift, SwiftUI" },
   { name: "@android-developer", desc: "Kotlin, Compose" },
   { name: "@devops-engineer", desc: "CI/CD, Docker" },
-  { name: "@security-auditor", desc: "Security review" },
   { name: "@test-engineer", desc: "Testing" },
 ];
 
@@ -108,7 +108,7 @@ export default function Home() {
               <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center mb-4">
                 <Zap className="w-5 h-5 text-orange-400" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">12 Slash Commands</h3>
+              <h3 className="text-lg font-semibold mb-2">13 Slash Commands</h3>
               <p className="text-zinc-400 text-sm mb-4">
                 From commits to full autonomous builds
               </p>
@@ -130,7 +130,7 @@ export default function Home() {
               <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
                 <Users className="w-5 h-5 text-blue-400" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">13 Specialist Agents</h3>
+              <h3 className="text-lg font-semibold mb-2">14 Specialist Agents</h3>
               <p className="text-zinc-400 text-sm mb-4">
                 Expert personas for specific tasks
               </p>
@@ -225,7 +225,7 @@ export default function Home() {
               <Code className="w-5 h-5 text-orange-400" />
               <div>
                 <h3 className="font-semibold">Commands</h3>
-                <p className="text-sm text-zinc-400">All 12 slash commands</p>
+                <p className="text-sm text-zinc-400">All 13 slash commands</p>
               </div>
               <ExternalLink className="w-4 h-4 text-zinc-500 ml-auto" />
             </a>
@@ -239,7 +239,7 @@ export default function Home() {
               <Users className="w-5 h-5 text-blue-400" />
               <div>
                 <h3 className="font-semibold">Agents</h3>
-                <p className="text-sm text-zinc-400">13 specialist personas</p>
+                <p className="text-sm text-zinc-400">14 specialist personas</p>
               </div>
               <ExternalLink className="w-4 h-4 text-zinc-500 ml-auto" />
             </a>

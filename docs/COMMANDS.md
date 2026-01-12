@@ -15,6 +15,7 @@ Complete reference for all available slash commands.
 | `/kickoff` | New project | Starting fresh project |
 | `/prd` | Generate PRD | Planning new feature |
 | `/ralph` | PRD to JSON | Preparing for autonomous build |
+| `/build` | Run Ralph loop | Have prd.json, ready to build |
 | `/full-build` | Complete workflow | New product from scratch |
 | `/implement` | Feature build | Smaller features |
 | `/marketing` | Marketing content | Launch or feature release |
@@ -286,6 +287,54 @@ project-name/
 # Creates: scripts/ralph/prd.json
 # Creates: scripts/ralph/ralph.sh
 # Creates: scripts/ralph/prompt.md
+```
+
+---
+
+## `/build [iterations] [path-to-prd.json]`
+
+**Run Ralph autonomous build loop on existing prd.json.**
+
+### When to Use
+- You've already run `/prd` and `/ralph`
+- Have an existing `prd.json` ready
+- Want to run/resume the build loop
+
+### What It Does
+1. Finds `scripts/ralph/prd.json` (or uses provided path)
+2. Checks remaining stories
+3. Creates Ralph scripts if missing
+4. Runs autonomous loop for N iterations
+5. Commits on each story completion
+
+### Arguments
+- `iterations` (optional): Number of loop iterations (default: remaining × 1.5)
+- `path` (optional): Path to prd.json (default: `scripts/ralph/prd.json`)
+
+### Examples
+```bash
+# Use defaults (auto-calculate iterations)
+/build
+
+# Specify iterations
+/build 25
+
+# Resume with more iterations
+/build 10
+
+# Use specific prd.json
+/build 30 projects/feature/prd.json
+```
+
+### Workflow
+```bash
+# Full workflow (separate commands)
+/prd "Invoice tracker app"      # Generate PRD
+/ralph docs/prd/invoice-prd.md  # Convert to prd.json
+/build                          # Run the loop
+
+# Or all-in-one
+/full-build "Invoice tracker app"
 ```
 
 ---

@@ -10,7 +10,7 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 
 ## What You Get
 
-### 12 Slash Commands
+### 13 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -20,6 +20,7 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 | `/kickoff` | Initialise new project with full structure |
 | `/prd` | Generate comprehensive technical PRD |
 | `/ralph` | Convert PRD to autonomous execution format |
+| `/build` | Run Ralph autonomous loop on existing prd.json |
 | `/full-build` | Complete workflow: PRD -> Ralph -> Build |
 | `/implement` | Execute feature from discovery to completion |
 | `/marketing` | Generate multi-platform marketing content |
@@ -27,7 +28,7 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 | `/handoff` | Create session handoff notes |
 | `/deploy-check` | Pre-deployment verification checklist |
 
-### 13 Specialist Agents
+### 14 Specialist Agents
 
 | Agent | Use For |
 |-------|---------|
@@ -39,7 +40,8 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 | `@test-engineer` | Unit, integration, E2E tests |
 | `@code-reviewer` | PR reviews, quality checks |
 | `@technical-writer` | Docs, READMEs, API documentation |
-| `@ui-designer` | Design systems, accessibility |
+| `@ui-designer` | Design systems, component libraries, styling |
+| `@ux-researcher` | User research, flows, wireframes, usability |
 | `@product-analyst` | PRDs, user stories, requirements |
 | `@expo-developer` | React Native, Expo, cross-platform mobile |
 | `@ios-developer` | Swift, SwiftUI, native iOS apps |
