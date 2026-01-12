@@ -8,11 +8,11 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Claude Config - Supercharge Claude Code",
+  title: "Preclaude - Supercharge Claude Code",
   description:
     "Slash commands, specialist agents, and autonomous workflows for Claude Code",
   openGraph: {
-    title: "Claude Config",
+    title: "Preclaude",
     description:
       "Supercharge Claude Code with slash commands, specialist agents, and autonomous workflows",
     type: "website",

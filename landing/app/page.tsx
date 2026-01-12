@@ -64,7 +64,7 @@ function CopyButton({ text }: { text: string }) {
 
 export default function Home() {
   const installCommand =
-    "curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash";
+    "curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash";
 
   return (
     <main className="min-h-screen">
@@ -77,7 +77,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl font-bold mb-4">
-            <span className="gradient-text">Claude Config</span>
+            <span className="gradient-text">Preclaude</span>
           </h1>
 
           <p className="text-xl text-zinc-400 mb-8 max-w-2xl mx-auto">
@@ -217,7 +217,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-4">
             <a
-              href="https://github.com/mattthornhill/claude-config/blob/main/docs/COMMANDS.md"
+              href="https://github.com/mattthornhill/preclaude/blob/main/docs/COMMANDS.md"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-colors flex items-center gap-3"
@@ -231,7 +231,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://github.com/mattthornhill/claude-config/blob/main/docs/AGENTS.md"
+              href="https://github.com/mattthornhill/preclaude/blob/main/docs/AGENTS.md"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-colors flex items-center gap-3"
@@ -245,7 +245,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://github.com/mattthornhill/claude-config/blob/main/docs/RALPH-WALKTHROUGH.md"
+              href="https://github.com/mattthornhill/preclaude/blob/main/docs/RALPH-WALKTHROUGH.md"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-colors flex items-center gap-3"
@@ -266,7 +266,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto flex items-center justify-between text-sm text-zinc-500">
           <p>MIT License</p>
           <a
-            href="https://github.com/mattthornhill/claude-config"
+            href="https://github.com/mattthornhill/preclaude"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-zinc-300 transition-colors"

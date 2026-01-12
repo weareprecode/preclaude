@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Claude Config Installer
+# Preclaude Installer
 # Symlinks this repo to ~/.claude for cross-project availability
 
 set -e
@@ -8,8 +8,8 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="$HOME/.claude"
 
-echo "🤖 Claude Config Installer"
-echo "=========================="
+echo "🤖 Preclaude Installer"
+echo "======================"
 echo ""
 echo "Source: $SCRIPT_DIR"
 echo "Target: $TARGET_DIR"

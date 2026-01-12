@@ -1,11 +1,11 @@
-# Claude Config
+# Preclaude
 
 Supercharge Claude Code with slash commands, specialist agents, and autonomous workflows.
 
 ## One-Line Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash
 ```
 
 ## What You Get
@@ -69,7 +69,7 @@ Ralph will:
 
 ### Your Preferences
 
-Edit `~/.claude-config/CLAUDE.md` to customise:
+Edit `~/.preclaude/CLAUDE.md` to customise:
 - Code style preferences
 - Communication style
 - Default tech stack
@@ -79,7 +79,7 @@ See [CLAUDE.example.md](CLAUDE.example.md) for a template.
 
 ### Permissions
 
-Edit `~/.claude-config/settings.local.json` to control what Claude can do:
+Edit `~/.preclaude/settings.local.json` to control what Claude can do:
 - Allow specific Bash commands
 - Deny dangerous operations
 - Control file access
@@ -88,10 +88,10 @@ See [settings.example.json](settings.example.json) for a template.
 
 ### Add Your Own Commands
 
-Create new commands in `~/.claude-config/commands/`:
+Create new commands in `~/.preclaude/commands/`:
 
 ```bash
-touch ~/.claude-config/commands/my-command.md
+touch ~/.preclaude/commands/my-command.md
 ```
 
 ## Manual Installation
@@ -99,23 +99,49 @@ touch ~/.claude-config/commands/my-command.md
 If you prefer not to use the curl installer:
 
 ```bash
-git clone https://github.com/mattthornhill/claude-config.git ~/.claude-config
-cd ~/.claude-config
+git clone https://github.com/mattthornhill/preclaude.git ~/.preclaude
+cd ~/.preclaude
 ./install.sh
 ```
 
 ## Updating
 
-Re-run the installer to update:
+Re-run the installer:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash
 ```
+
+Or update manually:
+
+```bash
+cd ~/.preclaude
+git pull
+```
+
+Your customisations to `CLAUDE.md` and `settings.local.json` are preserved.
+
+### Staying on Current Version
+
+Nothing auto-updates. Simply don't run update commands to keep your current version.
+
+### Forking for Custom Changes
+
+To maintain your own version:
+
+1. Fork the repo on GitHub
+2. Update your local remote:
+   ```bash
+   cd ~/.preclaude
+   git remote set-url origin git@github.com:YOUR_USERNAME/preclaude.git
+   ```
+3. Push your customisations
+4. Pull from your fork to update
 
 ## How It Works
 
 The installer:
-1. Clones this repo to `~/.claude-config`
+1. Clones this repo to `~/.preclaude`
 2. Creates `~/.claude` directory
 3. Symlinks commands, agents, skills, and settings
 

@@ -1,18 +1,18 @@
 #!/bin/bash
 #
-# Claude Config Remote Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash
+# Preclaude Remote Installer
+# Usage: curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash
 #
 
 set -e
 
-REPO_URL="https://github.com/mattthornhill/claude-config.git"
-INSTALL_DIR="$HOME/.claude-config"
+REPO_URL="https://github.com/mattthornhill/preclaude.git"
+INSTALL_DIR="$HOME/.preclaude"
 TARGET_DIR="$HOME/.claude"
 
 echo ""
-echo "  Claude Config Installer"
-echo "  ========================"
+echo "  Preclaude Installer"
+echo "  ==================="
 echo ""
 
 # Check for git
@@ -28,7 +28,7 @@ if [ -d "$INSTALL_DIR" ]; then
     cd "$INSTALL_DIR"
     git pull --quiet
 else
-    echo "Cloning claude-config..."
+    echo "Cloning preclaude..."
     git clone --quiet "$REPO_URL" "$INSTALL_DIR"
     cd "$INSTALL_DIR"
 fi
@@ -68,8 +68,8 @@ echo ""
 echo "  Test it: Open Claude Code and type /learn"
 echo ""
 echo "  To customise:"
-echo "    - Edit ~/.claude-config/CLAUDE.md for your preferences"
-echo "    - Edit ~/.claude-config/settings.local.json for permissions"
+echo "    - Edit ~/.preclaude/CLAUDE.md for your preferences"
+echo "    - Edit ~/.preclaude/settings.local.json for permissions"
 echo ""
-echo "  To update: curl -fsSL https://raw.githubusercontent.com/mattthornhill/claude-config/main/install-remote.sh | bash"
+echo "  To update: curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash"
 echo ""
