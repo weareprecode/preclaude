@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # Preclaude Remote Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 #
 
 set -e
 
-REPO_URL="https://github.com/mattthornhill/preclaude.git"
+REPO_URL="https://github.com/weareprecode/preclaude.git"
 INSTALL_DIR="$HOME/.preclaude"
 TARGET_DIR="$HOME/.claude"
 
@@ -71,5 +71,5 @@ echo "  To customise:"
 echo "    - Edit ~/.preclaude/CLAUDE.md for your preferences"
 echo "    - Edit ~/.preclaude/settings.local.json for permissions"
 echo ""
-echo "  To update: curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash"
+echo "  To update: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash"
 echo ""

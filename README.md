@@ -5,7 +5,7 @@ Supercharge Claude Code with slash commands, specialist agents, and autonomous w
 ## One-Line Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 ```
 
 ## What You Get
@@ -99,7 +99,7 @@ touch ~/.preclaude/commands/my-command.md
 If you prefer not to use the curl installer:
 
 ```bash
-git clone https://github.com/mattthornhill/preclaude.git ~/.preclaude
+git clone https://github.com/weareprecode/preclaude.git ~/.preclaude
 cd ~/.preclaude
 ./install.sh
 ```
@@ -109,7 +109,7 @@ cd ~/.preclaude
 Re-run the installer:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mattthornhill/preclaude/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 ```
 
 Or update manually:
