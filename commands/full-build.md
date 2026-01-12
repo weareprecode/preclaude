@@ -42,7 +42,10 @@ Use AskUserQuestion tool:
     "question": "Who will use this? What's their technical sophistication?",
     "header": "Audience",
     "options": [
-      {"label": "Other", "description": "I'll describe my target users"}
+      {"label": "Consumers", "description": "General public, non-technical users"},
+      {"label": "Business Users", "description": "Professionals, moderate tech comfort"},
+      {"label": "Developers", "description": "Technical users, high sophistication"},
+      {"label": "Enterprise", "description": "Corporate teams, mixed technical levels"}
     ],
     "multiSelect": false
   }]
@@ -50,6 +53,7 @@ Use AskUserQuestion tool:
 ```
 
 **Question 3: MVP Features**
+*This is a free-text question - user describes their features via "Other".*
 Use AskUserQuestion tool:
 ```json
 {
@@ -57,12 +61,15 @@ Use AskUserQuestion tool:
     "question": "What 3-5 features MUST be in v1? Everything else is v2. Be ruthless.",
     "header": "MVP",
     "options": [
-      {"label": "Other", "description": "I'll list my MVP features"}
+      {"label": "Auth + CRUD", "description": "User auth, create/read/update/delete core entity"},
+      {"label": "Dashboard + Analytics", "description": "Overview dashboard with key metrics"},
+      {"label": "Payments", "description": "Stripe integration for subscriptions/purchases"}
     ],
-    "multiSelect": false
+    "multiSelect": true
   }]
 }
 ```
+*User can select common features AND/OR describe custom ones via "Other".*
 
 **Question 4: Tech Stack**
 Use AskUserQuestion tool:
@@ -74,8 +81,9 @@ Use AskUserQuestion tool:
     "question": "Which tech stack would you like to use?",
     "header": "Stack",
     "options": [
-      {"label": "Mobile Defaults (Recommended)", "description": "React Native, Expo, TypeScript, NativeWind, Supabase, Expo Router"},
-      {"label": "Custom", "description": "I'll specify my own stack"}
+      {"label": "Expo + Supabase (Recommended)", "description": "React Native, Expo, TypeScript, NativeWind, Supabase, Expo Router"},
+      {"label": "Expo + Firebase", "description": "React Native, Expo, TypeScript, NativeWind, Firebase"},
+      {"label": "Bare React Native", "description": "React Native CLI, no Expo"}
     ],
     "multiSelect": false
   }]
@@ -89,16 +97,17 @@ Use AskUserQuestion tool:
     "question": "Which tech stack would you like to use?",
     "header": "Stack",
     "options": [
-      {"label": "Web Defaults (Recommended)", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth, Vercel"},
-      {"label": "Custom", "description": "I'll specify my own stack"}
+      {"label": "Next.js + Supabase (Recommended)", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth"},
+      {"label": "Next.js + Prisma", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Prisma, PostgreSQL"},
+      {"label": "Vite + Express", "description": "Vite, React 19, TypeScript, Tailwind, Express backend"}
     ],
     "multiSelect": false
   }]
 }
 ```
-*If user selects "Custom", ask follow-up for their stack preferences.*
+*User can select "Other" to specify a custom stack.*
 
-**Question 5: UI Style**
+**Question 5: UI Library**
 
 *Skip this question if user selected "Mobile App" - mobile uses NativeWind defaults.*
 
@@ -107,7 +116,24 @@ Use AskUserQuestion tool:
 ```json
 {
   "questions": [{
-    "question": "Which shadcn/ui visual style would you like?",
+    "question": "Which UI component library would you like?",
+    "header": "UI",
+    "options": [
+      {"label": "shadcn/ui (Recommended)", "description": "Copy-paste components, full control, Tailwind-based"},
+      {"label": "Radix + Tailwind", "description": "Radix primitives with custom Tailwind styling"},
+      {"label": "Headless UI", "description": "Unstyled accessible components from Tailwind Labs"},
+      {"label": "Tailwind only", "description": "No component library, just Tailwind CSS"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+*If user selected "shadcn/ui", ask follow-up for style:*
+```json
+{
+  "questions": [{
+    "question": "Which shadcn/ui visual style?",
     "header": "Style",
     "options": [
       {"label": "lyra (Recommended)", "description": "Boxy, sharp edges - modern look"},
@@ -119,22 +145,25 @@ Use AskUserQuestion tool:
   }]
 }
 ```
-*If user selects "Other", they can paste a custom preset URL.*
+*User can select "Other" to paste a custom preset URL.*
 
 **Question 6: Project Name**
+*Generate 2-3 suggested names based on the product description, then let user pick or type their own.*
 Use AskUserQuestion tool:
 ```json
 {
   "questions": [{
-    "question": "What should the project folder be called? (use-kebab-case, e.g. invoice-tracker)",
+    "question": "What should the project folder be called? (use-kebab-case)",
     "header": "Name",
     "options": [
-      {"label": "Other", "description": "I'll type the project name"}
+      {"label": "[generated-name-1]", "description": "Based on your product description"},
+      {"label": "[generated-name-2]", "description": "Alternative suggestion"}
     ],
     "multiSelect": false
   }]
 }
 ```
+*Replace [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
 
 **Question 7: Auto-Start Build**
 Use AskUserQuestion tool:
@@ -144,13 +173,16 @@ Use AskUserQuestion tool:
     "question": "Start the Ralph autonomous build immediately after setup?",
     "header": "Auto-start",
     "options": [
-      {"label": "Yes (Recommended)", "description": "Start building right away"},
-      {"label": "No", "description": "Just set up everything, I'll start manually"}
+      {"label": "Yes, auto iterations (Recommended)", "description": "Start now with stories × 1.5 iterations"},
+      {"label": "Yes, 25 iterations", "description": "Start now with fixed 25 iteration limit"},
+      {"label": "Yes, 50 iterations", "description": "Start now with fixed 50 iteration limit"},
+      {"label": "No, setup only", "description": "Just set up everything, I'll start manually"}
     ],
     "multiSelect": false
   }]
 }
 ```
+*User can select "Other" to specify a custom iteration count.*
 
 ### After All Questions
 
