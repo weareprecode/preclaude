@@ -15,7 +15,7 @@ Complete workflow from product idea to autonomous implementation.
 
 ### Question Flow
 
-**Question 1: Product Description**
+**Question 1: Product Type**
 Use AskUserQuestion tool:
 ```json
 {
@@ -23,13 +23,16 @@ Use AskUserQuestion tool:
     "question": "What are you building? Describe the core functionality and value proposition.",
     "header": "Product",
     "options": [
-      {"label": "Other", "description": "I'll describe my product"}
+      {"label": "SaaS Application", "description": "Web-based software service"},
+      {"label": "Mobile App", "description": "iOS/Android app with React Native + Expo"},
+      {"label": "Internal Tool", "description": "Business/team internal application"},
+      {"label": "Marketplace/Platform", "description": "Multi-sided platform connecting users"}
     ],
     "multiSelect": false
   }]
 }
 ```
-*User will select "Other" and type their description.*
+*User selects type, then describes their specific product via "Other" or follow-up.*
 
 **Question 2: Target Audience**
 Use AskUserQuestion tool:
@@ -63,13 +66,30 @@ Use AskUserQuestion tool:
 
 **Question 4: Tech Stack**
 Use AskUserQuestion tool:
+
+*If user selected "Mobile App" in Question 1:*
 ```json
 {
   "questions": [{
     "question": "Which tech stack would you like to use?",
     "header": "Stack",
     "options": [
-      {"label": "Defaults (Recommended)", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth, Vercel"},
+      {"label": "Mobile Defaults (Recommended)", "description": "React Native, Expo, TypeScript, NativeWind, Supabase, Expo Router"},
+      {"label": "Custom", "description": "I'll specify my own stack"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+*Otherwise (web app):*
+```json
+{
+  "questions": [{
+    "question": "Which tech stack would you like to use?",
+    "header": "Stack",
+    "options": [
+      {"label": "Web Defaults (Recommended)", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth, Vercel"},
       {"label": "Custom", "description": "I'll specify my own stack"}
     ],
     "multiSelect": false
@@ -78,7 +98,11 @@ Use AskUserQuestion tool:
 ```
 *If user selects "Custom", ask follow-up for their stack preferences.*
 
-**Question 5: shadcn Style**
+**Question 5: UI Style**
+
+*Skip this question if user selected "Mobile App" - mobile uses NativeWind defaults.*
+
+*For web apps only:*
 Use AskUserQuestion tool:
 ```json
 {
