@@ -33,7 +33,7 @@ When not specified by project, prefer:
 - **Hosting**: Vercel (web), Railway (backend)
 - **Auth**: Better Auth or Supabase Auth
 
-## Commands Available (20)
+## Commands Available (24)
 - `/full-build [description]` — Complete workflow: PRD → Ralph → Build
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -47,6 +47,10 @@ When not specified by project, prefer:
 - `/test [file]` — Generate tests for existing code
 - `/debug [error]` — Analyse error messages and suggest fixes
 - `/status` — Quick health check: git, lint, types, tests
+- `/polish [component]` — Polish UI to match design reference (URL, Figma, screenshot)
+- `/refactor [file]` — Refactor code: extract components, improve types, split files
+- `/migrate [type]` — Run migrations: database, Next.js, dependencies
+- `/deps` — Check dependencies: outdated, security vulnerabilities, bundle size
 - `/seo` — Audit and fix SEO: meta tags, Open Graph, favicon, sitemap
 - `/analytics` — Check and setup analytics: PostHog, GA, Plausible
 - `/learn` — Analyze session, propose CLAUDE.md updates

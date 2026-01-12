@@ -19,7 +19,7 @@ const staggerContainer = {
   },
 };
 
-// Data - All 20 commands
+// Data - All 24 commands
 const commands = [
   { name: "/full-build", desc: "Full workflow from idea to autonomous execution (PRD -> Ralph -> Build)" },
   { name: "/implement", desc: "Execute full feature implementation from PRD through completion" },
@@ -34,6 +34,10 @@ const commands = [
   { name: "/test", desc: "Generate tests for existing code - unit, integration, or E2E" },
   { name: "/debug", desc: "Analyse error messages and suggest fixes" },
   { name: "/status", desc: "Quick health check - git, lint, types, tests in one view" },
+  { name: "/polish", desc: "Polish UI to match a design reference - URL, Figma, or screenshot" },
+  { name: "/refactor", desc: "Refactor code - extract components, improve types, split files" },
+  { name: "/migrate", desc: "Run migrations - database, Next.js upgrades, dependency updates" },
+  { name: "/deps", desc: "Check dependencies - outdated packages, security, bundle size" },
   { name: "/seo", desc: "Audit and fix SEO - meta tags, Open Graph, favicon, sitemap" },
   { name: "/analytics", desc: "Check and setup analytics - PostHog, Google Analytics, Plausible" },
   { name: "/learn", desc: "Analyze session, score learnings, propose CLAUDE.md updates" },
@@ -151,7 +155,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-xl md:text-2xl text-[#858585] max-w-3xl mx-auto mb-10"
           >
-            20 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
+            24 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -277,7 +281,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="text-orange-400">20</span> Slash Commands
+                <span className="text-orange-400">24</span> Slash Commands
               </h2>
               <p className="text-xl text-[#858585] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.
