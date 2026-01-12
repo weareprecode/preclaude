@@ -80,7 +80,7 @@ const faqs = [
   },
   {
     question: "How do I install Preclaude?",
-    answer: "Simply run the install command in your terminal: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash. It works on macOS and Linux."
+    answer: "Simply run the install command in your terminal: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash. It works on macOS and Linux. After installation, restart Claude Code to load the new commands and agents."
   },
   {
     question: "What is Ralph?",
