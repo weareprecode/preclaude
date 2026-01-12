@@ -143,7 +143,7 @@ Star the repo to follow along.
 
 Try Preclaude today:
 
-Website: preclaude.dev
+Website: preclaude.com
 GitHub: github.com/weareprecode/preclaude
 Install: curl command above
 
@@ -190,6 +190,6 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 
 MIT license. Free forever. Community contributions welcome.
 
-preclaude.dev
+preclaude.com
 
 Ralph powered by @GeoffreyHuntley

@@ -122,7 +122,7 @@ We've wrapped it with our workflow but the core loop is his brilliant work.
 
 If you're using Claude Code without Preclaude, you're working too hard.
 
-Install it: preclaude.dev
+Install it: preclaude.com
 Star it: github.com/weareprecode/preclaude
 Questions: @weareprecode
 
@@ -152,4 +152,4 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 
 Free. Open source. MIT license.
 
-preclaude.dev
+preclaude.com

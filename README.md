@@ -4,7 +4,7 @@
 
 Supercharge Claude Code with 24 slash commands, 15 specialist agents, and Ralph autonomous builder.
 
-**Website:** [preclaude.dev](https://preclaude.dev)
+**Website:** [preclaude.com](https://preclaude.com)
 
 ## One-Line Install
 

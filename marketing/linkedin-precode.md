@@ -34,7 +34,7 @@ Now it's yours.
 
 Install: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 
-Website: preclaude.dev
+Website: preclaude.com
 GitHub: github.com/weareprecode/preclaude
 
 MIT license. Use it. Modify it. Ship faster.
@@ -167,7 +167,7 @@ The Ralph autonomous builder is powered by the Ralph Wiggum plugin created by Ge
 
 ## Try It Today
 
-Website: **preclaude.dev**
+Website: **preclaude.com**
 GitHub: **github.com/weareprecode/preclaude**
 Twitter: **@weareprecode**
 
@@ -221,7 +221,7 @@ curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install
 
 Free. Open source. MIT license.
 
-**preclaude.dev**
+**preclaude.com**
 
 ---
 
