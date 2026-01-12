@@ -619,9 +619,34 @@ git commit -m "chore: initial project setup via /full-build"
 
 ## 🤖 Starting Ralph...
 
+**Note**: Environment variables (.env.local) are NOT required to start Ralph. Ralph generates code and can build the entire codebase without database/auth credentials. You'll only need env vars when you want to actually run and test the app.
+
 ```bash
 cd [project_name]
 ./scripts/ralph/ralph.sh
+```
+
+**Start Ralph now, or configure env vars first?**
+
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Ralph can build without env vars. Configure them now or start building?",
+    "header": "Start",
+    "options": [
+      {"label": "Start Ralph now (Recommended)", "description": "Build first, configure env vars later when testing"},
+      {"label": "Set up Supabase first", "description": "I'll guide you through creating a project and getting keys"},
+      {"label": "I'll configure manually", "description": "Skip - I'll set up env vars and run ralph.sh myself"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+If user selects "Start Ralph now", immediately run:
+```bash
+./scripts/ralph/ralph.sh [iterations]
 ```
 
 Watch the progress below. I'll notify you when complete!
