@@ -15,14 +15,33 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Preclaude - Supercharge Claude Code",
+  title: "Preclaude - Supercharge Your Claude Code",
   description:
-    "13 slash commands, 14 specialist agents, and Ralph autonomous builder for Claude Code",
+    "24 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
-    title: "Preclaude",
+    title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "Supercharge Claude Code with slash commands, specialist agents, and autonomous workflows",
+      "24 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Preclaude - Supercharge Your Claude Code",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Preclaude - Supercharge Your Claude Code",
+    description:
+      "24 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
+    images: ["/opengraph-image.png"],
   },
 };
 
