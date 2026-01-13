@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { DetailModal, CommandModalContent, AgentModalContent } from "../components/DetailModal";
 
 // Animation variants
 const smoothEasing: [number, number, number, number] = [0.25, 0.4, 0.25, 1];
@@ -24,52 +25,715 @@ const staggerContainer = {
   },
 };
 
-// Data - All 24 commands
-const commands = [
-  { name: "/full-build", desc: "Complete workflow: PRD -> prd.json -> Build (Ralph Wiggum)" },
-  { name: "/implement", desc: "Execute full feature implementation from PRD through completion" },
-  { name: "/prd", desc: "Generate a comprehensive technical PRD for a product or feature MVP" },
-  { name: "/kickoff", desc: "Initialize new project with full structure, CLAUDE.md, and tooling" },
-  { name: "/prd-json", desc: "Convert PRD to prd.json format for autonomous build" },
-  { name: "/build", desc: "Run Ralph Wiggum autonomous loop with completion promise" },
-  { name: "/research", desc: "Deep research on competitors, market gaps, and idea validation" },
-  { name: "/commit", desc: "Create conventional commit from staged changes" },
-  { name: "/pr", desc: "Create pull request with auto-generated description" },
-  { name: "/review", desc: "Comprehensive code review of staged or recent changes" },
-  { name: "/test", desc: "Generate tests for existing code - unit, integration, or E2E" },
-  { name: "/debug", desc: "Analyse error messages and suggest fixes" },
-  { name: "/status", desc: "Quick health check - git, lint, types, tests in one view" },
-  { name: "/polish", desc: "Polish UI to match a design reference - URL, Figma, or screenshot" },
-  { name: "/refactor", desc: "Refactor code - extract components, improve types, split files" },
-  { name: "/migrate", desc: "Run migrations - database, Next.js upgrades, dependency updates" },
-  { name: "/deps", desc: "Check dependencies - outdated packages, security, bundle size" },
-  { name: "/seo", desc: "Audit and fix SEO - meta tags, Open Graph, favicon, sitemap" },
-  { name: "/analytics", desc: "Check and setup analytics - PostHog, Google Analytics, Plausible" },
-  { name: "/learn", desc: "Analyze session, score learnings, propose CLAUDE.md updates" },
-  { name: "/marketing", desc: "Generate marketing content from feature or release" },
-  { name: "/stakeholder", desc: "Generate stakeholder updates - daily, weekly, or full pack" },
-  { name: "/project-complete", desc: "Generate end-of-project documentation suite" },
-  { name: "/handoff", desc: "Create session handoff notes for continuity" },
-  { name: "/deploy-check", desc: "Pre-deployment verification checklist" },
+// Types
+interface Command {
+  name: string;
+  desc: string;
+  fullDescription?: string;
+  whenToUse?: string[];
+  whatItDoes?: string[];
+  example?: string;
+}
+
+interface Agent {
+  name: string;
+  desc: string;
+  fullDescription?: string;
+  expertise?: string[];
+  focusAreas?: string[];
+  whenToUse?: string[];
+}
+
+// Data - All 24 commands with full documentation
+const commands: Command[] = [
+  {
+    name: "/full-build",
+    desc: "Complete workflow: PRD -> prd.json -> Build (Ralph Wiggum)",
+    fullDescription: "Complete workflow from idea to autonomous execution. Guides you through product definition and launches Ralph to build it.",
+    whenToUse: ["Building new product from scratch", "Want full automation", "Starting MVP"],
+    whatItDoes: [
+      "Phase 1: Interview — Asks 8 questions about your product",
+      "Phase 2: Confirm — Shows summary, waits for 'go'",
+      "Phase 3: Generate PRD — Full 15-section PRD with 20+ stories",
+      "Phase 4: Convert to Ralph — Creates prd.json with atomic stories",
+      "Phase 5: Project Setup — Creates Next.js project with shadcn",
+      "Phase 6: Launch — Optionally starts autonomous build"
+    ],
+    example: '/full-build "CRM for UK tradespeople"\n# Answers 8 questions\n# Type "go" to confirm\n# Project created and Ralph running'
+  },
+  {
+    name: "/implement",
+    desc: "Execute full feature implementation from PRD through completion",
+    fullDescription: "Execute feature implementation from discovery to completion. Handles the full TDD cycle with quality gates.",
+    whenToUse: ["Smaller features (not full products)", "Features that don't need Ralph autonomy", "Direct implementation"],
+    whatItDoes: [
+      "Discovery — Checks for PRD, roadmap, assesses complexity",
+      "Planning — Creates task file for medium/large features",
+      "Implementation — TDD cycle (test → implement → refactor)",
+      "Quality Gates — Runs lint, typecheck, tests",
+      "Documentation — Updates README, CLAUDE.md",
+      "Completion — Updates task status, roadmap"
+    ],
+    example: "/implement add-user-authentication"
+  },
+  {
+    name: "/prd",
+    desc: "Generate a comprehensive technical PRD for a product or feature MVP",
+    fullDescription: "Generate comprehensive technical PRD with 15 sections including user stories in Gherkin format.",
+    whenToUse: ["Planning new feature or product", "Need detailed requirements before building", "Want structured user stories"],
+    whatItDoes: [
+      "Gathers product description, audience, constraints",
+      "Generates 15-section PRD with User Stories, Architecture, API Specs",
+      "Creates 20+ user stories in Gherkin format",
+      "Saves to docs/prd/[name]-prd.md"
+    ],
+    example: '/prd "Invoice tracking app for freelancers with Stripe integration"'
+  },
+  {
+    name: "/kickoff",
+    desc: "Initialize new project with full structure, CLAUDE.md, and tooling",
+    fullDescription: "Initialise new project with full directory structure, CLAUDE.md, and proper tooling setup.",
+    whenToUse: ["Starting new project", "Need scaffolding with conventions"],
+    whatItDoes: [
+      "Gathers requirements (type, framework, database, auth)",
+      "Creates directory structure with .github, docs, src, tests",
+      "Generates CLAUDE.md with project-specific rules",
+      "Initialises git and installs dependencies"
+    ],
+    example: "/kickoff my-new-app"
+  },
+  {
+    name: "/prd-json",
+    desc: "Convert PRD to prd.json format for autonomous build",
+    fullDescription: "Convert PRD to prd.json for autonomous build execution. Creates atomic user stories sized to fit one context window.",
+    whenToUse: ["Have a PRD ready", "Want autonomous implementation", "Preparing for /build command"],
+    whatItDoes: [
+      "Analyses PRD for all features",
+      "Breaks into atomic user stories",
+      "Sizes each story (must fit one context window)",
+      "Orders by dependencies",
+      "Adds acceptance criteria with quality checks"
+    ],
+    example: "/prd-json docs/prd/invoice-tracker-prd.md\n# Creates: scripts/ralph/prd.json"
+  },
+  {
+    name: "/build",
+    desc: "Run Ralph Wiggum autonomous loop with completion promise",
+    fullDescription: "Run Ralph autonomous build loop on existing prd.json. Implements stories one by one, running quality checks and committing.",
+    whenToUse: ["You've already run /prd and /prd-json", "Have an existing prd.json ready", "Want to run/resume the build loop"],
+    whatItDoes: [
+      "Finds scripts/ralph/prd.json",
+      "Checks remaining stories",
+      "Creates Ralph scripts if missing",
+      "Runs autonomous loop for N iterations",
+      "Commits on each story completion"
+    ],
+    example: "/build\n# Or specify iterations:\n/build 25"
+  },
+  {
+    name: "/research",
+    desc: "Deep research on competitors, market gaps, and idea validation",
+    fullDescription: "Deep web research on competitors, market gaps, and idea validation. Generates comprehensive competitive analysis.",
+    whenToUse: ["Before building a new product", "Competitive analysis", "Market validation", "Finding opportunities"],
+    whatItDoes: [
+      "Identifies search terms from idea",
+      "Finds 10+ competitors via web search",
+      "Analyses each competitor's features, pricing, UX",
+      "Reads reviews and user feedback",
+      "Identifies market gaps and opportunities",
+      "Generates comprehensive report with Build/Pivot/Don't Build recommendation"
+    ],
+    example: '/research "Invoice tracking app for freelancers"'
+  },
+  {
+    name: "/commit",
+    desc: "Create conventional commit from staged changes",
+    fullDescription: "Generate conventional commit message from staged changes. Analyses diff and creates semantic commit message.",
+    whenToUse: ["You have changes staged (git add)", "Ready to commit"],
+    whatItDoes: [
+      "Reads staged diff",
+      "Analyses changes",
+      "Generates conventional commit message",
+      "Asks for confirmation before committing"
+    ],
+    example: "git add src/components/Button.tsx\n/commit\n# Output: feat(ui): add primary button variant with hover states"
+  },
+  {
+    name: "/pr",
+    desc: "Create pull request with auto-generated description",
+    fullDescription: "Create pull request from current branch with auto-generated description based on commits and changes.",
+    whenToUse: ["Feature branch ready for review", "Need PR description generated from commits"],
+    whatItDoes: [
+      "Gathers commit history since branching",
+      "Analyses changed files and categorises them",
+      "Generates PR title and description",
+      "Pushes branch if needed",
+      "Creates PR via GitHub CLI"
+    ],
+    example: "/pr main\n# Creates PR from current branch to main"
+  },
+  {
+    name: "/review",
+    desc: "Comprehensive code review of staged or recent changes",
+    fullDescription: "Comprehensive code review evaluating correctness, security, performance, code quality, TypeScript, testing, and documentation.",
+    whenToUse: ["Before creating a PR", "After completing a feature", "Code quality check"],
+    whatItDoes: [
+      "Gathers staged and unstaged diffs",
+      "Evaluates against 7 criteria",
+      "Outputs structured review with blockers, suggestions, and good patterns"
+    ],
+    example: "/review\n# Outputs:\n# 🔴 BLOCKERS (must fix)\n# 🟡 SUGGESTIONS (should consider)\n# 🟢 GOOD PATTERNS"
+  },
+  {
+    name: "/test",
+    desc: "Generate tests for existing code - unit, integration, or E2E",
+    fullDescription: "Generate tests for existing code. Detects testing framework and generates tests following project patterns.",
+    whenToUse: ["Code exists without tests", "Adding test coverage", "TDD refactoring"],
+    whatItDoes: [
+      "Identifies target (file, component, or untested files)",
+      "Detects testing framework (Vitest, Jest, Playwright)",
+      "Analyses code for testable scenarios",
+      "Generates tests following project patterns",
+      "Runs tests to verify"
+    ],
+    example: "/test src/components/Button.tsx\n# Creates: src/components/Button.test.tsx"
+  },
+  {
+    name: "/debug",
+    desc: "Analyse error messages and suggest fixes",
+    fullDescription: "Analyse error messages and suggest fixes. Parses error type, extracts location, and provides fix with code examples.",
+    whenToUse: ["Have error message or stack trace", "Debugging runtime errors", "Understanding cryptic errors"],
+    whatItDoes: [
+      "Parses error type and message",
+      "Extracts file location and line number",
+      "Searches codebase for related code",
+      "Diagnoses root cause",
+      "Provides fix with code examples"
+    ],
+    example: '/debug "Cannot read properties of undefined (reading \'map\')"'
+  },
+  {
+    name: "/status",
+    desc: "Quick health check - git, lint, types, tests in one view",
+    fullDescription: "Quick project health check showing git status, TypeScript type checking, ESLint linting, and test suite results.",
+    whenToUse: ["Quick project overview", "Before committing", "After pulling changes"],
+    whatItDoes: [
+      "Git status (branch, ahead/behind, uncommitted)",
+      "TypeScript type checking",
+      "ESLint linting",
+      "Test suite"
+    ],
+    example: "/status\n# 📁 GIT: feature/new-feature +3/-0\n# 📝 TYPECHECK: ✅ Types OK\n# 🔍 LINT: ✅ Lint OK\n# 🧪 TESTS: ✅ Tests pass"
+  },
+  {
+    name: "/polish",
+    desc: "Polish UI to match a design reference - URL, Figma, or screenshot",
+    fullDescription: "Polish UI to match a design reference. Extracts design system from URL, Figma, or screenshot and applies polish changes.",
+    whenToUse: ["Matching design mockup", "Improving UI quality", "Extracting design tokens"],
+    whatItDoes: [
+      "Identifies target component/page",
+      "Extracts design system from reference (URL, Figma, screenshot)",
+      "Compares current vs reference",
+      "Applies polish changes (colours, typography, spacing, effects)"
+    ],
+    example: "/polish src/components/Header.tsx\n# Asks for design reference, then applies polish"
+  },
+  {
+    name: "/refactor",
+    desc: "Refactor code - extract components, improve types, split files",
+    fullDescription: "Refactor code by extracting components, improving types, splitting large files, and cleaning up code smells.",
+    whenToUse: ["File growing too large", "Repeated code patterns", "Improving type safety", "Cleaning up code"],
+    whatItDoes: [
+      "Identifies refactoring type needed",
+      "Analyses current code for smells",
+      "Applies refactoring pattern (extract component, custom hook, split file, improve types, clean dead code)"
+    ],
+    example: "/refactor src/pages/Dashboard.tsx"
+  },
+  {
+    name: "/migrate",
+    desc: "Run migrations - database, Next.js upgrades, dependency updates",
+    fullDescription: "Run migrations for database schema, API versions, or major dependency upgrades with proper rollback strategies.",
+    whenToUse: ["Database schema changes", "Next.js version upgrade", "React version upgrade", "Major dependency updates"],
+    whatItDoes: [
+      "Database: Generate and run migrations, handle breaking changes",
+      "Next.js: Update packages, fix breaking changes, migrate routers",
+      "React: Update React and types, handle API changes",
+      "Dependencies: Read changelogs, fix breaking changes"
+    ],
+    example: "/migrate database\n/migrate nextjs\n/migrate react"
+  },
+  {
+    name: "/deps",
+    desc: "Check dependencies - outdated packages, security, bundle size",
+    fullDescription: "Check dependencies for outdated packages, security vulnerabilities, and bundle size issues.",
+    whenToUse: ["Regular maintenance", "Security audit", "Before major updates", "Bundle optimisation"],
+    whatItDoes: [
+      "Lists outdated packages",
+      "Runs security audit",
+      "Categorises updates by risk (patch/minor/major)",
+      "Checks bundle sizes",
+      "Finds unused dependencies",
+      "Generates safe update script"
+    ],
+    example: "/deps\n# Security: 🔴 Critical: 0, 🟠 High: 1\n# Updates: Patch: 5, Minor: 3, Major: 2"
+  },
+  {
+    name: "/seo",
+    desc: "Audit and fix SEO - meta tags, Open Graph, favicon, sitemap",
+    fullDescription: "Audit and fix SEO essentials including meta tags, Open Graph, Twitter cards, favicon, sitemap, and robots.txt.",
+    whenToUse: ["New project setup", "Pre-launch check", "SEO audit"],
+    whatItDoes: [
+      "Checks page title and meta description",
+      "Checks Open Graph and Twitter card tags",
+      "Checks favicon and Apple Touch Icon",
+      "Checks sitemap and robots.txt",
+      "Creates missing items if requested"
+    ],
+    example: "/seo audit    # Check current status\n/seo fix      # Create missing items"
+  },
+  {
+    name: "/analytics",
+    desc: "Check and setup analytics - PostHog, Google Analytics, Plausible",
+    fullDescription: "Check and setup analytics with PostHog, Google Analytics, Plausible, or Vercel Analytics.",
+    whenToUse: ["New project needs analytics", "Checking current setup", "Switching providers"],
+    whatItDoes: [
+      "Checks for existing analytics",
+      "Asks which provider to install",
+      "Creates provider component and pageview tracker",
+      "Updates layout with provider",
+      "Creates event helper functions"
+    ],
+    example: "/analytics posthog\n/analytics check    # Audit current setup"
+  },
+  {
+    name: "/learn",
+    desc: "Analyze session, score learnings, propose CLAUDE.md updates",
+    fullDescription: "Analyse session and propose CLAUDE.md updates. Scores potential learnings on novelty, frequency, impact, specificity, and durability.",
+    whenToUse: ["End of coding session", "After discovering project-specific gotchas", "When patterns emerge"],
+    whatItDoes: [
+      "Audits current CLAUDE.md (max 300 lines)",
+      "Reviews recent commits and file changes",
+      "Scores potential learnings (0-10)",
+      "Proposes additions/removals with scoring threshold"
+    ],
+    example: "/learn\n# Output: N|F|I|S|D = 2|2|2|2|2 → 10/10 → ADD"
+  },
+  {
+    name: "/marketing",
+    desc: "Generate marketing content from feature or release",
+    fullDescription: "Generate multi-platform marketing content including release notes, social posts, email announcements, and blog outlines.",
+    whenToUse: ["Feature launch", "Product release", "Need social content"],
+    whatItDoes: [
+      "Creates release-notes.md",
+      "Creates social-twitter.md (tweets and threads)",
+      "Creates social-linkedin.md (professional posts)",
+      "Creates email-announcement.md",
+      "Creates blog-outline.md (SEO-focused)"
+    ],
+    example: '/marketing "stripe-billing"\n# Creates full content bundle'
+  },
+  {
+    name: "/stakeholder",
+    desc: "Generate stakeholder updates - daily, weekly, or full pack",
+    fullDescription: "Generate stakeholder updates with daily standups, weekly reports, or full stakeholder presentation packs.",
+    whenToUse: ["Daily standup notes", "Weekly status reports", "Stakeholder presentations"],
+    whatItDoes: [
+      "Daily: Completed today, in progress, tomorrow's focus, blockers",
+      "Weekly: Summary metrics, completed features, screenshots, next week plan",
+      "Pack: Executive summary, progress metrics, timeline, budget, risks"
+    ],
+    example: "/stakeholder daily\n/stakeholder weekly\n/stakeholder pack"
+  },
+  {
+    name: "/project-complete",
+    desc: "Generate end-of-project documentation suite",
+    fullDescription: "Generate end-of-project documentation suite including build journal, features, marketing kit, social content, and technical handoff.",
+    whenToUse: ["Project finished", "Ready for launch", "Need comprehensive docs"],
+    whatItDoes: [
+      "Creates build-journal.md — Day-by-day chronicle",
+      "Creates features.md — All features documented",
+      "Creates marketing-kit.md — Brand, positioning, pitch",
+      "Creates social-content.md — Ready-to-post content",
+      "Creates technical-handoff.md — Architecture, setup, decisions"
+    ],
+    example: "/project-complete"
+  },
+  {
+    name: "/handoff",
+    desc: "Create session handoff notes for continuity",
+    fullDescription: "Create session handoff notes for continuity. Captures git status, recent changes, and creates structured handoff document.",
+    whenToUse: ["Stopping work mid-task", "End of day", "Before context switch"],
+    whatItDoes: [
+      "Captures git status and recent changes",
+      "Creates structured handoff document",
+      "Includes: Session summary, completed items, in-progress work, decisions made, next priorities"
+    ],
+    example: "/handoff\n# Creates: docs/handoff/2024-01-15-session.md"
+  },
+  {
+    name: "/deploy-check",
+    desc: "Pre-deployment verification checklist",
+    fullDescription: "Pre-deployment verification checklist checking git, code quality, tests, build, environment, dependencies, database, and documentation.",
+    whenToUse: ["Before deploying to production", "Release candidate check", "CI/CD verification"],
+    whatItDoes: [
+      "Git — Correct branch, clean working directory, commits pushed",
+      "Code Quality — Linting, type checking",
+      "Tests — Unit, E2E passing",
+      "Build — Completes without errors",
+      "Environment — Env vars documented",
+      "Dependencies — Security audit, outdated packages"
+    ],
+    example: "/deploy-check\n# RESULT: READY TO DEPLOY ✅"
+  },
 ];
 
-// Data - All 15 agents
-const agents = [
-  { name: "@frontend-developer", desc: "React, Next.js, UI components, state management" },
-  { name: "@backend-developer", desc: "APIs, server-side logic, database operations" },
-  { name: "@database-architect", desc: "Schema design, queries, migrations, indexing" },
-  { name: "@devops-engineer", desc: "CI/CD, Docker, Kubernetes, infrastructure" },
-  { name: "@security-auditor", desc: "Security reviews, vulnerability analysis" },
-  { name: "@test-engineer", desc: "Unit tests, integration tests, E2E tests" },
-  { name: "@code-reviewer", desc: "Code review, best practices" },
-  { name: "@technical-writer", desc: "Documentation, guides, tutorials" },
-  { name: "@ui-designer", desc: "Design systems, accessibility, animations" },
-  { name: "@ux-researcher", desc: "User research, usability testing" },
-  { name: "@product-analyst", desc: "PRDs, user stories, requirements" },
-  { name: "@performance-engineer", desc: "Core Web Vitals, bundle analysis, optimisation" },
-  { name: "@expo-developer", desc: "React Native with Expo" },
-  { name: "@ios-developer", desc: "Swift, iOS development" },
-  { name: "@android-developer", desc: "Kotlin, Android development" },
+// Data - All 15 agents with full documentation
+const agents: Agent[] = [
+  {
+    name: "@frontend-developer",
+    desc: "React, Next.js, UI components, state management",
+    fullDescription: "React, Next.js, React Native, Vue, UI components, state management, styling, animations, and frontend performance.",
+    expertise: [
+      "React 19, Next.js 15 (App Router), React Native with Expo",
+      "TypeScript (strict mode, advanced patterns)",
+      "Tailwind CSS, CSS Modules, styled-components",
+      "State management: React Query, Zustand, Jotai",
+      "Testing: Vitest, React Testing Library, Playwright"
+    ],
+    focusAreas: [
+      "Server Components by default, 'use client' only when needed",
+      "Server Actions for mutations",
+      "Custom hooks for reusable logic",
+      "shadcn/ui with Lyra style preset"
+    ],
+    whenToUse: [
+      "@frontend-developer Build a responsive navbar with mobile menu",
+      "@frontend-developer Add dark mode toggle to settings",
+      "@frontend-developer Create a data table with sorting and filtering"
+    ]
+  },
+  {
+    name: "@backend-developer",
+    desc: "APIs, server-side logic, database operations",
+    fullDescription: "APIs, server-side logic, database operations, authentication, microservices, and backend architecture.",
+    expertise: [
+      "Node.js, Python, Go",
+      "Express, Hono, FastAPI",
+      "PostgreSQL, MongoDB, Redis",
+      "REST and GraphQL APIs",
+      "Message queues, background jobs"
+    ],
+    focusAreas: [
+      "RESTful conventions with consistent error responses",
+      "JWT or session-based authentication",
+      "Prisma or Drizzle ORM",
+      "Rate limiting and CORS configuration"
+    ],
+    whenToUse: [
+      "@backend-developer Create REST API for user management",
+      "@backend-developer Add Stripe webhook handling",
+      "@backend-developer Implement job queue for email sending"
+    ]
+  },
+  {
+    name: "@database-architect",
+    desc: "Schema design, queries, migrations, indexing",
+    fullDescription: "Schema design, data modelling, query optimisation, migrations, indexing strategies, and database selection.",
+    expertise: [
+      "PostgreSQL, MySQL, SQLite",
+      "MongoDB, DynamoDB",
+      "Redis for caching",
+      "Prisma, Drizzle, TypeORM",
+      "Query performance tuning"
+    ],
+    focusAreas: [
+      "Normalisation vs denormalisation trade-offs",
+      "Proper foreign key relationships",
+      "Indexing strategies",
+      "Zero-downtime migrations"
+    ],
+    whenToUse: [
+      "@database-architect Design schema for e-commerce platform",
+      "@database-architect Optimise slow query on orders table",
+      "@database-architect Plan migration from MySQL to PostgreSQL"
+    ]
+  },
+  {
+    name: "@devops-engineer",
+    desc: "CI/CD, Docker, Kubernetes, infrastructure",
+    fullDescription: "CI/CD pipelines, Docker, Kubernetes, Terraform, cloud infrastructure, deployments, monitoring, and infrastructure automation.",
+    expertise: [
+      "Docker and Docker Compose",
+      "GitHub Actions, GitLab CI",
+      "Terraform, Pulumi",
+      "AWS, GCP, Azure",
+      "Vercel, Railway, Fly.io"
+    ],
+    focusAreas: [
+      "Lint → Test → Build → Deploy pipelines",
+      "Multi-stage Docker builds",
+      "Secrets management",
+      "Rollback strategies"
+    ],
+    whenToUse: [
+      "@devops-engineer Set up GitHub Actions for this repo",
+      "@devops-engineer Create Dockerfile for Next.js app",
+      "@devops-engineer Configure Terraform for AWS deployment"
+    ]
+  },
+  {
+    name: "@security-auditor",
+    desc: "Security reviews, vulnerability analysis",
+    fullDescription: "Security reviews, vulnerability analysis, penetration testing guidance, OWASP compliance, and security best practices.",
+    expertise: [
+      "OWASP Top 10",
+      "Authentication vulnerabilities",
+      "SQL injection, XSS prevention",
+      "CSRF protection",
+      "Secrets management"
+    ],
+    focusAreas: [
+      "Input validation",
+      "Output encoding",
+      "Authentication/authorisation",
+      "Security headers"
+    ],
+    whenToUse: [
+      "@security-auditor Review auth implementation for vulnerabilities",
+      "@security-auditor Audit API endpoints for injection risks",
+      "@security-auditor Check if we're handling PII correctly"
+    ]
+  },
+  {
+    name: "@test-engineer",
+    desc: "Unit tests, integration tests, E2E tests",
+    fullDescription: "Unit tests, integration tests, E2E tests, test architecture, mocking strategies, and test coverage analysis.",
+    expertise: [
+      "Vitest, Jest",
+      "React Testing Library",
+      "Playwright, Cypress",
+      "Test doubles (mocks, stubs, spies)",
+      "TDD methodology"
+    ],
+    focusAreas: [
+      "Arrange, Act, Assert pattern",
+      "One assertion per test",
+      "Edge case coverage",
+      "Page Object pattern for E2E"
+    ],
+    whenToUse: [
+      "@test-engineer Write unit tests for the auth service",
+      "@test-engineer Create E2E tests for checkout flow",
+      "@test-engineer Set up testing infrastructure from scratch"
+    ]
+  },
+  {
+    name: "@code-reviewer",
+    desc: "Code review, best practices",
+    fullDescription: "Comprehensive code reviews covering correctness, security, performance, maintainability, and adherence to project conventions.",
+    expertise: [
+      "Correctness — Logic, edge cases, error handling",
+      "Security — Injection, auth, data exposure",
+      "Performance — N+1, memory leaks, caching",
+      "Code Quality — DRY, naming, conventions",
+      "TypeScript — No any, proper types"
+    ],
+    focusAreas: [
+      "🔴 BLOCKERS (must fix)",
+      "🟡 SUGGESTIONS (should consider)",
+      "🟢 GOOD PATTERNS (worth noting)"
+    ],
+    whenToUse: [
+      "@code-reviewer Review my recent changes before PR",
+      "@code-reviewer Check this function for issues",
+      "@code-reviewer Review the auth implementation"
+    ]
+  },
+  {
+    name: "@technical-writer",
+    desc: "Documentation, guides, tutorials",
+    fullDescription: "README files, API documentation, architecture decision records, guides, tutorials, and technical content.",
+    expertise: [
+      "README structure",
+      "API documentation (OpenAPI)",
+      "Architecture Decision Records (ADRs)",
+      "User guides and tutorials",
+      "Changelog maintenance"
+    ],
+    focusAreas: [
+      "Quick start guides",
+      "API reference",
+      "Integration guides",
+      "Troubleshooting guides"
+    ],
+    whenToUse: [
+      "@technical-writer Write README for this project",
+      "@technical-writer Document the API endpoints",
+      "@technical-writer Create onboarding guide for new devs"
+    ]
+  },
+  {
+    name: "@ui-designer",
+    desc: "Design systems, accessibility, animations",
+    fullDescription: "Design systems, component libraries, accessibility, responsive design, animations, and shadcn/ui setup.",
+    expertise: [
+      "Design system creation",
+      "Component APIs",
+      "Responsive patterns",
+      "Accessibility (WCAG 2.1)",
+      "Motion design"
+    ],
+    focusAreas: [
+      "Tokens (colours, spacing, typography)",
+      "Component variants",
+      "Semantic HTML and ARIA labels",
+      "Keyboard navigation and focus management"
+    ],
+    whenToUse: [
+      "@ui-designer Create a design system for this project",
+      "@ui-designer Make this component accessible",
+      "@ui-designer Add micro-interactions to the form"
+    ]
+  },
+  {
+    name: "@ux-researcher",
+    desc: "User research, usability testing",
+    fullDescription: "User research, information architecture, user flows, wireframes, usability testing, personas, and UX strategy.",
+    expertise: [
+      "User research planning and execution",
+      "Information architecture and content strategy",
+      "User flows and journey mapping",
+      "Wireframing and low-fidelity prototyping",
+      "Persona development and jobs-to-be-done"
+    ],
+    focusAreas: [
+      "What to build and why",
+      "User research and insights",
+      "Wireframes and flows",
+      "Usability testing"
+    ],
+    whenToUse: [
+      "@ux-researcher Create user personas for this product",
+      "@ux-researcher Map the checkout user flow",
+      "@ux-researcher Design a usability test for the onboarding"
+    ]
+  },
+  {
+    name: "@product-analyst",
+    desc: "PRDs, user stories, requirements",
+    fullDescription: "PRDs, user stories, requirements gathering, feature specifications, acceptance criteria, and product strategy.",
+    expertise: [
+      "Product Requirements Documents",
+      "User stories (Gherkin format)",
+      "Acceptance criteria",
+      "Feature prioritisation",
+      "MVP scoping"
+    ],
+    focusAreas: [
+      "PRDs",
+      "User story maps",
+      "Feature specs",
+      "Impact assessments"
+    ],
+    whenToUse: [
+      "@product-analyst Write PRD for subscription billing",
+      "@product-analyst Define acceptance criteria for login",
+      "@product-analyst Prioritise these feature requests"
+    ]
+  },
+  {
+    name: "@performance-engineer",
+    desc: "Core Web Vitals, bundle analysis, optimisation",
+    fullDescription: "Core Web Vitals, bundle analysis, Lighthouse audits, profiling, caching strategies, and performance optimisation.",
+    expertise: [
+      "Core Web Vitals (LCP, INP, CLS)",
+      "Bundle analysis and tree-shaking",
+      "React profiling and re-render optimisation",
+      "Image and asset optimisation",
+      "Caching strategies (CDN, browser, service worker)"
+    ],
+    focusAreas: [
+      "LCP ≤2.5s, INP ≤200ms, CLS ≤0.1",
+      "Bundle Size <200KB gzipped",
+      "Lighthouse Performance >90",
+      "Dynamic imports and code splitting"
+    ],
+    whenToUse: [
+      "@performance-engineer Audit and improve page load times",
+      "@performance-engineer Analyse and reduce bundle size",
+      "@performance-engineer Optimise React component renders"
+    ]
+  },
+  {
+    name: "@expo-developer",
+    desc: "React Native with Expo",
+    fullDescription: "React Native with Expo, cross-platform mobile apps, Expo Router navigation, EAS builds, and mobile-specific UI patterns.",
+    expertise: [
+      "Expo SDK 52+ and Expo Router",
+      "React Native 0.76+ (New Architecture)",
+      "TypeScript for mobile development",
+      "EAS Build, Submit, and Update",
+      "React Native Reanimated and Gesture Handler"
+    ],
+    focusAreas: [
+      "File-based routing with Expo Router",
+      "Platform.select() for platform-specific code",
+      "NativeWind for Tailwind-style styling",
+      "FlashList for long lists"
+    ],
+    whenToUse: [
+      "@expo-developer Build a cross-platform mobile app",
+      "@expo-developer Set up EAS builds for App Store and Play Store",
+      "@expo-developer Add gesture-based navigation"
+    ]
+  },
+  {
+    name: "@ios-developer",
+    desc: "Swift, iOS development",
+    fullDescription: "Native iOS development with Swift, SwiftUI, UIKit, Core Data, and App Store deployment.",
+    expertise: [
+      "Swift 5.9+ and Swift Concurrency",
+      "SwiftUI (iOS 17+) and UIKit",
+      "Core Data and SwiftData",
+      "Combine and async/await",
+      "Xcode, Instruments, and TestFlight"
+    ],
+    focusAreas: [
+      "@State, @Binding, @StateObject, @ObservedObject",
+      "NavigationStack for navigation",
+      "MVVM with ObservableObject",
+      "XCTest and XCUITest"
+    ],
+    whenToUse: [
+      "@ios-developer Build a native iOS app with SwiftUI",
+      "@ios-developer Implement Core Data persistence",
+      "@ios-developer Prepare app for App Store submission"
+    ]
+  },
+  {
+    name: "@android-developer",
+    desc: "Kotlin, Android development",
+    fullDescription: "Native Android development with Kotlin, Jetpack Compose, Room, and Play Store deployment.",
+    expertise: [
+      "Kotlin 2.0+ and Coroutines",
+      "Jetpack Compose (Material 3)",
+      "Android Architecture Components",
+      "Room, DataStore, and Hilt",
+      "Android Studio and Gradle"
+    ],
+    focusAreas: [
+      "@Composable functions",
+      "State hoisting with remember",
+      "MVVM with ViewModel and StateFlow",
+      "Hilt for dependency injection"
+    ],
+    whenToUse: [
+      "@android-developer Build a native Android app with Compose",
+      "@android-developer Set up Room database with migrations",
+      "@android-developer Configure Hilt dependency injection"
+    ]
+  },
 ];
 
 // FAQ Data
@@ -176,29 +840,31 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   );
 }
 
-// Command card component
-function CommandCard({ name, desc }: { name: string; desc: string }) {
+// Command card component - now clickable
+function CommandCard({ command, onClick }: { command: Command; onClick: () => void }) {
   return (
-    <motion.div
+    <motion.button
       variants={fadeInUp}
-      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.06] hover:border-white/[0.12] hover:bg-[#1a1918] transition-all duration-300"
+      onClick={onClick}
+      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.06] hover:border-white/[0.12] hover:bg-[#1a1918] transition-all duration-300 text-left cursor-pointer w-full"
     >
-      <code className="text-white font-mono text-base sm:text-lg font-medium">{name}</code>
-      <p className="mt-2 sm:mt-3 text-[#9C9C99] text-sm leading-relaxed">{desc}</p>
-    </motion.div>
+      <code className="text-white font-mono text-base sm:text-lg font-medium">{command.name}</code>
+      <p className="mt-2 sm:mt-3 text-[#9C9C99] text-sm leading-relaxed">{command.desc}</p>
+    </motion.button>
   );
 }
 
-// Agent card component
-function AgentCard({ name, desc }: { name: string; desc: string }) {
+// Agent card component - now clickable
+function AgentCard({ agent, onClick }: { agent: Agent; onClick: () => void }) {
   return (
-    <motion.div
+    <motion.button
       variants={fadeInUp}
-      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.06] hover:border-white/[0.12] hover:bg-[#1a1918] transition-all duration-300"
+      onClick={onClick}
+      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.06] hover:border-white/[0.12] hover:bg-[#1a1918] transition-all duration-300 text-left cursor-pointer w-full"
     >
-      <code className="text-white font-mono text-base sm:text-lg font-medium">{name}</code>
-      <p className="mt-2 sm:mt-3 text-[#9C9C99] text-sm leading-relaxed">{desc}</p>
-    </motion.div>
+      <code className="text-white font-mono text-base sm:text-lg font-medium">{agent.name}</code>
+      <p className="mt-2 sm:mt-3 text-[#9C9C99] text-sm leading-relaxed">{agent.desc}</p>
+    </motion.button>
   );
 }
 
@@ -262,10 +928,30 @@ function FAQSection() {
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedCommand, setSelectedCommand] = useState<Command | null>(null);
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const installCommand = "curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash";
 
   return (
     <main className="min-h-screen bg-[#0A0908] overflow-x-hidden">
+      {/* Command Modal */}
+      <DetailModal
+        isOpen={!!selectedCommand}
+        onClose={() => setSelectedCommand(null)}
+        title={selectedCommand?.name || ""}
+      >
+        {selectedCommand && <CommandModalContent command={selectedCommand} />}
+      </DetailModal>
+
+      {/* Agent Modal */}
+      <DetailModal
+        isOpen={!!selectedAgent}
+        onClose={() => setSelectedAgent(null)}
+        title={selectedAgent?.name || ""}
+      >
+        {selectedAgent && <AgentModalContent agent={selectedAgent} />}
+      </DetailModal>
+
       {/* Navigation */}
       <nav className="flex items-center justify-between px-4 md:px-10 py-2.5">
         <div className="flex items-center gap-4">
@@ -477,7 +1163,11 @@ export default function Home() {
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
             >
               {commands.map((cmd) => (
-                <CommandCard key={cmd.name} name={cmd.name} desc={cmd.desc} />
+                <CommandCard
+                  key={cmd.name}
+                  command={cmd}
+                  onClick={() => setSelectedCommand(cmd)}
+                />
               ))}
             </motion.div>
           </motion.div>
@@ -507,7 +1197,11 @@ export default function Home() {
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
             >
               {agents.map((agent) => (
-                <AgentCard key={agent.name} name={agent.name} desc={agent.desc} />
+                <AgentCard
+                  key={agent.name}
+                  agent={agent}
+                  onClick={() => setSelectedAgent(agent)}
+                />
               ))}
             </motion.div>
           </motion.div>
@@ -587,35 +1281,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-4 py-6 pb-10">
-        <div className="max-w-[1100px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
+      {/* Footer - Improved mobile layout */}
+      <footer className="px-4 py-8 pb-12">
+        <div className="max-w-[1100px] mx-auto flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:gap-4">
+          {/* Brand section - stacked on mobile */}
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-3">
             {/* Brand */}
             <a href="/" className="flex items-center">
               <Image src="/logo-brand.svg" alt="Preclaude" width={137} height={29} className="h-7 w-auto" />
             </a>
-            <span className="text-xs text-[#666665]">MIT License</span>
-            <span className="text-xs text-[#666665]">·</span>
-            <a
-              href="https://precode.co"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-[#666665] hover:text-[#9C9C99] transition-colors"
-            >
-              Built by Precode
-            </a>
+            {/* Meta info */}
+            <div className="flex items-center gap-2 text-xs text-[#666665]">
+              <span>MIT License</span>
+              <span>·</span>
+              <a
+                href="https://precode.co"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#9C9C99] transition-colors"
+              >
+                Built by Precode
+              </a>
+            </div>
           </div>
 
-          {/* Right side links */}
-          <div className="flex items-center gap-4">
+          {/* Social links */}
+          <div className="flex items-center gap-5">
             <a
               href="https://github.com/weareprecode/preclaude"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[#666665] hover:text-[#9C9C99] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#666665] hover:text-[#9C9C99] transition-colors"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
               </svg>
               GitHub
@@ -624,11 +1322,12 @@ export default function Home() {
               href="https://x.com/weareprecode"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#666665] hover:text-[#9C9C99] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#666665] hover:text-[#9C9C99] transition-colors"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
+              Twitter
             </a>
           </div>
         </div>
@@ -636,4 +1335,3 @@ export default function Home() {
     </main>
   );
 }
-
