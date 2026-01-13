@@ -270,11 +270,8 @@ export default function Home() {
       <nav className="flex items-center justify-between px-4 md:px-10 py-2.5">
         <div className="flex items-center gap-4">
           {/* Brand */}
-          <a href="/" className="flex items-center gap-1.5">
-            <Image src="/logo-icon.svg" alt="Preclaude" width={29} height={29} />
-            <span className="text-lg sm:text-xl font-medium text-[#FFFCF9] tracking-tight" style={{ fontFamily: 'var(--font-brand)' }}>
-              Preclaude
-            </span>
+          <a href="/" className="flex items-center">
+            <Image src="/logo-brand.svg" alt="Preclaude" width={137} height={29} className="h-7 w-auto" />
           </a>
 
           {/* Nav Links - Desktop */}
@@ -595,11 +592,8 @@ export default function Home() {
         <div className="max-w-[1100px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
             {/* Brand */}
-            <a href="/" className="flex items-center gap-1.5">
-              <Image src="/logo-icon.svg" alt="Preclaude" width={29} height={29} />
-              <span className="text-lg sm:text-xl font-medium text-white tracking-tight" style={{ fontFamily: 'var(--font-brand)' }}>
-                Preclaude
-              </span>
+            <a href="/" className="flex items-center">
+              <Image src="/logo-brand.svg" alt="Preclaude" width={137} height={29} className="h-7 w-auto" />
             </a>
             <span className="text-xs text-[#666665]">MIT License</span>
             <span className="text-xs text-[#666665]">·</span>
