@@ -9,6 +9,16 @@ argument-hint: [product-description]
 
 Complete workflow from product idea to autonomous implementation.
 
+## Pre-Flight: Dependency Check
+
+Before starting, verify jq is installed (required for Ralph):
+
+<jq_check>
+!`command -v jq >/dev/null 2>&1 && echo "jq installed" || echo "jq NOT installed - run: brew install jq"`
+</jq_check>
+
+If jq is not installed, inform the user and ask them to install it before proceeding.
+
 ## Phase 1: Interview (Sequential Questions)
 
 **IMPORTANT**: Ask ONE question at a time using the AskUserQuestion tool. Wait for each response before asking the next question.

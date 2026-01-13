@@ -35,6 +35,24 @@ Use AskUserQuestion tool:
 **If "Same context"**: Continue to "Start Ralph Wiggum Loop" section below.
 **If "Fresh context"**: Skip to "Fresh Context Mode" section at the end.
 
+## Dependency Checks
+
+Before proceeding, verify required tools are installed:
+
+<jq_check>
+!`command -v jq >/dev/null 2>&1 && echo "jq installed" || echo "jq NOT installed - run: brew install jq"`
+</jq_check>
+
+If jq is not installed, stop and ask the user to install it first.
+
+## Package Manager Detection
+
+<package_manager>
+!`if [ -f "bun.lockb" ]; then echo "bun"; elif [ -f "pnpm-lock.yaml" ]; then echo "pnpm"; elif [ -f "yarn.lock" ]; then echo "yarn"; else echo "npm"; fi`
+</package_manager>
+
+Use the detected package manager for all `npm run` commands (replace with `bun run`, `pnpm run`, or `yarn run` as appropriate).
+
 ## Find prd.json
 
 <prd_files>

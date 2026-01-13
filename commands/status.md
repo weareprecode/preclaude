@@ -18,6 +18,13 @@ echo "📊 PROJECT STATUS"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
+# Detect package manager
+if [ -f "bun.lockb" ]; then PM="bun"
+elif [ -f "pnpm-lock.yaml" ]; then PM="pnpm"
+elif [ -f "yarn.lock" ]; then PM="yarn"
+else PM="npm"
+fi
+
 # Git Status
 echo "📁 GIT"
 echo "───────────────────────────────────────────────────────────────"
@@ -41,7 +48,7 @@ echo ""
 # Typecheck
 echo "📝 TYPECHECK"
 echo "───────────────────────────────────────────────────────────────"
-if npm run typecheck --silent 2>/dev/null; then
+if $PM run typecheck --silent 2>/dev/null; then
   echo "✅ Types OK"
 else
   echo "❌ Type errors found"
@@ -51,7 +58,7 @@ echo ""
 # Lint
 echo "🔍 LINT"
 echo "───────────────────────────────────────────────────────────────"
-if npm run lint --silent 2>/dev/null; then
+if $PM run lint --silent 2>/dev/null; then
   echo "✅ Lint OK"
 else
   echo "❌ Lint errors found"
@@ -61,7 +68,7 @@ echo ""
 # Tests
 echo "🧪 TESTS"
 echo "───────────────────────────────────────────────────────────────"
-if npm run test --silent 2>/dev/null; then
+if $PM run test --silent 2>/dev/null; then
   echo "✅ Tests pass"
 else
   echo "❌ Test failures"

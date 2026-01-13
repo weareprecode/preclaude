@@ -8,6 +8,14 @@ argument-hint: [feature-description]
 
 Execute complete implementation workflow.
 
+## Package Manager Detection
+
+<package_manager>
+!`if [ -f "bun.lockb" ]; then echo "bun"; elif [ -f "pnpm-lock.yaml" ]; then echo "pnpm"; elif [ -f "yarn.lock" ]; then echo "yarn"; else echo "npm"; fi`
+</package_manager>
+
+Use the detected package manager for all commands.
+
 ## Phase 1: Discovery
 
 ### Check for existing PRD
