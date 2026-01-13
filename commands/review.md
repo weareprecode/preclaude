@@ -8,6 +8,10 @@ model: opus
 
 ## Gather Changes
 
+<is_git_repo>
+!`git rev-parse --is-inside-work-tree 2>/dev/null || echo "false"`
+</is_git_repo>
+
 <staged_diff>
 !`git diff --cached 2>/dev/null || echo "Nothing staged"`
 </staged_diff>
@@ -17,8 +21,37 @@ model: opus
 </unstaged_diff>
 
 <changed_files>
-!`git diff --name-only HEAD~1 2>/dev/null || git diff --cached --name-only 2>/dev/null || git status --porcelain | cut -c4-`
+!`git diff --name-only HEAD~1 2>/dev/null || git diff --cached --name-only 2>/dev/null || git status --porcelain 2>/dev/null | cut -c4- || echo ""`
 </changed_files>
+
+## Fallback: Review Local Files
+
+If `<is_git_repo>` is "false" OR all diffs are empty/nothing staged:
+
+1. Use Glob to find source files:
+   ```
+   **/*.{ts,tsx,js,jsx,py,go,rs,java,swift,kt}
+   ```
+
+2. Prioritise recently modified files (check file modification dates)
+
+3. Ask the user which files to review:
+   ```json
+   {
+     "questions": [{
+       "question": "No git changes found. Which files should I review?",
+       "header": "Review scope",
+       "options": [
+         {"label": "All source files", "description": "Review all .ts, .tsx, .js, .jsx files"},
+         {"label": "src/ directory only", "description": "Focus on source code"},
+         {"label": "Let me specify", "description": "I'll tell you which files"}
+       ],
+       "multiSelect": false
+     }]
+   }
+   ```
+
+4. Read and review those files using the checklist below
 
 ## Review Checklist
 
