@@ -16,7 +16,18 @@ Ralph is an autonomous build loop that:
 5. Moves to next story
 6. Repeats until complete
 
-Each iteration is a fresh Claude context, so stories must be atomic and self-contained.
+### Two Modes
+
+When running `/build` or `/full-build`, you'll choose between:
+
+| Mode | How It Works | Best For |
+|------|--------------|----------|
+| **Same context** | Anthropic plugin keeps session alive between stories. Claude remembers previous work. | Short builds (<15 stories), interdependent features |
+| **Fresh context** | Original Ralph — bash loop spawns new `claude --print` per story. Clean slate each time. | Long builds (20+), overnight runs, independent features |
+
+**Same context** is faster and allows Claude to learn from failures within the session.
+
+**Fresh context** avoids context window exhaustion and is more reliable for large builds.
 
 ---
 
@@ -109,6 +120,14 @@ After setup, should I start Ralph immediately?
 ```
 **Your answer:** "yes"
 
+#### Question 9: Ralph Mode (if auto-start is yes)
+```
+Which Ralph mode do you want to use?
+- Same context (Recommended): Faster, Claude remembers previous work
+- Fresh context: Clean slate each story, better for long builds
+```
+**Your answer:** "Same context" for most projects, "Fresh context" for 20+ stories or overnight runs
+
 ### Step 3: Confirm and Go
 
 Claude shows a summary:
@@ -123,6 +142,7 @@ Claude shows a summary:
 | shadcn Style | lyra |
 | Iterations | 25 |
 | Auto-Start | yes |
+| Ralph Mode | Same context |
 
 MVP Features:
 1. User auth
@@ -183,6 +203,16 @@ tail -f scripts/ralph/progress.txt
 
 # Check git log
 git log --oneline -10
+```
+
+**For Fresh Context mode:**
+
+```bash
+# Follow the live output
+tail -f scripts/ralph/ralph.log
+
+# Stop the build early
+pkill -f ralph-loop.sh
 ```
 
 ### Step 6: Completion
@@ -436,7 +466,18 @@ cat scripts/ralph/prd.json | jq '.userStories[].passes = false' > tmp.json && mv
 
 ## Summary
 
-1. `/full-build` → Answer 8 questions → "go"
+1. `/full-build` → Answer 9 questions (including Ralph mode) → "go"
 2. Watch Ralph build autonomously
 3. `/review` → `/project-complete` → `/deploy-check`
 4. Ship it 🚀
+
+### Which Ralph Mode?
+
+| Scenario | Recommended Mode |
+|----------|------------------|
+| Quick prototype (<15 stories) | Same context |
+| Full MVP (15-25 stories) | Same context |
+| Large build (25+ stories) | Fresh context |
+| Overnight/unattended build | Fresh context |
+| Features depend on each other | Same context |
+| Independent features | Either works |

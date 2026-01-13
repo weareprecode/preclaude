@@ -311,11 +311,24 @@ project-name/
 - Want to run/resume the build loop
 
 ### What It Does
-1. Finds `scripts/ralph/prd.json` (or uses provided path)
-2. Checks remaining stories
-3. Creates Ralph scripts if missing
-4. Runs autonomous loop for N iterations
+1. **Asks which Ralph mode** to use (see below)
+2. Finds `scripts/ralph/prd.json` (or uses provided path)
+3. Checks remaining stories
+4. Runs autonomous loop
 5. Commits on each story completion
+
+### Ralph Modes
+
+When you run `/build`, you'll be asked to choose:
+
+| Mode | Description | Best For |
+|------|-------------|----------|
+| **Same context** (Recommended) | All stories in one session. Claude remembers previous work and failures. | Short builds (<15 stories), interdependent features |
+| **Fresh context** | Spawns new Claude per story. Clean slate each iteration. | Long builds (20+), overnight runs, independent features |
+
+**Same context** uses the Anthropic Ralph plugin with a Stop hook that keeps the session alive between stories.
+
+**Fresh context** uses the original Geoffrey Huntley approach — a bash loop that runs `claude --print` per iteration, giving each story a clean context window.
 
 ### Arguments
 - `iterations` (optional): Number of loop iterations (default: remaining × 1.5)
@@ -360,7 +373,7 @@ project-name/
 
 ### What It Does
 
-**Phase 1: Interview** — Asks 8 questions:
+**Phase 1: Interview** — Asks 9-10 questions:
 1. Product description
 2. Target audience
 3. MVP features (3-5 only)
@@ -369,6 +382,7 @@ project-name/
 6. Project name
 7. Ralph iterations
 8. Auto-start?
+9. Ralph mode? (same context vs fresh context)
 
 **Phase 2: Confirm** — Shows summary, waits for "go"
 
