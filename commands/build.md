@@ -23,34 +23,6 @@ Named after Ralph Wiggum from The Simpsons. The loop continues until genuine com
 
 If $ARGUMENTS includes a path, use that. Otherwise, use `scripts/ralph/prd.json`.
 
-## Design Reference (Optional)
-
-Before starting, ask if user has a design reference:
-
-Use AskUserQuestion tool:
-```json
-{
-  "questions": [{
-    "question": "Do you have a design reference to follow? I can extract the design system from it.",
-    "header": "Design",
-    "options": [
-      {"label": "Website URL", "description": "Paste a URL to extract colours, typography, layout"},
-      {"label": "Figma link", "description": "Extract design tokens from Figma"},
-      {"label": "Screenshot", "description": "Analyse a screenshot for design patterns"},
-      {"label": "No, use defaults", "description": "Continue with existing project styling"}
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-*If user provides reference:*
-- **URL**: Use WebFetch to analyse and extract design system
-- **Figma**: Use mcp__figma__get_figma_data to extract design tokens
-- **Screenshot**: Analyse for colours, typography, spacing
-
-Document extracted design system in `docs/design-system.md` for consistency across stories.
-
 ## Pre-Flight Checks
 
 Before starting the loop, verify:
@@ -157,6 +129,20 @@ When a story fails checks, increment its attempts count.
 - Track attempts in build-log.json
 - If stuck >5 min, add notes and continue
 - Never modify stories with `passes: true`
+
+## AUTONOMY RULES (CRITICAL)
+
+You are in an AUTONOMOUS loop. This means:
+
+1. **NEVER ask for user confirmation** - Just do the work
+2. **NEVER stop to report progress** - The loop handles reporting
+3. **NEVER ask "should I continue?"** - Always continue to next story
+4. **NEVER output a summary and wait** - Keep working
+5. **Only stop when ALL stories pass** - Then output the completion promise
+
+The user has explicitly requested autonomous execution. Stopping to ask questions defeats the entire purpose. If you're unsure about something, make a reasonable decision and document it in progress.txt.
+
+After completing a story, IMMEDIATELY check for the next story and start implementing it. Do not pause between stories.
 
 ## Completion Check
 
