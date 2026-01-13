@@ -95,9 +95,12 @@ import debounce from "lodash/debounce";
 debounce(fn, 300);
 
 // Best - use native or lighter alternatives
-function debounce(fn: Function, ms: number) {
+function debounce<T extends (...args: unknown[]) => void>(
+  fn: T,
+  ms: number
+): (...args: Parameters<T>) => void {
   let timer: NodeJS.Timeout;
-  return (...args: any[]) => {
+  return (...args) => {
     clearTimeout(timer);
     timer = setTimeout(() => fn(...args), ms);
   };

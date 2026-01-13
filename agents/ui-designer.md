@@ -588,6 +588,6 @@ module.exports = {
 
 ### Performance
 - [ ] No layout shift
-- [ ] Images optimized
+- [ ] Images optimised
 - [ ] Animations smooth (60fps)
 - [ ] Reduced motion respected

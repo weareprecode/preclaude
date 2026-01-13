@@ -1,7 +1,7 @@
 ---
 name: security-auditor
 description: Use for security reviews, vulnerability analysis, penetration testing guidance, OWASP compliance, and security best practices.
-tools: Read, Grep, Glob
+tools: Read, Grep, Glob, Bash
 model: opus
 ---
 
