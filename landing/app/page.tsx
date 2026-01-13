@@ -822,7 +822,6 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
               <a href="#commands" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Slash Commands</a>
               <a href="#agents" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Agents</a>
               <a href="#faqs" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">FAQs</a>
-              <a href="#" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Blog</a>
               <hr className="border-[#2D2B2B] my-2" />
               <a
                 href="https://github.com/weareprecode/preclaude"
@@ -966,7 +965,6 @@ export default function Home() {
             <a href="#commands" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Slash Commands</a>
             <a href="#agents" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Agents</a>
             <a href="#faqs" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">FAQs</a>
-            <a href="#" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Blog</a>
           </div>
         </div>
 
