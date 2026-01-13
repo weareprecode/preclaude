@@ -31,6 +31,13 @@ When running `/build` or `/full-build`, you'll choose between:
 
 ---
 
+## Prerequisites
+
+- **jq** - Required for parsing prd.json. Install with `brew install jq` (macOS) or `apt install jq` (Linux)
+- **Claude CLI** - `npm install -g @anthropic-ai/claude-code`
+
+---
+
 ## Quick Start (5 minutes)
 
 ```bash

@@ -488,6 +488,10 @@ Creates `docs/public/` with:
 - Release candidate check
 - CI/CD verification
 
+### What It Does
+1. **Detects package manager** from lockfile (bun, pnpm, yarn, or npm)
+2. Runs all checks using the detected package manager
+
 ### What It Checks
 1. **Git** — Correct branch, clean working directory, commits pushed
 2. **Code Quality** — Linting, type checking
@@ -631,11 +635,12 @@ RESULT: READY TO DEPLOY
 - After pulling changes
 
 ### What It Does
-Runs all checks and displays summary:
-1. Git status (branch, ahead/behind, uncommitted)
-2. TypeScript type checking
-3. ESLint linting
-4. Test suite
+1. **Detects package manager** from lockfile (bun, pnpm, yarn, or npm)
+2. Runs all checks using the detected package manager:
+   - Git status (branch, ahead/behind, uncommitted)
+   - TypeScript type checking
+   - ESLint linting
+   - Test suite
 
 ### Output Format
 ```
