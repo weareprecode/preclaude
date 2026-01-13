@@ -1048,21 +1048,39 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Hero Screenshot */}
+          {/* Hero Video with Frame Overlay */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 sm:mt-16 rounded-xl sm:rounded-[18px] overflow-hidden"
+            className="mt-10 sm:mt-16 relative"
           >
-            <Image
-              src="/hero-screenshot.png"
-              alt="Ralph autonomous builder running in Cursor IDE"
-              width={2560}
-              height={1761}
-              className="w-full h-auto"
-              priority
-            />
+            {/* Oil painting background */}
+            <div className="absolute inset-0 rounded-xl sm:rounded-[18px] overflow-hidden">
+              <Image
+                src="/hero-bg.png"
+                alt=""
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            {/* Window frame with video */}
+            <div className="relative z-10 p-4 sm:p-8 md:p-12">
+              <div className="rounded-lg overflow-hidden shadow-2xl">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto"
+                  poster="/hero-screenshot.png"
+                >
+                  <source src="/hero-video.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
