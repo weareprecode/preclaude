@@ -34,7 +34,7 @@ BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^re
 git diff --stat origin/$BASE_BRANCH...HEAD 2>/dev/null || git diff --stat $(git rev-parse --short HEAD~5 2>/dev/null || git rev-list --max-parents=0 HEAD) 2>/dev/null || echo "No diff available"
 
 # Get changed files by type
-git diff --name-only origin/$BASE_BRANCH...HEAD 2>/dev/null || git diff --name-only HEAD~5 2>/dev/null | head -20
+git diff --name-only origin/$BASE_BRANCH...HEAD 2>/dev/null || git diff --name-only $(git rev-parse --short HEAD~5 2>/dev/null || git rev-list --max-parents=0 HEAD) 2>/dev/null | head -20 || echo "No files changed"
 ```
 
 ### Categorise Changes

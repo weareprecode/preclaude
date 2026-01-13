@@ -21,12 +21,21 @@ echo ""
 # Git Status
 echo "📁 GIT"
 echo "───────────────────────────────────────────────────────────────"
-echo "Branch: $(git branch --show-current)"
-AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "no upstream")
-BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "no upstream")
-echo "Ahead/Behind: +$AHEAD / -$BEHIND"
-UNCOMMITTED=$(git status --porcelain | wc -l | tr -d ' ')
-echo "Uncommitted: $UNCOMMITTED files"
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  BRANCH=$(git branch --show-current 2>/dev/null || echo "detached")
+  echo "Branch: $BRANCH"
+  if git rev-parse @{u} >/dev/null 2>&1; then
+    AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
+    BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "0")
+    echo "Ahead/Behind: +$AHEAD / -$BEHIND"
+  else
+    echo "Ahead/Behind: no upstream configured"
+  fi
+  UNCOMMITTED=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+  echo "Uncommitted: $UNCOMMITTED files"
+else
+  echo "Not a git repository"
+fi
 echo ""
 
 # Typecheck

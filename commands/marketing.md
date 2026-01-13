@@ -15,7 +15,7 @@ Generate multi-platform marketing content.
 </prd>
 
 <recent_changes>
-!`git log --oneline -10`
+!`git log --oneline -10 2>/dev/null || echo "No git history available"`
 </recent_changes>
 
 <readme>
