@@ -22,17 +22,19 @@ git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/ori
 git status -sb
 
 # Get commits since branching from base
-git log --oneline $(git merge-base HEAD origin/main)..HEAD 2>/dev/null || git log --oneline -10
+BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+git log --oneline $(git merge-base HEAD origin/$BASE_BRANCH 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD 2>/dev/null || git log --oneline -10
 ```
 
 ## Phase 2: Analyse Changes
 
 ```bash
 # Get diff stats
-git diff --stat origin/main...HEAD 2>/dev/null || git diff --stat HEAD~5
+BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+git diff --stat origin/$BASE_BRANCH...HEAD 2>/dev/null || git diff --stat $(git rev-parse --short HEAD~5 2>/dev/null || git rev-list --max-parents=0 HEAD) 2>/dev/null || echo "No diff available"
 
 # Get changed files by type
-git diff --name-only origin/main...HEAD 2>/dev/null | head -20
+git diff --name-only origin/$BASE_BRANCH...HEAD 2>/dev/null || git diff --name-only HEAD~5 2>/dev/null | head -20
 ```
 
 ### Categorise Changes

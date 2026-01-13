@@ -34,13 +34,13 @@ Use AskUserQuestion tool:
 ### Git Activity
 ```bash
 # Commits today
-git log --oneline --since="midnight" --author="$(git config user.name)" 2>/dev/null | head -10
+git log --oneline --since="midnight" --author="$(git config user.name)" 2>/dev/null | head -10 || echo "No commits today"
 
 # Commits this week
-git log --oneline --since="1 week ago" --author="$(git config user.name)" 2>/dev/null | head -20
+git log --oneline --since="1 week ago" --author="$(git config user.name)" 2>/dev/null | head -20 || echo "No commits this week"
 
-# Files changed this week
-git diff --stat --since="1 week ago" HEAD 2>/dev/null | tail -1
+# Files changed recently (from last 10 commits or beginning of repo)
+git diff $(git rev-parse --short HEAD~10 2>/dev/null || git rev-list --max-parents=0 HEAD) --stat 2>/dev/null | tail -1 || echo "No changes"
 ```
 
 ### Project Status

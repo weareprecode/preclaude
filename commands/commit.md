@@ -7,15 +7,15 @@ model: haiku
 # Conventional Commit Generator
 
 <staged_changes>
-!`git diff --cached`
+!`git diff --cached 2>/dev/null || echo "Nothing staged"`
 </staged_changes>
 
 <staged_files>
-!`git diff --cached --name-only`
+!`git diff --cached --name-only 2>/dev/null || echo "No files staged"`
 </staged_files>
 
 <recent_commits>
-!`git log --oneline -5`
+!`git log --oneline -5 2>/dev/null || echo "No commits yet"`
 </recent_commits>
 
 ## Instructions

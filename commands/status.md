@@ -22,8 +22,8 @@ echo ""
 echo "📁 GIT"
 echo "───────────────────────────────────────────────────────────────"
 echo "Branch: $(git branch --show-current)"
-AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "?")
-BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "?")
+AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "no upstream")
+BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "no upstream")
 echo "Ahead/Behind: +$AHEAD / -$BEHIND"
 UNCOMMITTED=$(git status --porcelain | wc -l | tr -d ' ')
 echo "Uncommitted: $UNCOMMITTED files"

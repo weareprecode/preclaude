@@ -1,6 +1,12 @@
 {
   "permissions": {
     "allow": [
+      "Edit",
+      "Write",
+      "WebSearch",
+      "WebFetch",
+      "mcp__*",
+      "mcp__puppeteer__*",
       "Bash(npm run *)",
       "Bash(npm install *)",
       "Bash(npm test *)",
@@ -69,8 +75,9 @@
       "Bash(railway *)",
       "Bash(netlify *)",
       "Bash(brew *)",
-      "WebFetch",
-      "WebSearch"
+      "Bash(jq *)",
+      "Bash(curl *)",
+      "Bash(chmod +x *)"
     ],
     "deny": [
       "Bash(rm -rf /)",
@@ -103,5 +110,21 @@
       "Read(~/.netrc)",
       "Read(~/.npmrc)"
     ]
-  }
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "stripe@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true,
+    "agent-sdk-dev@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true
 }

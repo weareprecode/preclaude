@@ -10,15 +10,15 @@ Run all verification steps before deploying.
 ## 1. Git Status
 
 <branch>
-!`git branch --show-current`
+!`git branch --show-current 2>/dev/null || echo "Not in git repo"`
 </branch>
 
 <status>
-!`git status --short`
+!`git status --short 2>/dev/null || echo "Not in git repo"`
 </status>
 
 <unpushed>
-!`git log origin/$(git branch --show-current)..HEAD --oneline 2>/dev/null || echo "No remote tracking"`
+!`git log @{u}..HEAD --oneline 2>/dev/null || echo "No remote tracking or no upstream set"`
 </unpushed>
 
 ### Verify

@@ -17,7 +17,7 @@ model: opus
 </unstaged_diff>
 
 <changed_files>
-!`git diff --name-only HEAD~1 2>/dev/null || git diff --cached --name-only`
+!`git diff --name-only HEAD~1 2>/dev/null || git diff --cached --name-only 2>/dev/null || git status --porcelain | cut -c4-`
 </changed_files>
 
 ## Review Checklist
