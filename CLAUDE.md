@@ -39,7 +39,7 @@ When not specified by project, prefer:
 - `/prd [description]` — Generate comprehensive technical PRD
 - `/kickoff [name]` — Initialize new project
 - `/prd-json [prd-path]` — Convert PRD to prd.json for autonomous build
-- `/build` — Run Ralph Wiggum autonomous loop (completion promise + build-log tracking)
+- `/build` — Run Ralph Wiggum autonomous loop (choose: same context or fresh context per story)
 - `/research [idea]` — Deep research on competitors, market gaps, idea validation
 - `/commit` — Conventional commit from staged changes
 - `/pr [base-branch]` — Create pull request with auto-generated description

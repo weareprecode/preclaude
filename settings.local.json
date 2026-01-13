@@ -77,7 +77,10 @@
       "Bash(brew *)",
       "Bash(jq *)",
       "Bash(curl *)",
-      "Bash(chmod +x *)"
+      "Bash(chmod +x *)",
+      "Bash(claude *)",
+      "Bash(nohup *)",
+      "Bash(pkill *)"
     ],
     "deny": [
       "Bash(rm -rf /)",

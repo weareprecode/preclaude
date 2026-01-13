@@ -247,9 +247,28 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to specify a custom iteration count.*
 
+**Question 10: Ralph Mode** *(Only ask if auto-start is Yes)*
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which Ralph mode do you want to use?",
+    "header": "Ralph mode",
+    "options": [
+      {"label": "Same context (Recommended)", "description": "Faster, Claude remembers previous work. Best for <15 stories."},
+      {"label": "Fresh context", "description": "Clean slate each story. Best for 20+ stories or overnight builds."}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**Same context**: Uses Anthropic plugin - all stories in one session, faster, Claude remembers failures.
+**Fresh context**: Original Ralph - spawns new Claude per story, clean slate, better for long builds.
+
 ### After All Questions
 
-Once all 9 questions are answered, parse into configuration:
+Once all questions are answered, parse into configuration:
 
 ```yaml
 config:
@@ -280,6 +299,7 @@ config:
   project_name: "[answer 8]"
   ralph_iterations: "auto"  # Calculate as story_count × 1.5
   auto_start: "[answer 9: yes/no]"
+  ralph_mode: "[answer 10: same-context/fresh-context]"  # Only if auto_start is yes
 ```
 
 ### shadcn Preset URL Mapping
@@ -776,13 +796,49 @@ Use AskUserQuestion tool:
 
 Calculate iterations: `story_count × 1.5` (minimum 10)
 
-Invoke `/build`:
+**If ralph_mode is "same-context"** (Anthropic plugin):
 
+Invoke `/build`:
 ```bash
 /build [iterations] scripts/ralph/prd.json
 ```
+This uses the Ralph Wiggum plugin's stop hook - loop continues until all stories pass.
 
-This uses the Ralph Wiggum plugin's stop hook mechanism with completion promise - the loop continues until all stories pass, then outputs `<promise>BUILD_COMPLETE</promise>` to exit.
+**If ralph_mode is "fresh-context"** (Original Ralph):
+
+Generate and run `scripts/ralph/ralph-loop.sh`:
+```bash
+# Generate the fresh context loop script
+mkdir -p scripts/ralph
+cat > scripts/ralph/ralph-loop.sh << 'SCRIPT'
+#!/bin/bash
+PRD_PATH="${1:-scripts/ralph/prd.json}"
+MAX_ITERATIONS="${2:-50}"
+LOG_FILE="scripts/ralph/ralph.log"
+: > "$LOG_FILE"
+
+echo "🔄 Ralph (fresh context) started" | tee -a "$LOG_FILE"
+
+for ((i=1; i<=MAX_ITERATIONS; i++)); do
+    REMAINING=$(jq '[.userStories[] | select(.passes == false)] | length' "$PRD_PATH" 2>/dev/null || echo "?")
+    [[ "$REMAINING" == "0" ]] && echo "✅ ALL STORIES COMPLETE!" | tee -a "$LOG_FILE" && exit 0
+
+    NEXT=$(jq -r '[.userStories[] | select(.passes == false)][0].title // "?"' "$PRD_PATH" 2>/dev/null)
+    echo "🔄 Iteration $i - $NEXT ($REMAINING remaining)" | tee -a "$LOG_FILE"
+
+    claude --print "Read scripts/ralph/prd.json. Implement NEXT story where passes:false. ONE story only. Run typecheck/lint/test. If pass: commit, set passes:true. NEVER ask confirmation." 2>&1 | tee -a "$LOG_FILE"
+done
+
+echo "⚠️ Max iterations reached" | tee -a "$LOG_FILE"
+SCRIPT
+chmod +x scripts/ralph/ralph-loop.sh
+
+# Run in background
+nohup scripts/ralph/ralph-loop.sh scripts/ralph/prd.json [iterations] > /dev/null 2>&1 &
+echo "Ralph PID: $!"
+```
+
+Monitor with: `tail -f scripts/ralph/ralph.log`
 
 Watch the progress below. I'll notify you when complete!
 
