@@ -238,6 +238,28 @@ Use AskUserQuestion tool:
 ```
 *Replace [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
 
+**After Question 8: Show Project Location**
+
+Once the user has chosen a project name, show them exactly where it will be created:
+
+<current_dir>
+!`pwd`
+</current_dir>
+
+Display to user:
+```markdown
+📁 **Project Location**
+
+Your project will be created at:
+`[current_dir]/[project_name]/`
+
+⚠️ This creates a NEW subfolder. The current directory will NOT be used directly.
+
+If you wanted to use this folder as the project root, cancel and rename this folder to `[project_name]` first.
+```
+
+*Continue to Question 9.*
+
 **Question 9: Auto-Start Build**
 Use AskUserQuestion tool:
 ```json
