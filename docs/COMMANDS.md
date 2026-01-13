@@ -9,7 +9,11 @@ Complete reference for all available slash commands.
 | Command | Description | Use When |
 |---------|-------------|----------|
 | `/commit` | Conventional commit | Ready to commit staged changes |
+| `/pr` | Create pull request | Branch ready for PR |
 | `/review` | Code review | Before PR or after changes |
+| `/test` | Generate tests | Need tests for existing code |
+| `/debug` | Analyse errors | Have error or stack trace |
+| `/status` | Quick health check | Check git, lint, types, tests |
 | `/learn` | CLAUDE.md updates | End of session |
 | `/handoff` | Session notes | Stopping work mid-task |
 | `/kickoff` | New project | Starting fresh project |
@@ -18,6 +22,14 @@ Complete reference for all available slash commands.
 | `/build` | Run Ralph loop | Have prd.json, ready to build |
 | `/full-build` | Complete workflow | New product from scratch |
 | `/implement` | Feature build | Smaller features |
+| `/research` | Deep web research | Market research, competitor analysis |
+| `/polish` | Polish UI | Match design reference |
+| `/refactor` | Refactor code | Improve code structure |
+| `/migrate` | Run migrations | Database, deps, framework upgrades |
+| `/deps` | Check dependencies | Outdated, security, bundle size |
+| `/seo` | Audit SEO | Meta tags, OG, sitemap |
+| `/analytics` | Setup analytics | PostHog, GA, Plausible |
+| `/stakeholder` | Stakeholder updates | Daily/weekly progress reports |
 | `/marketing` | Marketing content | Launch or feature release |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
@@ -487,3 +499,435 @@ Docs:     ✅ Current
 
 RESULT: READY TO DEPLOY
 ```
+
+---
+
+## `/pr [base-branch]`
+
+**Create pull request from current branch with auto-generated description.**
+
+### When to Use
+- Feature branch ready for review
+- Need PR description generated from commits
+
+### What It Does
+1. Gathers commit history since branching
+2. Analyses changed files and categorises them
+3. Generates PR title and description
+4. Pushes branch if needed
+5. Creates PR via GitHub CLI
+
+### Output Format
+```markdown
+## Summary
+[2-3 bullet points describing what this PR does]
+
+## Changes
+- [Specific change 1]
+- [Specific change 2]
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] Tests pass locally
+- [ ] Linting passes
+- [ ] Types check
+- [ ] Manually tested
+```
+
+### Example
+```bash
+/pr main
+# Creates PR from current branch to main
+```
+
+---
+
+## `/test [file-or-component]`
+
+**Generate tests for existing code — unit, integration, or E2E.**
+
+### When to Use
+- Code exists without tests
+- Adding test coverage
+- TDD refactoring
+
+### What It Does
+1. Identifies target (file, component, or untested files)
+2. Detects testing framework (Vitest, Jest, Playwright)
+3. Analyses code for testable scenarios
+4. Generates tests following project patterns
+5. Runs tests to verify
+
+### Test Types
+- **Components**: Renders, interactions, states, accessibility
+- **Functions**: Inputs, outputs, edge cases, errors
+- **API Routes**: Request/response, auth, validation
+- **Server Actions**: Form handling, revalidation
+
+### Example
+```bash
+/test src/components/Button.tsx
+# Creates: src/components/Button.test.tsx
+```
+
+---
+
+## `/debug [error-message]`
+
+**Analyse error messages and suggest fixes.**
+
+### When to Use
+- Have error message or stack trace
+- Debugging runtime errors
+- Understanding cryptic errors
+
+### What It Does
+1. Parses error type and message
+2. Extracts file location and line number
+3. Searches codebase for related code
+4. Diagnoses root cause
+5. Provides fix with code examples
+
+### Common Error Types Handled
+- `TypeError`, `SyntaxError`, `ReferenceError`
+- Module not found / import errors
+- Hydration mismatches
+- Prisma database errors
+- Next.js specific errors
+
+### Example
+```bash
+/debug "Cannot read properties of undefined (reading 'map')"
+```
+
+---
+
+## `/status`
+
+**Quick project health check — git, lint, types, tests in one view.**
+
+### When to Use
+- Quick project overview
+- Before committing
+- After pulling changes
+
+### What It Does
+Runs all checks and displays summary:
+1. Git status (branch, ahead/behind, uncommitted)
+2. TypeScript type checking
+3. ESLint linting
+4. Test suite
+
+### Output Format
+```
+═══════════════════════════════════════════════════════════════
+📊 PROJECT STATUS
+═══════════════════════════════════════════════════════════════
+
+📁 GIT
+Branch: feature/new-feature
+Ahead/Behind: +3 / -0
+Uncommitted: 2 files
+
+📝 TYPECHECK
+✅ Types OK
+
+🔍 LINT
+✅ Lint OK
+
+🧪 TESTS
+✅ Tests pass
+═══════════════════════════════════════════════════════════════
+```
+
+---
+
+## `/research [idea]`
+
+**Deep web research on competitors, market gaps, and idea validation.**
+
+### When to Use
+- Before building a new product
+- Competitive analysis
+- Market validation
+- Finding opportunities
+
+### What It Does
+1. Identifies search terms from idea
+2. Finds 10+ competitors via web search
+3. Analyses each competitor's features, pricing, UX
+4. Reads reviews and user feedback
+5. Identifies market gaps and opportunities
+6. Generates comprehensive report
+
+### Output
+Creates `docs/research/competitive-analysis.md` with:
+- Executive summary
+- Competitor analysis with strengths/weaknesses
+- Feature comparison matrix
+- Market gaps and opportunities
+- Build/Pivot/Don't Build recommendation
+
+### Example
+```bash
+/research "Invoice tracking app for freelancers"
+```
+
+---
+
+## `/polish [component]`
+
+**Polish UI to match a design reference — URL, Figma, or screenshot.**
+
+### When to Use
+- Matching design mockup
+- Improving UI quality
+- Extracting design tokens
+
+### What It Does
+1. Identifies target component/page
+2. Extracts design system from reference:
+   - URL: Fetches and analyses styles
+   - Figma: Uses Figma API for tokens
+   - Screenshot: Analyses visually
+3. Compares current vs reference
+4. Applies polish changes (colours, typography, spacing, effects)
+
+### Common Polish Patterns
+- Better buttons (hover, focus, active states)
+- Better cards (shadows, borders, hover)
+- Better inputs (focus rings, transitions)
+- Smooth micro-interactions
+
+### Example
+```bash
+/polish src/components/Header.tsx
+# Asks for design reference, then applies polish
+```
+
+---
+
+## `/refactor [file]`
+
+**Refactor code — extract components, improve types, split files.**
+
+### When to Use
+- File growing too large
+- Repeated code patterns
+- Improving type safety
+- Cleaning up code
+
+### What It Does
+1. Identifies refactoring type needed
+2. Analyses current code for smells
+3. Applies refactoring pattern:
+   - Extract component
+   - Extract custom hook
+   - Split large file
+   - Improve types
+   - Clean up dead code
+
+### Code Smell Detection
+- Files over 300 lines
+- Components with 5+ useState hooks
+- Repeated code patterns
+- Mixed concerns
+- `any` types
+- Deep nesting
+
+### Example
+```bash
+/refactor src/pages/Dashboard.tsx
+```
+
+---
+
+## `/migrate [type]`
+
+**Run migrations — database schema, API versions, major dependency upgrades.**
+
+### When to Use
+- Database schema changes
+- Next.js version upgrade
+- React version upgrade
+- Major dependency updates
+
+### Migration Types
+
+**Database (Prisma/Drizzle)**
+- Generate and run migrations
+- Handle breaking changes safely
+- Rollback strategies
+
+**Next.js Upgrade**
+- Update packages
+- Fix breaking changes
+- Pages Router → App Router migration
+
+**React Upgrade**
+- Update React and types
+- Handle API changes (forwardRef, use hook)
+
+**Dependencies**
+- Read changelogs
+- Fix breaking changes
+- Full verification
+
+### Example
+```bash
+/migrate database
+/migrate nextjs
+/migrate react
+```
+
+---
+
+## `/deps`
+
+**Check dependencies — outdated packages, security vulnerabilities, bundle size.**
+
+### When to Use
+- Regular maintenance
+- Security audit
+- Before major updates
+- Bundle optimisation
+
+### What It Does
+1. Lists outdated packages
+2. Runs security audit
+3. Categorises updates by risk (patch/minor/major)
+4. Checks bundle sizes
+5. Finds unused dependencies
+6. Generates safe update script
+
+### Output
+```markdown
+## 📊 Dependency Report
+
+### Security Status
+🔴 Critical: 0
+🟠 High: 1
+🟡 Moderate: 2
+
+### Update Status
+- Patch available: 5
+- Minor available: 3
+- Major available: 2
+
+### Recommended Actions
+1. `npm audit fix`
+2. `npm update`
+3. Review [package] major update
+```
+
+---
+
+## `/seo [audit|fix]`
+
+**Audit and fix SEO essentials — meta tags, Open Graph, favicon, sitemap, robots.txt.**
+
+### When to Use
+- New project setup
+- Pre-launch check
+- SEO audit
+
+### What It Checks
+- Page title and meta description
+- Open Graph tags
+- Twitter card tags
+- Favicon and Apple Touch Icon
+- Sitemap
+- Robots.txt
+- Canonical URLs
+- Structured data
+
+### What It Creates (if missing)
+- Metadata in layout.tsx
+- sitemap.ts
+- robots.ts
+- icon.tsx (dynamic favicon)
+- OG image prompt/template
+
+### Example
+```bash
+/seo audit    # Check current status
+/seo fix      # Create missing items
+```
+
+---
+
+## `/analytics [provider]`
+
+**Check and setup analytics — PostHog, Google Analytics, Plausible.**
+
+### When to Use
+- New project needs analytics
+- Checking current setup
+- Switching providers
+
+### Supported Providers
+- **PostHog** (recommended): Product analytics, session replay, feature flags
+- **Google Analytics**: Marketing metrics, widely used
+- **Plausible**: Privacy-focused, lightweight
+- **Vercel Analytics**: Built-in for Vercel hosting
+
+### What It Does
+1. Checks for existing analytics
+2. Asks which provider to install
+3. Creates provider component and pageview tracker
+4. Updates layout with provider
+5. Creates event helper functions
+
+### Example
+```bash
+/analytics posthog
+/analytics check    # Audit current setup
+```
+
+---
+
+## `/stakeholder [daily|weekly|pack]`
+
+**Generate stakeholder updates — daily/weekly progress reports with metrics.**
+
+### When to Use
+- Daily standup notes
+- Weekly status reports
+- Stakeholder presentations
+
+### Update Types
+
+**Daily Update**
+- Completed today
+- In progress
+- Tomorrow's focus
+- Blockers
+
+**Weekly Report**
+- Summary metrics
+- Completed features
+- Screenshots/demos
+- Next week's plan
+- Risks and blockers
+
+**Full Stakeholder Pack**
+- Executive summary
+- Progress metrics
+- Timeline
+- Budget tracking
+- Risks and issues
+- Decisions needed
+
+### Example
+```bash
+/stakeholder daily
+/stakeholder weekly
+/stakeholder pack
+```
+
+Saves to `docs/updates/`

@@ -58,6 +58,8 @@ chmod +x install.sh
 
 This creates a symlink: `~/.claude` → `~/claude-config`
 
+**Important**: Restart Claude Code after installation for the new commands and agents to be loaded.
+
 ### Step 4: Verify Installation
 
 ```bash
@@ -88,6 +90,7 @@ cd ~/claude-config
 chmod +x install.sh
 ./install.sh
 
+# Restart Claude Code to load new commands and agents
 # Done! Claude Code now has access to all your commands/skills/agents
 ```
 
@@ -354,18 +357,31 @@ When setting up shadcn, ask me for my preset URL first.
 ├── README.md               # Documentation
 ├── CLAUDE.md               # Global preferences
 │
-├── commands/               # Slash commands (/command)
-│   ├── learn.md            # Session analysis
+├── commands/               # Slash commands (25 total)
 │   ├── commit.md           # Conventional commits
+│   ├── pr.md               # Create pull request
+│   ├── review.md           # Code review
+│   ├── test.md             # Generate tests
+│   ├── debug.md            # Analyse errors
+│   ├── status.md           # Quick health check
+│   ├── learn.md            # Session analysis
+│   ├── handoff.md          # Session continuity
 │   ├── kickoff.md          # Project scaffolding
 │   ├── prd.md              # Generate PRD
-│   ├── ralph.md            # Convert to Ralph format
+│   ├── prd-json.md         # Convert PRD to JSON
+│   ├── build.md            # Run Ralph loop
 │   ├── full-build.md       # Complete workflow
 │   ├── implement.md        # Feature implementation
-│   ├── review.md           # Code review
+│   ├── research.md         # Competitive research
+│   ├── polish.md           # Polish UI
+│   ├── refactor.md         # Refactor code
+│   ├── migrate.md          # Run migrations
+│   ├── deps.md             # Check dependencies
+│   ├── seo.md              # Audit SEO
+│   ├── analytics.md        # Setup analytics
+│   ├── stakeholder.md      # Stakeholder updates
 │   ├── marketing.md        # Marketing content
 │   ├── project-complete.md # End-of-project docs
-│   ├── handoff.md          # Session continuity
 │   └── deploy-check.md     # Pre-deploy checks
 │
 ├── skills/                 # Auto-invoked capabilities
@@ -378,7 +394,7 @@ When setting up shadcn, ask me for my preset URL first.
 │   ├── project-complete/   # End-of-project docs
 │   └── prd-to-json/        # Legacy JSON conversion
 │
-└── agents/                 # Specialized personas (@agent)
+└── agents/                 # Specialized personas (15 total)
     ├── frontend-developer.md
     ├── backend-developer.md
     ├── database-architect.md
@@ -388,7 +404,12 @@ When setting up shadcn, ask me for my preset URL first.
     ├── code-reviewer.md
     ├── technical-writer.md
     ├── ui-designer.md
-    └── product-analyst.md
+    ├── ux-researcher.md
+    ├── product-analyst.md
+    ├── performance-engineer.md
+    ├── expo-developer.md
+    ├── ios-developer.md
+    └── android-developer.md
 ```
 
 ---
@@ -421,12 +442,19 @@ git add .
 git commit -m "Resolve merge conflicts"
 ```
 
+### Commands or agents not appearing
+
+After installation or updates:
+1. **Restart Claude Code** — This is the most common fix
+2. Check symlink exists: `ls -la ~/.claude`
+3. Verify files are in place: `ls ~/.claude/commands/`
+
 ### Claude Code not seeing skills
 
 Skills are loaded based on context. Ensure:
 1. Skill file is named `SKILL.md` (case-sensitive)
 2. Skill is in `~/.claude/skills/[skill-name]/SKILL.md`
-3. Restart Claude Code after adding new skills
+3. **Restart Claude Code** after adding new skills
 
 ### Permission issues
 
@@ -443,6 +471,7 @@ chmod -R 755 ~/claude-config/
 # Setup (one-time)
 git clone git@github.com:USER/claude-config.git ~/claude-config
 cd ~/claude-config && ./install.sh
+# ⚠️  Restart Claude Code after installation!
 
 # New project
 /kickoff project-name
@@ -454,22 +483,41 @@ cd ~/claude-config && ./install.sh
 /prd-json docs/prd/feature-prd.md
 /build 25
 
+# Git workflow
+/commit                     # Conventional commit
+/pr                         # Create pull request
+/review                     # Code review
+
+# Quality checks
+/status                     # Git, lint, types, tests
+/test                       # Generate tests
+/debug                      # Analyse errors
+/deploy-check               # Pre-deploy
+
+# Code improvement
+/polish                     # Match design reference
+/refactor                   # Clean up code
+/migrate                    # Database/framework upgrades
+/deps                       # Check dependencies
+
+# Documentation
+/seo                        # Audit SEO
+/analytics                  # Setup PostHog/GA
+/stakeholder                # Progress reports
+/marketing feature-name     # Marketing content
+/project-complete           # Full doc suite
+
 # Session management
 /handoff                    # End of session notes
 /learn                      # CLAUDE.md updates
 
-# Quality
-/review                     # Code review
-/deploy-check               # Pre-deploy
-
-# Documentation
-/marketing feature-name     # Marketing content
-/project-complete           # Full doc suite
-
-# Agents
+# Agents (15 available)
 @frontend-developer         # UI work
 @backend-developer          # API work
+@database-architect         # Schema design
 @security-auditor           # Security review
+@test-engineer              # Testing
+@performance-engineer       # Core Web Vitals, bundle
 
 # Keep config in sync
 cd ~/claude-config && git pull

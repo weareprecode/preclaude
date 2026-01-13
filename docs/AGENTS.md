@@ -19,6 +19,7 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 | `@ui-designer` | Design systems, component libraries, styling |
 | `@ux-researcher` | User research, flows, wireframes, usability |
 | `@product-analyst` | PRDs, user stories, requirements |
+| `@performance-engineer` | Core Web Vitals, bundle analysis, caching |
 | `@expo-developer` | React Native, Expo, cross-platform mobile |
 | `@ios-developer` | Swift, SwiftUI, native iOS |
 | `@android-developer` | Kotlin, Jetpack Compose, native Android |
@@ -398,6 +399,61 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 @product-analyst Write PRD for subscription billing
 @product-analyst Define acceptance criteria for login
 @product-analyst Prioritise these feature requests
+```
+
+---
+
+## @performance-engineer
+
+**Core Web Vitals, bundle analysis, Lighthouse audits, profiling, caching strategies, and performance optimisation.**
+
+### Expertise
+- Core Web Vitals (LCP, INP, CLS)
+- Bundle analysis and tree-shaking
+- React profiling and re-render optimisation
+- Image and asset optimisation
+- Caching strategies (CDN, browser, service worker)
+- Database query optimisation
+- Lighthouse audits
+
+### Key Targets
+
+| Metric | Good |
+|--------|------|
+| **LCP** (Largest Contentful Paint) | ≤2.5s |
+| **INP** (Interaction to Next Paint) | ≤200ms |
+| **CLS** (Cumulative Layout Shift) | ≤0.1 |
+| Bundle Size (JS) | <200KB gzipped |
+| Lighthouse Performance | >90 |
+
+### Optimisation Areas
+
+**Bundle:**
+- Dynamic imports and code splitting
+- Tree shaking (import only what's needed)
+- Analyse with `@next/bundle-analyzer`
+
+**Images:**
+- Next.js Image component
+- WebP/AVIF formats
+- Lazy loading below-the-fold
+
+**React:**
+- Server Components by default
+- Memoisation (useMemo, useCallback)
+- Avoiding re-render traps
+
+**Caching:**
+- Static generation and revalidation
+- API response caching
+- Client-side caching (React Query)
+
+### When to Use
+```bash
+@performance-engineer Audit and improve page load times
+@performance-engineer Analyse and reduce bundle size
+@performance-engineer Optimise React component renders
+@performance-engineer Set up caching strategy for API
 ```
 
 ---
