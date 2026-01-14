@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 24 commands with full documentation
+// Data - All 26 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -144,6 +144,21 @@ const commands: Command[] = [
       "Generates comprehensive report with Build/Pivot/Don't Build recommendation"
     ],
     example: '/research "Invoice tracking app for freelancers"'
+  },
+  {
+    name: "/copy",
+    desc: "Audit, improve, or generate copy (sales pages, landing, emails, ads)",
+    fullDescription: "Audit existing copy, improve content, or generate new persuasive copy for sales pages, landing pages, email sequences, case studies, and ads.",
+    whenToUse: ["Auditing existing marketing copy", "Improving weak headlines or CTAs", "Creating sales pages or landing pages", "Generating ad copy for campaigns"],
+    whatItDoes: [
+      "Audit mode: Scans project for copy, scores quality, provides priority fixes",
+      "Improve mode: Rewrites specific file with stronger messaging",
+      "Sales-page mode: Generates complete sales page structure",
+      "Landing mode: Generates lead-gen landing page",
+      "Email-sequence mode: Creates 5-email sequence",
+      "Ads mode: Generates variants for Google, Meta, LinkedIn"
+    ],
+    example: "/copy audit\n/copy improve README.md\n/copy sales-page\n/copy email-sequence"
   },
   {
     name: "/commit",
@@ -388,7 +403,7 @@ const commands: Command[] = [
   },
 ];
 
-// Data - All 15 agents with full documentation
+// Data - All 16 agents with full documentation
 const agents: Agent[] = [
   {
     name: "@frontend-developer",
@@ -548,6 +563,29 @@ const agents: Agent[] = [
       "@code-reviewer Review my recent changes before PR",
       "@code-reviewer Check this function for issues",
       "@code-reviewer Review the auth implementation"
+    ]
+  },
+  {
+    name: "@copywriter",
+    desc: "Brand voice, sales pages, landing pages, email sequences, ad copy",
+    fullDescription: "Brand voice, sales pages, landing pages, email sequences, case studies, ad copy, copy audits, and persuasive content improvement.",
+    expertise: [
+      "Copy auditing and improvement",
+      "Brand voice and tone consistency",
+      "Sales page structure (hero, problem, solution, proof, CTA)",
+      "Landing page optimisation",
+      "Email sequences (welcome, nurture, sales)"
+    ],
+    focusAreas: [
+      "Persuasion frameworks (AIDA, PAS, Before-After-Bridge)",
+      "Ad copy (Google, Meta, LinkedIn)",
+      "SEO copywriting",
+      "Case studies and testimonials"
+    ],
+    whenToUse: [
+      "@copywriter Audit the copy on our landing page",
+      "@copywriter Improve the hero section — it's not converting",
+      "@copywriter Write an email welcome sequence for new users"
     ]
   },
   {
@@ -740,7 +778,7 @@ const agents: Agent[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 24 slash commands, 15 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 26 slash commands, 16 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -1019,7 +1057,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
             >
-              24 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
+              26 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1167,7 +1205,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">24</span> Slash Commands
+                <span className="text-white">26</span> Slash Commands
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.
@@ -1201,7 +1239,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">15</span> Specialist Agents
+                <span className="text-white">16</span> Specialist Agents
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 Expert knowledge for every part of your stack.

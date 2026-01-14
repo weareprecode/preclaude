@@ -8,6 +8,7 @@ Complete reference for all available slash commands.
 
 | Command | Description | Use When |
 |---------|-------------|----------|
+| `/copy` | Audit, improve, or generate copy | Need persuasive content |
 | `/commit` | Conventional commit | Ready to commit staged changes |
 | `/pr` | Create pull request | Branch ready for PR |
 | `/review` | Code review | Before PR or after changes |
@@ -33,6 +34,63 @@ Complete reference for all available slash commands.
 | `/marketing` | Marketing content | Launch or feature release |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
+
+---
+
+## `/copy [type]`
+
+**Audit existing copy, improve content, or generate new persuasive copy.**
+
+### When to Use
+- Auditing existing marketing/landing page copy
+- Improving weak headlines, CTAs, or messaging
+- Creating sales pages, landing pages, email sequences
+- Generating ad copy for campaigns
+
+### Modes
+
+**`/copy audit`** — Scan project for copy and evaluate quality
+- Analyses README, landing pages, marketing/, docs/
+- Scores each file on clarity, persuasion, voice, CTAs, structure, SEO
+- Outputs priority fixes with before/after examples
+
+**`/copy improve [file]`** — Improve specific file's copy
+- Identifies weak headlines, passive voice, unclear CTAs
+- Rewrites with stronger messaging
+- Shows before/after comparison
+
+**`/copy sales-page`** — Generate complete sales page
+- Hero, problem, solution, proof, CTA structure
+- Testimonial sections, FAQ, pricing
+
+**`/copy landing`** — Generate lead-gen landing page
+- Benefit-focused headline
+- Form integration
+- Trust signals
+
+**`/copy email-sequence`** — Generate email sequence
+- Welcome, nurture, sales, or re-engagement
+- 5 emails with subject lines and body copy
+
+**`/copy case-study`** — Generate case study template
+- Challenge, solution, results structure
+- Metrics and testimonials
+
+**`/copy ads`** — Generate ad copy variants
+- Google Search, Meta/Facebook, LinkedIn
+- Multiple variants for A/B testing
+
+### Examples
+```bash
+/copy audit                    # Audit all copy in project
+/copy improve README.md        # Improve README copy
+/copy sales-page              # Generate sales page
+/copy email-sequence          # Generate welcome sequence
+/copy ads                     # Generate ad copy variants
+```
+
+### Output
+Saves to `docs/copy/[type]-[date].md`
 
 ---
 

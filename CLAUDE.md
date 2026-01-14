@@ -33,7 +33,7 @@ When not specified by project, prefer:
 - **Hosting**: Vercel (web), Railway (backend)
 - **Auth**: Better Auth or Supabase Auth
 
-## Commands Available (24)
+## Commands Available (26)
 - `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -41,6 +41,7 @@ When not specified by project, prefer:
 - `/prd-json [prd-path]` — Convert PRD to prd.json for autonomous build
 - `/build` — Run Ralph Wiggum autonomous loop (choose: same context or fresh context per story)
 - `/research [idea]` — Deep research on competitors, market gaps, idea validation
+- `/copy [type]` — Audit, improve, or generate copy (sales pages, landing pages, emails, ads)
 - `/commit` — Conventional commit from staged changes
 - `/pr [base-branch]` — Create pull request with auto-generated description
 - `/review` — Code review current changes
@@ -60,7 +61,7 @@ When not specified by project, prefer:
 - `/handoff` — Session handoff notes
 - `/deploy-check` — Pre-deployment checklist
 
-## Agents Available (15)
+## Agents Available (16)
 Invoke with @agent-name for specialized tasks:
 - `@frontend-developer` — React, Next.js, UI components, state management
 - `@backend-developer` — APIs, server-side logic, database operations
@@ -69,6 +70,7 @@ Invoke with @agent-name for specialized tasks:
 - `@security-auditor` — Security reviews, vulnerability analysis
 - `@test-engineer` — Unit tests, integration tests, E2E tests
 - `@code-reviewer` — Code review, best practices
+- `@copywriter` — Brand voice, sales pages, landing pages, email sequences, ad copy
 - `@technical-writer` — Documentation, guides, tutorials
 - `@ui-designer` — Design systems, accessibility, animations
 - `@ux-researcher` — User research, usability testing

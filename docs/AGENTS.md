@@ -15,6 +15,7 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 | `@security-auditor` | Vulnerability review, OWASP compliance |
 | `@test-engineer` | Unit, integration, E2E tests |
 | `@code-reviewer` | PR reviews, quality checks |
+| `@copywriter` | Brand voice, sales pages, landing pages, emails, ads |
 | `@technical-writer` | Docs, READMEs, API documentation |
 | `@ui-designer` | Design systems, component libraries, styling |
 | `@ux-researcher` | User research, flows, wireframes, usability |
@@ -267,6 +268,50 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 @code-reviewer Review my recent changes before PR
 @code-reviewer Check this function for issues
 @code-reviewer Review the auth implementation
+```
+
+---
+
+## @copywriter
+
+**Brand voice, sales pages, landing pages, email sequences, case studies, ad copy, copy audits, and persuasive content improvement.**
+
+### Expertise
+- Copy auditing and improvement
+- Brand voice and tone consistency
+- Sales page structure (hero, problem, solution, proof, CTA)
+- Landing page optimisation
+- Email sequences (welcome, nurture, sales)
+- Case studies and testimonials
+- Ad copy (Google, Meta, LinkedIn)
+- SEO copywriting
+- Persuasion frameworks (AIDA, PAS, Before-After-Bridge)
+
+### Key Capabilities
+
+**Copy Audit:**
+- Evaluates clarity, persuasion, voice, CTAs, structure, SEO
+- Scores each file 1-10
+- Provides priority fixes with before/after examples
+
+**Copy Improvement:**
+- Identifies weak headlines, passive voice, unclear CTAs
+- Rewrites with stronger messaging
+- Shows before/after comparison
+
+**Content Creation:**
+- Sales pages with complete structure
+- Landing pages for lead generation
+- Email sequences (welcome, nurture, sales)
+- Case study templates
+- Ad copy variants for multiple platforms
+
+### When to Use
+```bash
+@copywriter Audit the copy on our landing page
+@copywriter Improve the hero section — it's not converting
+@copywriter Write an email welcome sequence for new users
+@copywriter Create ad copy variants for our Google campaign
 ```
 
 ---
