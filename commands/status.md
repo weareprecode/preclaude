@@ -31,7 +31,7 @@ echo "────────────────────────�
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   BRANCH=$(git branch --show-current 2>/dev/null || echo "detached")
   echo "Branch: $BRANCH"
-  if git rev-parse @{u} >/dev/null 2>&1; then
+  if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
     AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
     BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "0")
     echo "Ahead/Behind: +$AHEAD / -$BEHIND"

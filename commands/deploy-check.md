@@ -26,7 +26,7 @@ Use the detected package manager (stored in `<package_manager>`) for all command
 </status>
 
 <unpushed>
-!`git log @{u}..HEAD --oneline 2>/dev/null || echo "No remote tracking or no upstream set"`
+!`git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1 && git log @{u}..HEAD --oneline 2>/dev/null || echo "No upstream configured"`
 </unpushed>
 
 ### Verify
