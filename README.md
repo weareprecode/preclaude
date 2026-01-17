@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 26 slash commands, 16 specialist agents, and Ralph autonomous builder.
+Supercharge Claude Code with 27 slash commands, 16 specialist agents, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -16,7 +16,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 26 Slash Commands
+### 27 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -46,6 +46,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/project-complete` | Generate end-of-project documentation suite |
 | `/handoff` | Create session handoff notes for continuity |
 | `/deploy-check` | Pre-deployment verification checklist |
+| `/update` | Update Preclaude to the latest version |
 
 ### 16 Specialist Agents
 
@@ -138,10 +139,10 @@ cd ~/.preclaude
 
 ## Updating
 
-Re-run the installer:
+Use the built-in update command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
+/update
 ```
 
 Or update manually:

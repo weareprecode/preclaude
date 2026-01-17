@@ -18,7 +18,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Preclaude - Supercharge Your Claude Code",
   description:
-    "26 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
+    "27 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
   icons: {
     icon: "/favicon.png",
     apple: "/apple-icon.png",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "26 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
+      "27 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
     type: "website",
     images: [
       {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "26 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
+      "27 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.",
     images: ["/opengraph-image.png"],
   },
 };

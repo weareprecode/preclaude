@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 26 commands with full documentation
+// Data - All 27 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -400,6 +400,20 @@ const commands: Command[] = [
       "Dependencies — Security audit, outdated packages"
     ],
     example: "/deploy-check\n# RESULT: READY TO DEPLOY ✅"
+  },
+  {
+    name: "/update",
+    desc: "Update Preclaude to the latest version",
+    fullDescription: "Update Preclaude to the latest version from GitHub. Checks for updates, pulls latest changes, and verifies symlinks.",
+    whenToUse: ["Preclaude has new features", "Bug fixes released", "Want latest commands and agents"],
+    whatItDoes: [
+      "Checks ~/.preclaude installation",
+      "Fetches latest from GitHub",
+      "Pulls new commits if available",
+      "Verifies symlinks are intact",
+      "Reports what changed"
+    ],
+    example: "/update\n# Output: Updated from abc123 to def456\n# 3 new commits pulled"
   },
 ];
 
@@ -778,7 +792,7 @@ const agents: Agent[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 26 slash commands, 16 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 27 slash commands, 16 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -1057,7 +1071,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
             >
-              26 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
+              27 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1205,7 +1219,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">26</span> Slash Commands
+                <span className="text-white">27</span> Slash Commands
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.

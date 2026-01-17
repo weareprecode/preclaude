@@ -33,7 +33,7 @@ When not specified by project, prefer:
 - **Hosting**: Vercel (web), Railway (backend)
 - **Auth**: Better Auth or Supabase Auth
 
-## Commands Available (26)
+## Commands Available (27)
 - `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -60,6 +60,7 @@ When not specified by project, prefer:
 - `/project-complete` — Generate full doc suite (journal, features, marketing)
 - `/handoff` — Session handoff notes
 - `/deploy-check` — Pre-deployment checklist
+- `/update` — Update Preclaude to the latest version
 
 ## Agents Available (16)
 Invoke with @agent-name for specialized tasks:
