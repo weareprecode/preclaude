@@ -221,6 +221,11 @@ Then:
 - Add findings to PRD
 
 **Question 8: Project Name**
+
+<current_folder>
+!`basename "$(pwd)"`
+</current_folder>
+
 *Generate 2-3 suggested names based on the product description, then let user pick or type their own.*
 Use AskUserQuestion tool:
 ```json
@@ -229,6 +234,7 @@ Use AskUserQuestion tool:
     "question": "What should the project folder be called? (use-kebab-case)",
     "header": "Name",
     "options": [
+      {"label": "Use current folder ([current_folder])", "description": "Build in this directory instead of creating a subfolder"},
       {"label": "[generated-name-1]", "description": "Based on your product description"},
       {"label": "[generated-name-2]", "description": "Alternative suggestion"}
     ],
@@ -236,17 +242,26 @@ Use AskUserQuestion tool:
   }]
 }
 ```
-*Replace [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
+*Replace [current_folder] with the actual current folder name, and [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
 
 **After Question 8: Show Project Location**
-
-Once the user has chosen a project name, show them exactly where it will be created:
 
 <current_dir>
 !`pwd`
 </current_dir>
 
-Display to user:
+If user selected "Use current folder":
+```markdown
+📁 **Project Location**
+
+Your project will be created in the current directory:
+`[current_dir]/`
+
+✅ Using existing folder as project root.
+```
+*Set `use_current_folder=true` for later steps.*
+
+Otherwise (user selected a generated name or typed custom name):
 ```markdown
 📁 **Project Location**
 
@@ -254,9 +269,8 @@ Your project will be created at:
 `[current_dir]/[project_name]/`
 
 ⚠️ This creates a NEW subfolder. The current directory will NOT be used directly.
-
-If you wanted to use this folder as the project root, cancel and rename this folder to `[project_name]` first.
 ```
+*Set `use_current_folder=false` for later steps.*
 
 *Continue to Question 9.*
 
@@ -477,8 +491,16 @@ Proceeding to project setup...
 
 ### Create Project
 
+**If `use_current_folder=true`:**
 ```bash
-# Create Next.js project with shadcn
+# Initialize in current directory
+npx shadcn@latest init --preset "[shadcn_preset]"
+```
+*Skip the `cd` command - already in the right directory.*
+
+**If `use_current_folder=false`:**
+```bash
+# Create Next.js project with shadcn in new subfolder
 npx shadcn@latest create --preset "[shadcn_preset]" --template next [project_name]
 
 cd [project_name]
