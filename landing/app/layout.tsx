@@ -57,7 +57,7 @@ export default function RootLayout({
         {/* Privacy-friendly analytics by Plausible */}
         <Script
           async
-          src="https://plausible.io/js/pa-sDzX5DdCaN3WAe5t_iSIs.js"
+          src="https://analytics.unified.studio/js/pa-4PhkA70me1kZ7o5hHf9NH.js"
           strategy="afterInteractive"
         />
         <Script id="plausible-init" strategy="afterInteractive">

@@ -30,8 +30,8 @@ Use AskUserQuestion tool:
 ```json
 {
   "questions": [{
-    "question": "What are you building? Describe the core functionality and value proposition.",
-    "header": "Product",
+    "question": "What type of product are you building?",
+    "header": "Type",
     "options": [
       {"label": "SaaS Application", "description": "Web-based software service"},
       {"label": "Mobile App", "description": "iOS/Android app with React Native + Expo"},
@@ -42,9 +42,25 @@ Use AskUserQuestion tool:
   }]
 }
 ```
-*User selects type, then describes their specific product via "Other" or follow-up.*
 
-**Question 2: Target Audience**
+**Question 2: Product Description**
+*This is a free-text question - user describes their product via "Other".*
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Describe your product. What's the core functionality and value proposition?",
+    "header": "Product",
+    "options": [
+      {"label": "Let me describe it", "description": "I'll type my product description"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+*User will select "Other" to type their product description.*
+
+**Question 3: Target Audience**
 Use AskUserQuestion tool:
 ```json
 {
@@ -62,7 +78,7 @@ Use AskUserQuestion tool:
 }
 ```
 
-**Question 3: MVP Features**
+**Question 4: MVP Features**
 *This is a free-text question - user describes their features via "Other".*
 Use AskUserQuestion tool:
 ```json
@@ -81,10 +97,10 @@ Use AskUserQuestion tool:
 ```
 *User can select common features AND/OR describe custom ones via "Other".*
 
-**Question 4: Tech Stack**
+**Question 5: Tech Stack**
 Use AskUserQuestion tool:
 
-*If user selected "Mobile App" in Question 1:*
+*If user selected "Mobile App" in Question 1 (Product Type):*
 ```json
 {
   "questions": [{
@@ -117,7 +133,7 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to specify a custom stack.*
 
-**Question 5: UI Library**
+**Question 6: UI Library**
 
 *Skip this question if user selected "Mobile App" - mobile uses NativeWind defaults.*
 
@@ -157,7 +173,7 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to paste a custom preset URL.*
 
-**Question 6: Design Reference**
+**Question 7: Design Reference**
 *Ask if user has a design reference to extract design system from.*
 Use AskUserQuestion tool:
 ```json
@@ -183,7 +199,7 @@ Use AskUserQuestion tool:
 
 Store extracted design system in config for later use by ui-designer agent.
 
-**Question 7: Deep Research**
+**Question 8: Deep Research**
 *Ask if user wants competitive analysis before building.*
 Use AskUserQuestion tool:
 ```json
@@ -220,7 +236,7 @@ Then:
 - Identify gaps and opportunities
 - Add findings to PRD
 
-**Question 8: Project Name**
+**Question 9: Project Name**
 
 <current_folder>
 !`basename "$(pwd)"`
@@ -244,7 +260,7 @@ Use AskUserQuestion tool:
 ```
 *Replace [current_folder] with the actual current folder name, and [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
 
-**After Question 8: Show Project Location**
+**After Question 9: Show Project Location**
 
 <current_dir>
 !`pwd`
@@ -272,9 +288,9 @@ Your project will be created at:
 ```
 *Set `use_current_folder=false` for later steps.*
 
-*Continue to Question 9.*
+*Continue to Question 10.*
 
-**Question 9: Auto-Start Build**
+**Question 10: Auto-Start Build**
 Use AskUserQuestion tool:
 ```json
 {
@@ -293,7 +309,7 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to specify a custom iteration count.*
 
-**Question 10: Ralph Mode** *(Only ask if auto-start is Yes)*
+**Question 11: Ralph Mode** *(Only ask if auto-start is Yes)*
 Use AskUserQuestion tool:
 ```json
 {
@@ -318,8 +334,9 @@ Once all questions are answered, parse into configuration:
 
 ```yaml
 config:
-  product_description: "[answer 1]"
-  target_audience: "[answer 2]"
+  product_type: "[answer 1]"
+  product_description: "[answer 2]"
+  target_audience: "[answer 3]"
   mvp_features:
     - "[feature 1]"
     - "[feature 2]"
@@ -342,10 +359,10 @@ config:
       border_radius: {}
       shadows: {}
   competitive_research: "[deep/quick/skip]"
-  project_name: "[answer 8]"
+  project_name: "[answer 9]"
   ralph_iterations: "auto"  # Calculate as story_count × 1.5
-  auto_start: "[answer 9: yes/no]"
-  ralph_mode: "[answer 10: same-context/fresh-context]"  # Only if auto_start is yes
+  auto_start: "[answer 10: yes/no]"
+  ralph_mode: "[answer 11: same-context/fresh-context]"  # Only if auto_start is yes
 ```
 
 ### shadcn Preset URL Mapping
