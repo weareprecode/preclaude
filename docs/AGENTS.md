@@ -32,7 +32,7 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 **React, Next.js, React Native, Vue, UI components, state management, styling, animations, and frontend performance.**
 
 ### Expertise
-- React 19, Next.js 15 (App Router), React Native with Expo
+- Latest stable majors (Next.js 16+, React 19+ as of 2026), React Native with Expo
 - TypeScript (strict mode, advanced patterns)
 - Tailwind CSS, CSS Modules, styled-components
 - State management: React Query, Zustand, Jotai
@@ -40,7 +40,7 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 
 ### Key Patterns
 
-**Next.js 15:**
+**Next.js (App Router):**
 - Server Components by default
 - 'use client' only when needed
 - Server Actions for mutations

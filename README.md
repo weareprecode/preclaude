@@ -2,15 +2,30 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 33 slash commands, 16 specialist agents, and Ralph autonomous builder.
+Supercharge Claude Code with 33 slash commands, 16 specialist agents, 10 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
-## One-Line Install
+## Install
+
+### As a Claude Code plugin (recommended)
+
+Inside Claude Code:
+
+```
+/plugin marketplace add weareprecode/preclaude
+/plugin install preclaude@preclaude
+```
+
+Versioned, updateable from the plugin manager, and easy to share with a team.
+
+### Or the one-line installer
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 ```
+
+The installer also symlinks a starter `CLAUDE.md` and settings into `~/.claude` (the plugin route leaves those to you). It only touches the entries Preclaude owns — your plugins, credentials and history are left alone.
 
 After installation, **restart Claude Code** to load the new commands and agents.
 
@@ -77,6 +92,15 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@ios-developer` | Swift, SwiftUI, native iOS development |
 | `@android-developer` | Kotlin, Jetpack Compose, native Android development |
 
+### 10 Agent Skills
+
+Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `dev-browser` (visual verification via Playwright), and `better-auth` (auth setup with every gotcha handled).
+
+### Starter Hooks & MCP Template (opt-in)
+
+- [hooks/](hooks/) — ready-to-enable hooks: block destructive commands, auto-format on edit, and a quality-gate Stop hook. See [hooks/README.md](hooks/README.md).
+- [.mcp.example.json](.mcp.example.json) — MCP server template (GitHub, Context7, Postgres). Copy to `.mcp.json` in a project and adjust.
+
 ### Ralph Autonomous Builder
 
 Ralph reads your PRD and builds your product story by story, committing as it goes.
@@ -104,6 +128,7 @@ No hand-holding required — set iterations and let Ralph work.
 | [Commands Reference](docs/COMMANDS.md) | Detailed guide for all slash commands |
 | [Agents Reference](docs/AGENTS.md) | Guide to specialist agent personas |
 | [Ralph Walkthrough](docs/RALPH-WALKTHROUGH.md) | Step-by-step autonomous build guide |
+| [Marketing Engine](docs/MARKETING-ENGINE.md) | The weekly content pipeline: /demo → /atomise → /listen → /scorecard |
 | [Setup Guide](docs/SETUP-GUIDE.md) | Installation and configuration details |
 
 ## Customisation
@@ -164,10 +189,12 @@ Your customisations to `CLAUDE.md` and `settings.local.json` are preserved.
 
 ## How It Works
 
-The installer:
+**As a plugin**: the repo doubles as a plugin marketplace ([.claude-plugin/](.claude-plugin/)). Claude Code auto-discovers `commands/`, `agents/`, and `skills/` and manages updates through the plugin manager.
+
+**Via the installer**:
 1. Clones this repo to `~/.preclaude`
-2. Creates `~/.claude` directory
-3. Symlinks commands, agents, skills, and settings
+2. Symlinks commands, agents, skills, `CLAUDE.md` and settings into `~/.claude` — touching only the entries Preclaude owns
+3. Creates `settings.local.json` from the example on first run (it's yours; never committed)
 
 Claude Code automatically picks up files in `~/.claude`, giving you access to all commands and agents in every project.
 

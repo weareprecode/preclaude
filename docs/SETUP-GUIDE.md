@@ -1,73 +1,45 @@
-# Claude Code Config - Setup Guide
+# Preclaude - Setup Guide
 
-This guide explains how to set up your Claude Code configuration on GitHub and use it across all your machines and projects.
+How to install Preclaude, keep it updated, and customise it across your machines and projects.
 
 ---
 
-## Part 1: Initial GitHub Setup
+## Part 1: Installing
 
-### Step 1: Unzip and Prepare
+### Option A: As a Claude Code plugin (recommended)
 
-```bash
-# Unzip the config
-unzip claude-config.zip
+Inside Claude Code:
 
-# Move to your preferred location
-mv claude-config ~/claude-config
-
-# Navigate to it
-cd ~/claude-config
+```
+/plugin marketplace add weareprecode/preclaude
+/plugin install preclaude@preclaude
 ```
 
-### Step 2: Create GitHub Repository
+The plugin manager handles versions and updates. This installs the commands, agents, and skills; global `CLAUDE.md` preferences and permission settings stay yours to manage (see [CLAUDE.example.md](../CLAUDE.example.md) and [settings.example.json](../settings.example.json) for templates).
 
-**Option A: Using GitHub CLI (recommended)**
+### Option B: One-line installer
+
 ```bash
-cd ~/claude-config
-
-# Initialize git
-git init
-
-# Create private repo and push
-gh repo create claude-config --private --source=. --push
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 ```
 
-**Option B: Manual GitHub Setup**
-1. Go to https://github.com/new
-2. Create a new **private** repository named `claude-config`
-3. Don't initialize with README (we have one)
-4. Then run:
+This clones the repo to `~/.preclaude` and symlinks the pieces into `~/.claude` — commands, agents, skills, a starter `CLAUDE.md`, and settings. It only touches the entries Preclaude owns; anything already there is backed up per-entry with restore instructions printed.
+
+### Option C: Manual clone
 
 ```bash
-cd ~/claude-config
-git init
-git add .
-git commit -m "Initial Claude Code configuration"
-git branch -M main
-git remote add origin git@github.com:YOUR_USERNAME/claude-config.git
-git push -u origin main
-```
-
-### Step 3: Install on Current Machine
-
-```bash
-cd ~/claude-config
-chmod +x install.sh
+git clone https://github.com/weareprecode/preclaude.git ~/.preclaude
+cd ~/.preclaude
 ./install.sh
 ```
 
-This creates a symlink: `~/.claude` → `~/claude-config`
+**Important**: Restart Claude Code after installation for the new commands and agents to load.
 
-**Important**: Restart Claude Code after installation for the new commands and agents to be loaded.
-
-### Step 4: Verify Installation
+### Verify Installation
 
 ```bash
-# Check symlink
+# Symlinked entries point at ~/.preclaude
 ls -la ~/.claude
-
-# Should show:
-# .claude -> /Users/you/claude-config
 
 # Verify files accessible
 ls ~/.claude/commands/
@@ -75,49 +47,40 @@ ls ~/.claude/skills/
 ls ~/.claude/agents/
 ```
 
+Then open Claude Code and type `/learn` — it should be recognised.
+
 ---
 
 ## Part 2: Using on New Machines
 
 ### Quick Install (New Machine)
 
+Plugin route: run the same two `/plugin` commands inside Claude Code.
+
+Installer route:
+
 ```bash
-# Clone your config
-git clone git@github.com:YOUR_USERNAME/claude-config.git ~/claude-config
-
-# Install
-cd ~/claude-config
-chmod +x install.sh
-./install.sh
-
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 # Restart Claude Code to load new commands and agents
-# Done! Claude Code now has access to all your commands/skills/agents
 ```
 
 ### Windows (WSL)
 
 ```bash
 # In WSL terminal
-git clone git@github.com:YOUR_USERNAME/claude-config.git ~/claude-config
-cd ~/claude-config
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 ```
 
 ### Keeping in Sync
 
-When you update the config on one machine:
+Run `/update` in Claude Code (installer route), update via the plugin manager (plugin route), or manually:
 
 ```bash
-# On the machine where you made changes
-cd ~/claude-config
-git add .
-git commit -m "Add new skill for X"
-git push
-
-# On other machines
-cd ~/claude-config
+cd ~/.preclaude
 git pull
 ```
+
+If you maintain a fork with your own commands, push changes from one machine and `git pull` on the others — the symlinks pick them up immediately.
 
 ---
 
@@ -171,7 +134,7 @@ cat > CLAUDE.md << 'EOF'
 [Description]
 
 ## Stack
-- Frontend: Next.js 15, shadcn/ui (Lyra)
+- Frontend: Next.js (latest stable major), shadcn/ui (Lyra)
 - Database: Supabase
 - Auth: Better Auth
 
@@ -262,10 +225,10 @@ claude
 
 ```bash
 # Create new command file
-touch ~/claude-config/commands/my-command.md
+touch ~/.preclaude/commands/my-command.md
 
 # Edit with your instructions
-cat > ~/claude-config/commands/my-command.md << 'EOF'
+cat > ~/.preclaude/commands/my-command.md << 'EOF'
 ---
 description: What this command does
 allowed-tools: Read, Write, Bash
@@ -278,7 +241,7 @@ Instructions for Claude...
 EOF
 
 # Commit and push
-cd ~/claude-config
+cd ~/.preclaude
 git add .
 git commit -m "Add my-command"
 git push
@@ -288,25 +251,26 @@ git push
 
 ```bash
 # Create skill directory
-mkdir -p ~/claude-config/skills/my-skill
+mkdir -p ~/.preclaude/skills/my-skill
 
-# Create SKILL.md
-cat > ~/claude-config/skills/my-skill/SKILL.md << 'EOF'
+# Create SKILL.md (frontmatter is required for auto-discovery)
+cat > ~/.preclaude/skills/my-skill/SKILL.md << 'EOF'
+---
+name: my-skill
+description: What this skill does. Use when [trigger phrases and situations Claude should match on].
+---
+
 # My Skill
 
 ## Purpose
 What this skill does
-
-## When to Invoke
-- Trigger phrases
-- Situations
 
 ## Instructions
 How to use this skill...
 EOF
 
 # Commit and push
-cd ~/claude-config
+cd ~/.preclaude
 git add .
 git commit -m "Add my-skill"
 git push
@@ -314,7 +278,7 @@ git push
 
 ### Modifying Global Preferences
 
-Edit `~/claude-config/CLAUDE.md` for preferences that apply everywhere:
+Edit `~/.preclaude/CLAUDE.md` for preferences that apply everywhere:
 - Code style preferences
 - Communication style
 - Default stack choices
@@ -352,7 +316,7 @@ When setting up shadcn, ask me for my preset URL first.
 ## Part 7: Directory Structure Reference
 
 ```
-~/claude-config/
+~/.preclaude/
 ├── install.sh              # Symlinks to ~/.claude
 ├── README.md               # Documentation
 ├── CLAUDE.md               # Global preferences
@@ -423,7 +387,7 @@ When setting up shadcn, ask me for my preset URL first.
 ls -la ~/.claude
 
 # If broken, reinstall
-cd ~/claude-config
+cd ~/.preclaude
 ./install.sh
 ```
 
@@ -431,7 +395,7 @@ cd ~/claude-config
 
 ```bash
 # Force pull (discard local changes)
-cd ~/claude-config
+cd ~/.preclaude
 git fetch origin
 git reset --hard origin/main
 
@@ -459,8 +423,8 @@ Skills are loaded based on context. Ensure:
 ### Permission issues
 
 ```bash
-chmod +x ~/claude-config/install.sh
-chmod -R 755 ~/claude-config/
+chmod +x ~/.preclaude/install.sh
+chmod -R 755 ~/.preclaude/
 ```
 
 ---
@@ -469,8 +433,7 @@ chmod -R 755 ~/claude-config/
 
 ```bash
 # Setup (one-time)
-git clone git@github.com:USER/claude-config.git ~/claude-config
-cd ~/claude-config && ./install.sh
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 # ⚠️  Restart Claude Code after installation!
 
 # New project
@@ -520,6 +483,6 @@ cd ~/claude-config && ./install.sh
 @performance-engineer       # Core Web Vitals, bundle
 
 # Keep config in sync
-cd ~/claude-config && git pull
-cd ~/claude-config && git add . && git commit -m "msg" && git push
+cd ~/.preclaude && git pull
+cd ~/.preclaude && git add . && git commit -m "msg" && git push
 ```

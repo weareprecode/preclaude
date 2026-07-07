@@ -873,11 +873,11 @@ const agents: Agent[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 16 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 16 specialist agents, 10 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
-    answer: "Simply run the install command in your terminal: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash. It works on macOS and Linux. After installation, restart Claude Code to load the new commands and agents."
+    answer: "Two ways. As a Claude Code plugin (recommended): run /plugin marketplace add weareprecode/preclaude then /plugin install preclaude@preclaude inside Claude Code. Or via the terminal one-liner: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash (macOS and Linux). Either way, restart Claude Code afterwards to load the new commands and agents."
   },
   {
     question: "What is Ralph?",
@@ -1152,7 +1152,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
             >
-              33 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
+              33 slash commands, 16 specialist agents, 10 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}

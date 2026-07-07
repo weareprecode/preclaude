@@ -26,12 +26,14 @@ Your name or company. What you build.
 
 ## Stack Defaults
 When not specified by project, prefer:
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui
-- **Backend**: Node.js, Hono or Express, Prisma
+- **Frontend**: Next.js (App Router), React, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Node.js (LTS), Hono or Express, Prisma
 - **Database**: PostgreSQL (Supabase for speed)
 - **Mobile**: React Native with Expo
 - **Hosting**: Vercel (web), Railway (backend)
 - **Auth**: Better Auth or Supabase Auth
+
+**Always start on the latest stable major.** At kickoff, scaffold with `@latest` (`npx create-next-app@latest`, latest Tailwind) and use the current stable major of each framework (Next.js 16+, React 19+, Tailwind v4+ as of 2026). Only pin behind latest for a concrete blocker, and note why in the project's CLAUDE.md.
 
 ## Commands Available
 - `/learn` - Analyse session, propose CLAUDE.md updates
