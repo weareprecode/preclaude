@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 24 slash commands, 15 specialist agents, and Ralph autonomous builder.
+Supercharge Claude Code with 29 slash commands, 15 specialist agents, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -16,7 +16,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 24 Slash Commands
+### 30 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -41,6 +41,11 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/analytics` | Check and setup analytics - PostHog, Google Analytics, Plausible |
 | `/learn` | Analyse session, score learnings, propose CLAUDE.md updates |
 | `/marketing` | Generate marketing content from feature or release |
+| `/atomise` | Turn one demo + notes into a week of platform-native content drafts |
+| `/launch` | Generate a full launch pack - Show HN, Product Hunt, directories, posts, email |
+| `/listen` | Daily social-listening digest from HN and Reddit with drafted replies |
+| `/scorecard` | Weekly marketing scorecard from analytics with data-tied recommendations |
+| `/demo` | Semi-automated demo video: agent records the screen demo, you add voice |
 | `/stakeholder` | Generate stakeholder updates - daily, weekly, or full pack |
 | `/project-complete` | Generate end-of-project documentation suite |
 | `/handoff` | Create session handoff notes for continuity |
