@@ -24,6 +24,7 @@ Complete reference for all available slash commands.
 | `/full-build` | Complete workflow | New product from scratch |
 | `/implement` | Feature build | Smaller features |
 | `/research` | Deep web research | Market research, competitor analysis |
+| `/landscape` | Competitive viability report | Honest go/no-go assessment of this product |
 | `/polish` | Polish UI | Match design reference |
 | `/refactor` | Refactor code | Improve code structure |
 | `/migrate` | Run migrations | Database, deps, framework upgrades |
@@ -39,6 +40,7 @@ Complete reference for all available slash commands.
 | `/scorecard` | Weekly marketing scorecard | Reviewing marketing performance |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
+| `/update` | Update Preclaude | Getting the latest commands and agents |
 
 ---
 
@@ -1150,4 +1152,51 @@ Read-only against all APIs; sections with failed API calls are marked DATA MISSI
 ```bash
 /scorecard          # current week
 /scorecard 2026-W28 # regenerate a past week
+```
+
+---
+
+## `/landscape [optional focus]`
+
+**Deep competitive landscape + viability assessment of THIS product, published as a website report.**
+
+### When to Use
+- Deciding whether to keep building a product
+- A competitor just shipped something worrying
+- Need an honest go/no-go assessment
+
+### What It Does
+1. Runs a parallel multi-agent web research sweep (6-8 dimensions), grounded in the repo's CLAUDE.md/README
+2. Builds an adversarial bear case, bull case, and completeness critique, then gap-fills
+3. Publishes a polished self-contained HTML report: verdict stamp, moat scorecard, USP, ranked threats, focus plan, go/no-go
+4. Saves the verdict to project memory
+
+The report is brutally honest by design — a hedged report is a failed report.
+
+### Example
+```bash
+/landscape
+/landscape "given Figma's latest updates"
+```
+
+---
+
+## `/update`
+
+**Update Preclaude to the latest version.**
+
+### When to Use
+- Getting the latest commands, agents, and skills
+- After hearing about a new Preclaude release
+
+### What It Does
+1. Checks the `~/.preclaude` installation and current version
+2. Fetches and pulls the latest from GitHub
+3. Lists the new commits since your version
+4. Verifies (and repairs) the `~/.claude` symlinks
+
+### Example
+```bash
+/update
+# ✅ Preclaude is up to date
 ```
