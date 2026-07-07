@@ -42,6 +42,7 @@ When not specified by project, prefer:
 - `/full-build [description]` - Complete workflow: PRD -> prd.json -> Build (Ralph Wiggum)
 - `/implement [feature]` - Full feature implementation
 - `/review` - Code review current changes
+- `/landscape` - Competitive landscape + viability assessment of this product, published as a website report
 - `/marketing [feature]` - Generate marketing content
 - `/project-complete` - Generate full doc suite (journal, features, marketing)
 - `/handoff` - Session handoff notes

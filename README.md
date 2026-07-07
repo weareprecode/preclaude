@@ -27,6 +27,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/prd-json` | Convert PRD to prd.json format for autonomous build |
 | `/build` | Run Ralph autonomous loop with completion promise |
 | `/research` | Deep research on competitors, market gaps, and idea validation |
+| `/landscape` | Competitive landscape + viability assessment of an existing product, published as a website report |
 | `/copy` | Audit, improve, or generate copy (sales pages, landing pages, emails, ads) |
 | `/commit` | Create conventional commit from staged changes |
 | `/pr` | Create pull request with auto-generated description |
