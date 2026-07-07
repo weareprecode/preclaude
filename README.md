@@ -51,6 +51,8 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/handoff` | Create session handoff notes for continuity |
 | `/deploy-check` | Pre-deployment verification checklist |
 
+> **Note:** `/demo`, `/atomise`, `/listen`, `/launch` and `/scorecard` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
+
 ### 15 Specialist Agents
 
 | Agent | Use For |

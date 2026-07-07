@@ -1,31 +1,34 @@
 ---
-description: Semi-automated Monday demo video: agent records the screen demo, Matt adds voice
+description: Semi-automated demo video: agent records the screen demo, you add voice
 allowed-tools: Read, Write, Glob, Bash
-argument-hint: [target-site or feature, e.g. stripe.com]
+argument-hint: [target-site or feature to demo]
 ---
 
 # Demo pipeline: $ARGUMENTS
 
-Produce the raw material for Monday's demo video: a real recorded screen demo plus a voiceover script. Matt records 90 seconds of voice (or a 10-second webcam hook if a voice clone is configured) and approves.
+Part of the optional **marketing engine** module (see docs/MARKETING-ENGINE.md). Produce the raw material for a weekly demo video: a real recorded screen demo plus a timed voiceover script. The founder records the voice and approves; nothing staged, real output only.
 
-## Step 0: Preconditions
+## Step 0: Locate the codex and preconditions (hard gate)
 
-Check `npx playwright --version` and `ffmpeg -version` are available; if not, print install one-liners and stop. Read `marketing-codex/codex/voice.md` and the relevant `marketing-codex/products/*.md`.
+Look for `marketing-codex/` in the current workspace or one level up. If missing, STOP and print:
+"The marketing engine needs a marketing-codex workspace. See docs/MARKETING-ENGINE.md to scaffold one."
+
+Check `npx playwright --version` and `ffmpeg -version` are available; if not, print install one-liners and STOP. Read `marketing-codex/codex/voice.md` and the relevant `marketing-codex/products/<product>.md` (ask which product if ambiguous).
 
 ## Step 1: Run the real thing
 
-For a Layout extraction demo (the flagship format):
-1. `npx @layoutdesign/context init` against $ARGUMENTS in a scratch dir — capture the actual output (tokens found, layout.md produced). Real numbers only: count the extracted tokens for the script.
-2. Build the with/without comparison: two minimal Next.js/Vite scratch pages, one styled by the extracted tokens, one default. (Reuse the previous week's scaffold in `marketing-codex/pillars/_demo-scaffold/` if present; create it if not.)
+Exercise the actual product flow being demonstrated against $ARGUMENTS and capture the real output (counts, timings, generated artefacts). The demo's numbers come from this run, never invented. If the product one-pager defines a flagship demo format (e.g. a with/without comparison), follow it; reuse the previous scaffold in `marketing-codex/pillars/_demo-scaffold/` if present, create it if not.
 
 ## Step 2: Record
 
-Playwright script (`chromium, viewport 1920x1080, recordVideo`) that walks the demo: terminal running the extraction (use an asciinema-style paced replay or screen the real run), then the side-by-side comparison, 60 to 90 seconds total. Save raw video to `marketing-codex/pillars/<new-pillar>/demo-raw.webm`, convert: `ffmpeg -i demo-raw.webm -c:v libx264 -crf 20 demo.mp4`.
+Playwright script (chromium, viewport 1920x1080, recordVideo) that walks the demo end to end, 60 to 90 seconds. Save to `marketing-codex/pillars/<new-pillar>/demo-raw.webm`, then `ffmpeg -i demo-raw.webm -c:v libx264 -crf 20 demo.mp4`.
 
 ## Step 3: Script + notes
 
-Write `notes.md` in the new pillar folder (the real numbers, the one insight, the honest limitation — per the example pillar's structure) and `voiceover.md`: a timed script (per-scene, ~140 words/minute) in Matt's voice for him to read over the cut, plus a 10-second webcam hook line.
+Write in the new pillar folder:
+- `notes.md` — the real numbers, the one insight, one honest limitation (this feeds /atomise)
+- `voiceover.md` — a timed per-scene script (~140 words/minute) in the codex voice, plus a 10-second webcam hook line
 
 ## Step 4: Report
 
-Pillar folder path, video duration, the one insight chosen, and the reminder: record voiceover, then run /atomise on the pillar.
+Pillar folder path, video duration, the one insight chosen, and the reminder: record the voiceover, then run /atomise on the pillar.
