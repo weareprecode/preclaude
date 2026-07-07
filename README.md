@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 29 slash commands, 15 specialist agents, and Ralph autonomous builder.
+Supercharge Claude Code with 30 slash commands, 15 specialist agents, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 

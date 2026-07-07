@@ -33,7 +33,7 @@ When not specified by project, prefer:
 - **Hosting**: Vercel (web), Railway (backend)
 - **Auth**: Better Auth or Supabase Auth
 
-## Commands Available (24)
+## Commands Available (30)
 - `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -55,6 +55,11 @@ When not specified by project, prefer:
 - `/analytics` — Check and setup analytics: PostHog, GA, Plausible
 - `/learn` — Analyze session, propose CLAUDE.md updates
 - `/marketing [feature]` — Generate marketing content
+- `/demo [target]` — Semi-automated demo video: agent records the screen, you add voice
+- `/atomise [pillar]` — Atomise one pillar (demo + notes) into the week's content queue
+- `/launch [product]` — Full launch pack: Show HN, Product Hunt, directories, posts, email
+- `/listen [keyword]` — Daily social-listening digest with drafted replies (never posts)
+- `/scorecard [week]` — Weekly marketing scorecard from Plausible + npm with recommendations
 - `/stakeholder [type]` — Generate stakeholder updates: daily, weekly, or full pack
 - `/project-complete` — Generate full doc suite (journal, features, marketing)
 - `/handoff` — Session handoff notes
