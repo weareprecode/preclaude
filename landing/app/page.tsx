@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 24 commands with full documentation
+// Data - All 30 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -332,6 +332,74 @@ const commands: Command[] = [
       "Creates blog-outline.md (SEO-focused)"
     ],
     example: '/marketing "stripe-billing"\n# Creates full content bundle'
+  },
+  {
+    name: "/demo",
+    desc: "Semi-automated demo video: agent records the screen demo, you add voice",
+    fullDescription: "Produce the raw material for a weekly demo video: a real recorded screen demo (Playwright + ffmpeg) plus a timed voiceover script. You record 90 seconds of voice and approve — real numbers only, no staged output.",
+    whenToUse: ["Recording the week's demo video", "Showing a feature working for real", "Feeding /atomise with fresh material"],
+    whatItDoes: [
+      "Checks Playwright and ffmpeg are available",
+      "Runs the real product flow and captures actual output",
+      "Records a 60-90 second screen demo at 1920x1080 and converts to mp4",
+      "Writes notes.md (real numbers, one insight, one honest limitation)",
+      "Writes a timed voiceover script for you to read over the cut"
+    ],
+    example: "/demo stripe.com\n# Records demo.mp4 + notes.md + voiceover.md\n# Then: record voice, run /atomise on the pillar"
+  },
+  {
+    name: "/atomise",
+    desc: "Turn one demo + notes into a week of platform-native content drafts",
+    fullDescription: "Atomise one content pillar (a demo video plus notes) into a full week of platform-native content drafts — LinkedIn, X, blog, newsletter, and clip specs. Everything lands as drafts for your review; nothing is published automatically.",
+    whenToUse: ["You've recorded a demo and written notes for the week", "Ready to generate the week's posts for review", "Keeping a consistent posting cadence without hype"],
+    whatItDoes: [
+      "Reads the pillar's notes and product one-pager — every claim traces to a source",
+      "Checks the weekly posting quota before generating",
+      "Creates LinkedIn post, X version, 2-3 clip specs, newsletter section, and evergreen blog post",
+      "Runs a voice check against your banned-words list",
+      "Optionally queues drafts to a posting rail — drafts only, never publishes"
+    ],
+    example: "/atomise 2026-07-13-stripe-extraction\n# Creates outputs/: linkedin.md, x.md, clips.md,\n# newsletter-section.md, blog.md"
+  },
+  {
+    name: "/launch",
+    desc: "Generate a full launch pack - Show HN, Product Hunt, directories, posts, email",
+    fullDescription: "Generate a complete launch-episode package for a product or feature: Show HN post, Product Hunt listing, directory submissions, launch-day social posts, email broadcast, and an hour-by-hour day plan. Nothing is submitted or sent automatically.",
+    whenToUse: ["Launching a product or major feature", "Preparing Show HN / Product Hunt submissions", "Coordinating a launch day"],
+    whatItDoes: [
+      "Proposes 3 candidate one-sentence wedges and recommends one",
+      "Runs a GO / NO-GO gate check against your launch checklist",
+      "Generates Show HN, Product Hunt, and directory copy in each platform's limits",
+      "Writes launch-day X thread, LinkedIn post, and email broadcast",
+      "Produces an hour-by-hour launch-day timeline"
+    ],
+    example: '/launch layout\n# Wedge recommendation, GO/NO-GO table,\n# full pack in marketing-codex/launches/'
+  },
+  {
+    name: "/listen",
+    desc: "Daily social-listening digest from HN and Reddit with drafted replies",
+    fullDescription: "Surface the 5 conversations most worth your time today across Hacker News and Reddit, each with a drafted reply in your voice. Drafts only — it never posts anywhere.",
+    whenToUse: ["Daily community engagement in 15 minutes", "Monitoring keywords and competitors", "Building genuine account history before launches"],
+    whatItDoes: [
+      "Searches HN and Reddit for your keyword set (read-only, keyless APIs)",
+      "Ranks threads: can you genuinely help, is a mention natural, audience size, freshness",
+      "Drafts a help-first reply for each of the top 5",
+      "Writes a daily digest with permalinks and a rewrite-before-posting banner"
+    ],
+    example: "/listen\n# Creates marketing-codex/listening/2026-07-07.md\n/listen r/reactjs  # add an extra subreddit today"
+  },
+  {
+    name: "/scorecard",
+    desc: "Weekly marketing scorecard from analytics with data-tied recommendations",
+    fullDescription: "Pull the week's numbers from Plausible and npm, compare against targets, and write a weekly marketing scorecard with three recommendations — each tied to a specific number, never generic advice.",
+    whenToUse: ["Weekly marketing review", "Deciding what content to keep or kill", "Tracking AI-assistant referrals"],
+    whatItDoes: [
+      "Pulls visitors, visits, pageviews, bounce rate — this week vs last vs 4-week average",
+      "Adds npm downloads, AI referrals (ChatGPT, Claude, Perplexity), and a UTM-leak check",
+      "Counts published content against the week's quota",
+      "Writes three recommendations tied to numbers, plus one keep/kill candidate"
+    ],
+    example: "/scorecard\n# Headline table + 3 recommendations\n/scorecard 2026-W28  # regenerate a past week"
   },
   {
     name: "/stakeholder",
@@ -740,7 +808,7 @@ const agents: Agent[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 24 slash commands, 15 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 30 slash commands, 15 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -1021,7 +1089,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
             >
-              24 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
+              30 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1151,7 +1219,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">24</span> Slash Commands
+                <span className="text-white">30</span> Slash Commands
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.

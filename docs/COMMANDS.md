@@ -31,6 +31,11 @@ Complete reference for all available slash commands.
 | `/analytics` | Setup analytics | PostHog, GA, Plausible |
 | `/stakeholder` | Stakeholder updates | Daily/weekly progress reports |
 | `/marketing` | Marketing content | Launch or feature release |
+| `/demo` | Demo video pipeline | Recording the week's demo video |
+| `/atomise` | Atomise content pillar | Turn one demo + notes into a week's content queue |
+| `/launch` | Launch-episode pack | Launching a product or feature |
+| `/listen` | Social-listening digest | Daily community engagement |
+| `/scorecard` | Weekly marketing scorecard | Reviewing marketing performance |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
 
@@ -931,3 +936,141 @@ Creates `docs/research/competitive-analysis.md` with:
 ```
 
 Saves to `docs/updates/`
+
+---
+
+## `/demo [target-site or feature]`
+
+**Semi-automated demo video: the agent records the screen demo, you add the voice.**
+
+> Requires Playwright and ffmpeg, plus a `marketing-codex/` workspace.
+
+### When to Use
+- Recording the week's demo video
+- Showing a feature working for real (no staged output)
+
+### What It Does
+1. Checks Playwright and ffmpeg are installed (prints install one-liners if not)
+2. Runs the real product flow in a scratch directory and captures actual output — real numbers only
+3. Records a 60-90 second screen demo via Playwright (1920x1080), converts to mp4 with ffmpeg
+4. Writes `notes.md` into a new pillar folder: the real numbers, one insight, one honest limitation
+5. Writes `voiceover.md`: a timed per-scene script (~140 words/minute) to read over the cut
+
+### Example
+```bash
+/demo stripe.com
+# Creates pillar folder with demo.mp4, notes.md, voiceover.md
+# Then: record voiceover, run /atomise on the pillar
+```
+
+---
+
+## `/atomise [pillar-folder-name]`
+
+**Atomise one content pillar (demo + notes) into the week's platform-native content queue.**
+
+> Requires a `marketing-codex/` workspace (voice guide, funnel, product one-pagers) in or one level above the current directory.
+
+### When to Use
+- You've recorded a demo and written notes for the week's content pillar
+- Ready to generate the week's posts for review
+
+### What It Does
+1. Reads the pillar's `notes.md` and the matching product one-pager — every claim must trace to a source
+2. Checks the weekly posting quota before generating (max one original post per platform per day)
+3. Generates drafts into the pillar's `outputs/` folder:
+   - `linkedin.md` — primary post
+   - `x.md` — X version, visual-led
+   - `clips.md` — 2-3 clip specs (cuts them with ffmpeg if available)
+   - `newsletter-section.md` — 150-250 words
+   - `blog.md` — evergreen version with FAQ block
+4. Runs a voice check against the banned list (hype, em dashes, unsourced numbers)
+5. Optionally queues LinkedIn/X drafts to the posting rail — **drafts only, never publishes**
+
+### Example
+```bash
+/atomise 2026-07-13-stripe-extraction
+```
+
+---
+
+## `/launch [product or product + feature]`
+
+**Generate a complete launch-episode pack for a product or feature.**
+
+> Requires a `marketing-codex/` workspace with a launch checklist and product one-pagers.
+
+### When to Use
+- Launching a product or major feature
+- Preparing Show HN / Product Hunt / directory submissions
+
+### What It Does
+1. Proposes 3 candidate one-sentence "wedges" and recommends one
+2. Runs a GO / NO-GO gate check against the launch checklist (verifies live URLs, quickstart)
+3. Generates the full pack into `marketing-codex/launches/<slug>/`:
+   - `show-hn.md` — title, body, and maker comment
+   - `product-hunt.md` — tagline, description, first comment, gallery shot list
+   - `directories.md` — pre-filled copy for Uneed, Dev Hunt, Peerlist, BetaList and more
+   - `x-thread.md` and `linkedin.md` — launch-day posts
+   - `email.md` — list broadcast with 3 subject options
+   - `dm-supporters.md` — night-before personal DM template
+   - `day-plan.md` — hour-by-hour launch-day timeline
+4. Reports the manual actions only a human can do (form submissions, pressing send)
+
+Nothing is submitted, posted or sent by this command.
+
+### Example
+```bash
+/launch layout
+/launch roast "testimonial widgets"
+```
+
+---
+
+## `/listen [optional keyword or subreddit]`
+
+**Daily social-listening digest with drafted replies — drafts only, never posts.**
+
+### When to Use
+- Daily community engagement (15 minutes)
+- Monitoring keywords, competitors, and relevant threads
+
+### What It Does
+1. Searches Hacker News (Algolia API) and Reddit (official API or public JSON) for your keyword set — read-only, keyless endpoints
+2. Ranks threads: can you genuinely help, is a product mention natural, audience size, freshness
+3. Picks the top 5 and drafts a reply for each — help-first, honest, with disclosure-friendly framing
+4. Writes the digest to `marketing-codex/listening/YYYY-MM-DD.md` with permalinks and a rewrite-before-posting banner
+
+Replies are raw material to rewrite in your own words — Reddit and HN ban automated posting.
+
+### Example
+```bash
+/listen
+/listen r/reactjs
+```
+
+---
+
+## `/scorecard [optional ISO week]`
+
+**Weekly marketing scorecard from Plausible + npm, with 3 recommendations.**
+
+> Requires `PLAUSIBLE_API_TOKEN` and a `marketing-codex/scorecard/targets.md` file.
+
+### When to Use
+- Weekly marketing review
+- Deciding what to keep or kill
+
+### What It Does
+1. Pulls per-site visitors, visits, pageviews, bounce rate — this week vs last week vs 4-week average
+2. Adds npm download counts, AI-assistant referrals (ChatGPT, Claude, Perplexity), and a UTM-leak check
+3. Counts published content units against the week's quota
+4. Writes `marketing-codex/scorecard/weekly/YYYY-WW.md` with a headline table, **three recommendations each tied to a number**, and one keep/kill candidate
+
+Read-only against all APIs; sections with failed API calls are marked DATA MISSING rather than silently dropped.
+
+### Example
+```bash
+/scorecard          # current week
+/scorecard 2026-W28 # regenerate a past week
+```
