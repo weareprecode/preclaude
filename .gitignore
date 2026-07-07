@@ -10,6 +10,7 @@ Thumbs.db
 
 # Local overrides (if any)
 *.local.md
+settings.local.json
 
 # Claude Code local data (never commit)
 cache/
@@ -33,3 +34,5 @@ todos/
 landing/node_modules/
 landing/.next/
 landing/out/
+landing/next-env.d.ts
+landing/tsconfig.tsbuildinfo

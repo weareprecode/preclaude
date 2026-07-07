@@ -1,12 +1,16 @@
 #!/bin/bash
 
 # Preclaude Installer
-# Symlinks this repo to ~/.claude for cross-project availability
+# Symlinks this repo's pieces into ~/.claude for cross-project availability.
+# Only the entries Preclaude owns are touched — the rest of ~/.claude
+# (plugins, credentials, history, projects) is left alone.
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="$HOME/.claude"
+BACKUP_DIR="$HOME/.claude-backup-$(date +%Y%m%d-%H%M%S)"
+ENTRIES=(commands skills agents CLAUDE.md settings.json settings.local.json)
 
 echo "🤖 Preclaude Installer"
 echo "======================"
@@ -15,78 +19,56 @@ echo "Source: $SCRIPT_DIR"
 echo "Target: $TARGET_DIR"
 echo ""
 
-# Check if already installed correctly (commands symlink points to this repo)
-if [ -L "$TARGET_DIR/commands" ]; then
-    CURRENT_LINK=$(readlink "$TARGET_DIR/commands")
-    if [ "$CURRENT_LINK" = "$SCRIPT_DIR/commands" ]; then
-        echo "✅ Already installed correctly"
-        exit 0
-    fi
+# settings.local.json is not tracked in git — create from the example if missing
+if [ ! -f "$SCRIPT_DIR/settings.local.json" ]; then
+    cp "$SCRIPT_DIR/settings.example.json" "$SCRIPT_DIR/settings.local.json"
+    echo "Created settings.local.json from settings.example.json"
 fi
 
-# Check if ~/.claude already exists and needs handling
-if [ -e "$TARGET_DIR" ]; then
-    if [ -L "$TARGET_DIR" ]; then
-        # It's a directory symlink (old style) - remove it
-        echo "⚠️  ~/.claude is a directory symlink (old style)"
-        echo "   Converting to new format (real dir with symlinked contents)..."
-        rm "$TARGET_DIR"
-    elif [ -d "$TARGET_DIR" ]; then
-        echo "⚠️  ~/.claude exists as regular directory"
-        echo ""
-        echo "Options:"
-        echo "  1. Backup existing and replace"
-        echo "  2. Merge (copy existing files here, then link)"
-        echo "  3. Abort"
-        read -p "Choice (1/2/3): " -n 1 -r
-        echo
-        case $REPLY in
-            1)
-                BACKUP_DIR="$HOME/.claude-backup-$(date +%Y%m%d-%H%M%S)"
-                echo "Backing up to: $BACKUP_DIR"
-                mv "$TARGET_DIR" "$BACKUP_DIR"
-                ;;
-            2)
-                echo "Merging existing files..."
-                # Copy non-conflicting files from existing to repo
-                for item in "$TARGET_DIR"/*; do
-                    name=$(basename "$item")
-                    # Skip items we'll be symlinking
-                    if [[ "$name" != "commands" && "$name" != "skills" && "$name" != "agents" && \
-                          "$name" != "CLAUDE.md" && "$name" != "settings.json" && "$name" != "settings.local.json" ]]; then
-                        cp -rn "$item" "$SCRIPT_DIR/" 2>/dev/null || true
-                    fi
-                done
-                BACKUP_DIR="$HOME/.claude-backup-$(date +%Y%m%d-%H%M%S)"
-                mv "$TARGET_DIR" "$BACKUP_DIR"
-                echo "Original backed up to: $BACKUP_DIR"
-                ;;
-            *)
-                echo "Aborted"
-                exit 1
-                ;;
-        esac
-    fi
+# Old-style install: ~/.claude itself was a symlink to the repo
+if [ -L "$TARGET_DIR" ]; then
+    echo "⚠️  ~/.claude is a directory symlink (old style) — converting to a real directory"
+    rm "$TARGET_DIR"
 fi
 
-# Create real directory with symlinked contents
-# (Claude Code doesn't follow directory symlinks, only file/folder symlinks inside)
 mkdir -p "$TARGET_DIR"
 
-# Symlink config contents
-ln -sf "$SCRIPT_DIR/commands" "$TARGET_DIR/commands"
-ln -sf "$SCRIPT_DIR/skills" "$TARGET_DIR/skills"
-ln -sf "$SCRIPT_DIR/agents" "$TARGET_DIR/agents"
-ln -sf "$SCRIPT_DIR/CLAUDE.md" "$TARGET_DIR/CLAUDE.md"
-ln -sf "$SCRIPT_DIR/settings.json" "$TARGET_DIR/settings.json"
-ln -sf "$SCRIPT_DIR/settings.local.json" "$TARGET_DIR/settings.local.json"
+# Link each entry, backing up anything that's already there and isn't ours
+BACKED_UP=0
+for name in "${ENTRIES[@]}"; do
+    src="$SCRIPT_DIR/$name"
+    dest="$TARGET_DIR/$name"
+
+    # Already linked correctly?
+    if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$src" ]; then
+        continue
+    fi
+
+    # Something else is there — move just that entry aside
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+        mkdir -p "$BACKUP_DIR"
+        mv "$dest" "$BACKUP_DIR/$name"
+        BACKED_UP=1
+    fi
+
+    ln -s "$src" "$dest"
+done
 
 echo ""
 echo "✅ Installed successfully!"
+if [ "$BACKED_UP" = "1" ]; then
+    echo ""
+    echo "⚠️  Existing entries were moved to: $BACKUP_DIR"
+    echo "   To restore one: mv \"$BACKUP_DIR/<name>\" \"$TARGET_DIR/<name>\""
+fi
 echo ""
 echo "Your Claude Code sessions now have access to:"
-echo "  • $(ls -1 "$SCRIPT_DIR/commands" 2>/dev/null | wc -l | tr -d ' ') commands"
+echo "  • $(ls -1 "$SCRIPT_DIR/commands" 2>/dev/null | grep -c '\.md$') commands"
 echo "  • $(ls -1 "$SCRIPT_DIR/skills" 2>/dev/null | wc -l | tr -d ' ') skills"
-echo "  • $(ls -1 "$SCRIPT_DIR/agents" 2>/dev/null | wc -l | tr -d ' ') agents"
+echo "  • $(ls -1 "$SCRIPT_DIR/agents" 2>/dev/null | grep -c '\.md$') agents"
 echo ""
-echo "Test it: Open Claude Code and type /learn"
+echo "Restart Claude Code, then test it: type /learn"
+echo ""
+echo "Prefer plugins? Preclaude also installs as a Claude Code plugin:"
+echo "  /plugin marketplace add weareprecode/preclaude"
+echo "  /plugin install preclaude@preclaude"
