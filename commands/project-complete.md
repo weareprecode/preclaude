@@ -11,11 +11,11 @@ Generate comprehensive documentation for project completion.
 ## Gather Context
 
 <git_history>
-!`git log --oneline -50 2>/dev/null || echo "No git history"`
+!`git log --oneline -50 2>/dev/null || echo "No git history available"`
 </git_history>
 
 <recent_files>
-!`git diff --stat HEAD~50 2>/dev/null | tail -30 || echo "No changes"`
+!`git diff --stat $(git rev-list --max-parents=0 HEAD 2>/dev/null || echo HEAD)..HEAD 2>/dev/null | tail -30 || echo "No git changes available"`
 </recent_files>
 
 <readme>

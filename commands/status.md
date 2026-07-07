@@ -18,21 +18,37 @@ echo "📊 PROJECT STATUS"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
+# Detect package manager
+if [ -f "bun.lockb" ]; then PM="bun"
+elif [ -f "pnpm-lock.yaml" ]; then PM="pnpm"
+elif [ -f "yarn.lock" ]; then PM="yarn"
+else PM="npm"
+fi
+
 # Git Status
 echo "📁 GIT"
 echo "───────────────────────────────────────────────────────────────"
-echo "Branch: $(git branch --show-current)"
-AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "?")
-BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "?")
-echo "Ahead/Behind: +$AHEAD / -$BEHIND"
-UNCOMMITTED=$(git status --porcelain | wc -l | tr -d ' ')
-echo "Uncommitted: $UNCOMMITTED files"
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  BRANCH=$(git branch --show-current 2>/dev/null || echo "detached")
+  echo "Branch: $BRANCH"
+  if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
+    AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
+    BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "0")
+    echo "Ahead/Behind: +$AHEAD / -$BEHIND"
+  else
+    echo "Ahead/Behind: no upstream configured"
+  fi
+  UNCOMMITTED=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+  echo "Uncommitted: $UNCOMMITTED files"
+else
+  echo "Not a git repository"
+fi
 echo ""
 
 # Typecheck
 echo "📝 TYPECHECK"
 echo "───────────────────────────────────────────────────────────────"
-if npm run typecheck --silent 2>/dev/null; then
+if $PM run typecheck --silent 2>/dev/null; then
   echo "✅ Types OK"
 else
   echo "❌ Type errors found"
@@ -42,7 +58,7 @@ echo ""
 # Lint
 echo "🔍 LINT"
 echo "───────────────────────────────────────────────────────────────"
-if npm run lint --silent 2>/dev/null; then
+if $PM run lint --silent 2>/dev/null; then
   echo "✅ Lint OK"
 else
   echo "❌ Lint errors found"
@@ -52,7 +68,7 @@ echo ""
 # Tests
 echo "🧪 TESTS"
 echo "───────────────────────────────────────────────────────────────"
-if npm run test --silent 2>/dev/null; then
+if $PM run test --silent 2>/dev/null; then
   echo "✅ Tests pass"
 else
   echo "❌ Test failures"

@@ -8,6 +8,7 @@ Complete reference for all available slash commands.
 
 | Command | Description | Use When |
 |---------|-------------|----------|
+| `/copy` | Audit, improve, or generate copy | Need persuasive content |
 | `/commit` | Conventional commit | Ready to commit staged changes |
 | `/pr` | Create pull request | Branch ready for PR |
 | `/review` | Code review | Before PR or after changes |
@@ -38,6 +39,63 @@ Complete reference for all available slash commands.
 | `/scorecard` | Weekly marketing scorecard | Reviewing marketing performance |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
+
+---
+
+## `/copy [type]`
+
+**Audit existing copy, improve content, or generate new persuasive copy.**
+
+### When to Use
+- Auditing existing marketing/landing page copy
+- Improving weak headlines, CTAs, or messaging
+- Creating sales pages, landing pages, email sequences
+- Generating ad copy for campaigns
+
+### Modes
+
+**`/copy audit`** — Scan project for copy and evaluate quality
+- Analyses README, landing pages, marketing/, docs/
+- Scores each file on clarity, persuasion, voice, CTAs, structure, SEO
+- Outputs priority fixes with before/after examples
+
+**`/copy improve [file]`** — Improve specific file's copy
+- Identifies weak headlines, passive voice, unclear CTAs
+- Rewrites with stronger messaging
+- Shows before/after comparison
+
+**`/copy sales-page`** — Generate complete sales page
+- Hero, problem, solution, proof, CTA structure
+- Testimonial sections, FAQ, pricing
+
+**`/copy landing`** — Generate lead-gen landing page
+- Benefit-focused headline
+- Form integration
+- Trust signals
+
+**`/copy email-sequence`** — Generate email sequence
+- Welcome, nurture, sales, or re-engagement
+- 5 emails with subject lines and body copy
+
+**`/copy case-study`** — Generate case study template
+- Challenge, solution, results structure
+- Metrics and testimonials
+
+**`/copy ads`** — Generate ad copy variants
+- Google Search, Meta/Facebook, LinkedIn
+- Multiple variants for A/B testing
+
+### Examples
+```bash
+/copy audit                    # Audit all copy in project
+/copy improve README.md        # Improve README copy
+/copy sales-page              # Generate sales page
+/copy email-sequence          # Generate welcome sequence
+/copy ads                     # Generate ad copy variants
+```
+
+### Output
+Saves to `docs/copy/[type]-[date].md`
 
 ---
 
@@ -316,11 +374,24 @@ project-name/
 - Want to run/resume the build loop
 
 ### What It Does
-1. Finds `scripts/ralph/prd.json` (or uses provided path)
-2. Checks remaining stories
-3. Creates Ralph scripts if missing
-4. Runs autonomous loop for N iterations
+1. **Asks which Ralph mode** to use (see below)
+2. Finds `scripts/ralph/prd.json` (or uses provided path)
+3. Checks remaining stories
+4. Runs autonomous loop
 5. Commits on each story completion
+
+### Ralph Modes
+
+When you run `/build`, you'll be asked to choose:
+
+| Mode | Description | Best For |
+|------|-------------|----------|
+| **Same context** (Recommended) | All stories in one session. Claude remembers previous work and failures. | Short builds (<15 stories), interdependent features |
+| **Fresh context** | Spawns new Claude per story. Clean slate each iteration. | Long builds (20+), overnight runs, independent features |
+
+**Same context** uses the Anthropic Ralph plugin with a Stop hook that keeps the session alive between stories.
+
+**Fresh context** uses the original Geoffrey Huntley approach — a bash loop that runs `claude --print` per iteration, giving each story a clean context window.
 
 ### Arguments
 - `iterations` (optional): Number of loop iterations (default: remaining × 1.5)
@@ -365,7 +436,7 @@ project-name/
 
 ### What It Does
 
-**Phase 1: Interview** — Asks 8 questions:
+**Phase 1: Interview** — Asks 9-10 questions:
 1. Product description
 2. Target audience
 3. MVP features (3-5 only)
@@ -374,6 +445,7 @@ project-name/
 6. Project name
 7. Ralph iterations
 8. Auto-start?
+9. Ralph mode? (same context vs fresh context)
 
 **Phase 2: Confirm** — Shows summary, waits for "go"
 
@@ -478,6 +550,10 @@ Creates `docs/public/` with:
 - Before deploying to production
 - Release candidate check
 - CI/CD verification
+
+### What It Does
+1. **Detects package manager** from lockfile (bun, pnpm, yarn, or npm)
+2. Runs all checks using the detected package manager
 
 ### What It Checks
 1. **Git** — Correct branch, clean working directory, commits pushed
@@ -622,11 +698,12 @@ RESULT: READY TO DEPLOY
 - After pulling changes
 
 ### What It Does
-Runs all checks and displays summary:
-1. Git status (branch, ahead/behind, uncommitted)
-2. TypeScript type checking
-3. ESLint linting
-4. Test suite
+1. **Detects package manager** from lockfile (bun, pnpm, yarn, or npm)
+2. Runs all checks using the detected package manager:
+   - Git status (branch, ahead/behind, uncommitted)
+   - TypeScript type checking
+   - ESLint linting
+   - Test suite
 
 ### Output Format
 ```

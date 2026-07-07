@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 30 slash commands, 15 specialist agents, and Ralph autonomous builder.
+Supercharge Claude Code with 33 slash commands, 16 specialist agents, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -16,7 +16,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 30 Slash Commands
+### 33 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -27,6 +27,8 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/prd-json` | Convert PRD to prd.json format for autonomous build |
 | `/build` | Run Ralph autonomous loop with completion promise |
 | `/research` | Deep research on competitors, market gaps, and idea validation |
+| `/landscape` | Competitive landscape + viability assessment of an existing product, published as a website report |
+| `/copy` | Audit, improve, or generate copy (sales pages, landing pages, emails, ads) |
 | `/commit` | Create conventional commit from staged changes |
 | `/pr` | Create pull request with auto-generated description |
 | `/review` | Comprehensive code review of staged or recent changes |
@@ -50,10 +52,11 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/project-complete` | Generate end-of-project documentation suite |
 | `/handoff` | Create session handoff notes for continuity |
 | `/deploy-check` | Pre-deployment verification checklist |
+| `/update` | Update Preclaude to the latest version |
 
 > **Note:** `/demo`, `/atomise`, `/listen`, `/launch` and `/scorecard` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
 
-### 15 Specialist Agents
+### 16 Specialist Agents
 
 | Agent | Use For |
 |-------|---------|
@@ -64,6 +67,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@security-auditor` | Vulnerability review, OWASP compliance, security best practices |
 | `@test-engineer` | Unit, integration, E2E tests, test architecture, mocking |
 | `@code-reviewer` | PR reviews, code quality, best practices |
+| `@copywriter` | Brand voice, sales pages, landing pages, email sequences, ad copy |
 | `@technical-writer` | Documentation, READMEs, API docs, guides |
 | `@ui-designer` | Design systems, component libraries, accessibility, animations |
 | `@ux-researcher` | User research, flows, wireframes, usability testing |
@@ -143,10 +147,10 @@ cd ~/.preclaude
 
 ## Updating
 
-Re-run the installer:
+Use the built-in update command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
+/update
 ```
 
 Or update manually:

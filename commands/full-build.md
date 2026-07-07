@@ -9,6 +9,16 @@ argument-hint: [product-description]
 
 Complete workflow from product idea to autonomous implementation.
 
+## Pre-Flight: Dependency Check
+
+Before starting, verify jq is installed (required for Ralph):
+
+<jq_check>
+!`command -v jq >/dev/null 2>&1 && echo "jq installed" || echo "jq NOT installed - run: brew install jq"`
+</jq_check>
+
+If jq is not installed, inform the user and ask them to install it before proceeding.
+
 ## Phase 1: Interview (Sequential Questions)
 
 **IMPORTANT**: Ask ONE question at a time using the AskUserQuestion tool. Wait for each response before asking the next question.
@@ -20,8 +30,8 @@ Use AskUserQuestion tool:
 ```json
 {
   "questions": [{
-    "question": "What are you building? Describe the core functionality and value proposition.",
-    "header": "Product",
+    "question": "What type of product are you building?",
+    "header": "Type",
     "options": [
       {"label": "SaaS Application", "description": "Web-based software service"},
       {"label": "Mobile App", "description": "iOS/Android app with React Native + Expo"},
@@ -32,9 +42,25 @@ Use AskUserQuestion tool:
   }]
 }
 ```
-*User selects type, then describes their specific product via "Other" or follow-up.*
 
-**Question 2: Target Audience**
+**Question 2: Product Description**
+*This is a free-text question - user describes their product via "Other".*
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Describe your product. What's the core functionality and value proposition?",
+    "header": "Product",
+    "options": [
+      {"label": "Let me describe it", "description": "I'll type my product description"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+*User will select "Other" to type their product description.*
+
+**Question 3: Target Audience**
 Use AskUserQuestion tool:
 ```json
 {
@@ -52,7 +78,7 @@ Use AskUserQuestion tool:
 }
 ```
 
-**Question 3: MVP Features**
+**Question 4: MVP Features**
 *This is a free-text question - user describes their features via "Other".*
 Use AskUserQuestion tool:
 ```json
@@ -71,10 +97,10 @@ Use AskUserQuestion tool:
 ```
 *User can select common features AND/OR describe custom ones via "Other".*
 
-**Question 4: Tech Stack**
+**Question 5: Tech Stack**
 Use AskUserQuestion tool:
 
-*If user selected "Mobile App" in Question 1:*
+*If user selected "Mobile App" in Question 1 (Product Type):*
 ```json
 {
   "questions": [{
@@ -107,7 +133,7 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to specify a custom stack.*
 
-**Question 5: UI Library**
+**Question 6: UI Library**
 
 *Skip this question if user selected "Mobile App" - mobile uses NativeWind defaults.*
 
@@ -147,7 +173,7 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to paste a custom preset URL.*
 
-**Question 6: Design Reference**
+**Question 7: Design Reference**
 *Ask if user has a design reference to extract design system from.*
 Use AskUserQuestion tool:
 ```json
@@ -173,7 +199,7 @@ Use AskUserQuestion tool:
 
 Store extracted design system in config for later use by ui-designer agent.
 
-**Question 7: Deep Research**
+**Question 8: Deep Research**
 *Ask if user wants competitive analysis before building.*
 Use AskUserQuestion tool:
 ```json
@@ -210,7 +236,12 @@ Then:
 - Identify gaps and opportunities
 - Add findings to PRD
 
-**Question 8: Project Name**
+**Question 9: Project Name**
+
+<current_folder>
+!`basename "$(pwd)"`
+</current_folder>
+
 *Generate 2-3 suggested names based on the product description, then let user pick or type their own.*
 Use AskUserQuestion tool:
 ```json
@@ -219,6 +250,7 @@ Use AskUserQuestion tool:
     "question": "What should the project folder be called? (use-kebab-case)",
     "header": "Name",
     "options": [
+      {"label": "Use current folder ([current_folder])", "description": "Build in this directory instead of creating a subfolder"},
       {"label": "[generated-name-1]", "description": "Based on your product description"},
       {"label": "[generated-name-2]", "description": "Alternative suggestion"}
     ],
@@ -226,9 +258,39 @@ Use AskUserQuestion tool:
   }]
 }
 ```
-*Replace [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
+*Replace [current_folder] with the actual current folder name, and [generated-name-X] with actual suggestions based on the product. User can select "Other" to type custom name.*
 
-**Question 9: Auto-Start Build**
+**After Question 9: Show Project Location**
+
+<current_dir>
+!`pwd`
+</current_dir>
+
+If user selected "Use current folder":
+```markdown
+📁 **Project Location**
+
+Your project will be created in the current directory:
+`[current_dir]/`
+
+✅ Using existing folder as project root.
+```
+*Set `use_current_folder=true` for later steps.*
+
+Otherwise (user selected a generated name or typed custom name):
+```markdown
+📁 **Project Location**
+
+Your project will be created at:
+`[current_dir]/[project_name]/`
+
+⚠️ This creates a NEW subfolder. The current directory will NOT be used directly.
+```
+*Set `use_current_folder=false` for later steps.*
+
+*Continue to Question 10.*
+
+**Question 10: Auto-Start Build**
 Use AskUserQuestion tool:
 ```json
 {
@@ -247,14 +309,34 @@ Use AskUserQuestion tool:
 ```
 *User can select "Other" to specify a custom iteration count.*
 
+**Question 11: Ralph Mode** *(Only ask if auto-start is Yes)*
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which Ralph mode do you want to use?",
+    "header": "Ralph mode",
+    "options": [
+      {"label": "Same context (Recommended)", "description": "Faster, Claude remembers previous work. Best for <15 stories."},
+      {"label": "Fresh context", "description": "Clean slate each story. Best for 20+ stories or overnight builds."}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**Same context**: Uses Anthropic plugin - all stories in one session, faster, Claude remembers failures.
+**Fresh context**: Original Ralph - spawns new Claude per story, clean slate, better for long builds.
+
 ### After All Questions
 
-Once all 9 questions are answered, parse into configuration:
+Once all questions are answered, parse into configuration:
 
 ```yaml
 config:
-  product_description: "[answer 1]"
-  target_audience: "[answer 2]"
+  product_type: "[answer 1]"
+  product_description: "[answer 2]"
+  target_audience: "[answer 3]"
   mvp_features:
     - "[feature 1]"
     - "[feature 2]"
@@ -277,9 +359,10 @@ config:
       border_radius: {}
       shadows: {}
   competitive_research: "[deep/quick/skip]"
-  project_name: "[answer 8]"
+  project_name: "[answer 9]"
   ralph_iterations: "auto"  # Calculate as story_count × 1.5
-  auto_start: "[answer 9: yes/no]"
+  auto_start: "[answer 10: yes/no]"
+  ralph_mode: "[answer 11: same-context/fresh-context]"  # Only if auto_start is yes
 ```
 
 ### shadcn Preset URL Mapping
@@ -425,8 +508,16 @@ Proceeding to project setup...
 
 ### Create Project
 
+**If `use_current_folder=true`:**
 ```bash
-# Create Next.js project with shadcn
+# Initialize in current directory
+npx shadcn@latest init --preset "[shadcn_preset]"
+```
+*Skip the `cd` command - already in the right directory.*
+
+**If `use_current_folder=false`:**
+```bash
+# Create Next.js project with shadcn in new subfolder
 npx shadcn@latest create --preset "[shadcn_preset]" --template next [project_name]
 
 cd [project_name]
@@ -776,13 +867,49 @@ Use AskUserQuestion tool:
 
 Calculate iterations: `story_count × 1.5` (minimum 10)
 
-Invoke `/build`:
+**If ralph_mode is "same-context"** (Anthropic plugin):
 
+Invoke `/build`:
 ```bash
 /build [iterations] scripts/ralph/prd.json
 ```
+This uses the Ralph Wiggum plugin's stop hook - loop continues until all stories pass.
 
-This uses the Ralph Wiggum plugin's stop hook mechanism with completion promise - the loop continues until all stories pass, then outputs `<promise>BUILD_COMPLETE</promise>` to exit.
+**If ralph_mode is "fresh-context"** (Original Ralph):
+
+Generate and run `scripts/ralph/ralph-loop.sh`:
+```bash
+# Generate the fresh context loop script
+mkdir -p scripts/ralph
+cat > scripts/ralph/ralph-loop.sh << 'SCRIPT'
+#!/bin/bash
+PRD_PATH="${1:-scripts/ralph/prd.json}"
+MAX_ITERATIONS="${2:-50}"
+LOG_FILE="scripts/ralph/ralph.log"
+: > "$LOG_FILE"
+
+echo "🔄 Ralph (fresh context) started" | tee -a "$LOG_FILE"
+
+for ((i=1; i<=MAX_ITERATIONS; i++)); do
+    REMAINING=$(jq '[.userStories[] | select(.passes == false)] | length' "$PRD_PATH" 2>/dev/null || echo "?")
+    [[ "$REMAINING" == "0" ]] && echo "✅ ALL STORIES COMPLETE!" | tee -a "$LOG_FILE" && exit 0
+
+    NEXT=$(jq -r '[.userStories[] | select(.passes == false)][0].title // "?"' "$PRD_PATH" 2>/dev/null)
+    echo "🔄 Iteration $i - $NEXT ($REMAINING remaining)" | tee -a "$LOG_FILE"
+
+    claude --print "Read scripts/ralph/prd.json. Implement NEXT story where passes:false. ONE story only. Run typecheck/lint/test. If pass: commit, set passes:true. NEVER ask confirmation." 2>&1 | tee -a "$LOG_FILE"
+done
+
+echo "⚠️ Max iterations reached" | tee -a "$LOG_FILE"
+SCRIPT
+chmod +x scripts/ralph/ralph-loop.sh
+
+# Run in background
+nohup scripts/ralph/ralph-loop.sh scripts/ralph/prd.json [iterations] > /dev/null 2>&1 &
+echo "Ralph PID: $!"
+```
+
+Monitor with: `tail -f scripts/ralph/ralph.log`
 
 Watch the progress below. I'll notify you when complete!
 

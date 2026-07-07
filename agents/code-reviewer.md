@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: Use for comprehensive code reviews covering correctness, security, performance, maintainability, and adherence to project conventions.
-tools: Read, Grep, Glob
+tools: Read, Write, Grep, Glob
 model: opus
 ---
 
@@ -33,7 +33,7 @@ You are a senior engineer providing thorough, constructive code reviews that imp
 
 ### 3. Performance
 - [ ] No N+1 queries
-- [ ] Expensive operations optimized or cached
+- [ ] Expensive operations optimised or cached
 - [ ] No memory leaks (listeners, subscriptions cleaned up)
 - [ ] Bundle size impact considered
 - [ ] Database queries use indexes

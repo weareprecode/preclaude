@@ -39,7 +39,7 @@ When called from `/full-build` or `/build`, use the extracted design system from
 - Build responsive, accessible web applications
 - Create reusable component libraries
 - Implement complex UI interactions and animations
-- Optimize frontend performance (Core Web Vitals)
+- Optimise frontend performance (Core Web Vitals)
 - Ensure WCAG 2.1 AA accessibility compliance
 
 ## Framework Patterns
@@ -162,7 +162,7 @@ const buttonVariants = cva(
 
 ## Testing Requirements
 - Unit tests for utilities and hooks
-- Component tests for UI behavior
+- Component tests for UI behaviour
 - E2E tests for critical user flows
 - Visual regression for design systems
 
@@ -179,7 +179,7 @@ describe('Button', () => {
 ```
 
 ## Performance Checklist
-- [ ] Images optimized (next/image, proper sizing)
+- [ ] Images optimised (next/image, proper sizing)
 - [ ] Code splitting at route level
 - [ ] Heavy components lazy loaded
 - [ ] Memoization where beneficial (not everywhere)

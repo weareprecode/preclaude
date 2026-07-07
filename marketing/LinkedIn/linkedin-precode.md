@@ -8,7 +8,7 @@
 
 It's how we build MVPs in days instead of weeks.
 
-24 slash commands. 15 specialist AI agents. An autonomous builder called Ralph that turns product specs into deployed code.
+26 slash commands. 16 specialist AI agents. An autonomous builder called Ralph that turns product specs into deployed code.
 
 One command to install. Free forever.
 
@@ -67,7 +67,7 @@ We needed Claude Code to work the way we work—with established workflows, spec
 
 Preclaude is a pre-configured setup for Claude Code that includes:
 
-**24 Slash Commands**
+**25 Slash Commands**
 Production-ready workflows for common tasks:
 - `/full-build` — Go from idea to deployed application
 - `/prd` — Generate comprehensive product requirement documents
@@ -145,8 +145,8 @@ That's it.
 - 30 seconds
 
 **What you get:**
-- 24 production-ready commands
-- 15 specialist agents
+- 26 production-ready commands
+- 16 specialist agents
 - Ralph autonomous builder
 - Full source code (MIT license)
 
@@ -192,8 +192,8 @@ Today, we're releasing the system that makes this possible: **Preclaude**.
 ## What Is It?
 
 Preclaude supercharges Claude Code with:
-- **24 slash commands** for common workflows
-- **15 specialist agents** for domain expertise
+- **26 slash commands** for common workflows
+- **16 specialist agents** for domain expertise
 - **Ralph**, an autonomous builder that turns PRDs into code
 
 ## How Ralph Works

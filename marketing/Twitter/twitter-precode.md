@@ -4,7 +4,7 @@
 
 We just open-sourced Preclaude.
 
-24 slash commands. 15 specialist agents. An autonomous builder that turns PRDs into shipped code.
+26 slash commands. 16 specialist agents. An autonomous builder that turns PRDs into shipped code.
 
 One curl command. Free forever.
 
@@ -28,7 +28,7 @@ It's how we build MVPs in days, not weeks.
 
 ## Tweet 3 - The Commands (Visual)
 
-24 commands. Here are the essentials:
+26 commands. Here are the essentials:
 
 /full-build → Idea to app
 /prd → Generate product spec
@@ -45,7 +45,7 @@ It's how we build MVPs in days, not weeks.
 
 ## Tweet 4 - The Agents (Visual)
 
-15 specialist agents:
+16 specialist agents:
 
 @frontend-developer
 @backend-developer
@@ -158,7 +158,7 @@ Questions? Reply or DM.
 
 We just open-sourced Preclaude.
 
-24 slash commands. 15 specialist agents. An autonomous builder that turns PRDs into shipped code. One curl command. Free forever.
+26 slash commands. 16 specialist agents. An autonomous builder that turns PRDs into shipped code. One curl command. Free forever.
 
 We're a digital product agency. This is how we build MVPs in days, not weeks.
 

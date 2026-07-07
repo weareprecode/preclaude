@@ -2,7 +2,7 @@
 
 ## Hook Tweet
 
-I've been using Claude Code for months. Last week I added 24 slash commands, 15 specialist agents, and an autonomous builder called Ralph.
+I've been using Claude Code for months. Last week I added 26 slash commands, 16 specialist agents, and an autonomous builder called Ralph.
 
 Now I can go from idea to deployed MVP without writing a single line of code myself.
 
@@ -29,8 +29,8 @@ I needed a system, not just a tool.
 So we built Preclaude.
 
 One curl command installs:
-- 24 slash commands (/commit, /review, /prd, /test...)
-- 15 specialist agents (@frontend-developer, @security-auditor...)
+- 26 slash commands (/commit, /review, /prd, /test...)
+- 16 specialist agents (@frontend-developer, @security-auditor...)
 - Ralph - an autonomous builder that implements PRDs story-by-story
 
 All pre-configured. All production-ready.
@@ -132,7 +132,7 @@ What command would you add? Reply and I might build it.
 
 ## Alternative: Long-Form Single Post
 
-I've been using Claude Code for months. Last week I added 24 slash commands, 15 specialist agents, and an autonomous builder called Ralph.
+I've been using Claude Code for months. Last week I added 26 slash commands, 16 specialist agents, and an autonomous builder called Ralph.
 
 Now I can go from idea to deployed MVP without writing a single line of code myself.
 

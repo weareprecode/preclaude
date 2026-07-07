@@ -7,18 +7,26 @@ allowed-tools: Read, Bash(*), Glob
 
 Run all verification steps before deploying.
 
+## Package Manager Detection
+
+<package_manager>
+!`if [ -f "bun.lockb" ]; then echo "bun"; elif [ -f "pnpm-lock.yaml" ]; then echo "pnpm"; elif [ -f "yarn.lock" ]; then echo "yarn"; else echo "npm"; fi`
+</package_manager>
+
+Use the detected package manager (stored in `<package_manager>`) for all commands below. Replace `npm` with the detected value.
+
 ## 1. Git Status
 
 <branch>
-!`git branch --show-current`
+!`git branch --show-current 2>/dev/null || echo "Not in git repo"`
 </branch>
 
 <status>
-!`git status --short`
+!`git status --short 2>/dev/null || echo "Not in git repo"`
 </status>
 
 <unpushed>
-!`git log origin/$(git branch --show-current)..HEAD --oneline 2>/dev/null || echo "No remote tracking"`
+!`git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1 && git log @{u}..HEAD --oneline 2>/dev/null || echo "No upstream configured"`
 </unpushed>
 
 ### Verify
@@ -152,7 +160,7 @@ RESULT: [READY TO DEPLOY / BLOCKERS FOUND]
 ## Quick Fixes
 
 If issues found, common fixes:
-- Lint: `npm run lint -- --fix`
+- Lint: `$PM run lint -- --fix` (where $PM is the detected package manager)
 - Types: Check error files, fix type annotations
-- Tests: `npm run test -- --watch` to debug
+- Tests: `$PM run test -- --watch` to debug
 - Build: Check for missing imports, env vars

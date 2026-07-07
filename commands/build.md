@@ -7,13 +7,51 @@ argument-hint: [iterations] [path-to-prd.json]
 
 # Build with Ralph Wiggum
 
-Execute the Ralph Wiggum autonomous build loop on an existing `prd.json`. Uses the Ralph Wiggum plugin's stop hook mechanism with completion promise for semantic exit.
+Execute the Ralph Wiggum autonomous build loop on an existing `prd.json`.
 
 ## Philosophy
 
 > "Ralph is a Bash loop" - Geoffrey Huntley
 
 Named after Ralph Wiggum from The Simpsons. The loop continues until genuine completion (all stories pass), not an arbitrary iteration count.
+
+## Choose Ralph Mode
+
+Use AskUserQuestion tool:
+```json
+{
+  "questions": [{
+    "question": "Which Ralph mode do you want to use?",
+    "header": "Ralph mode",
+    "options": [
+      {"label": "Same context (Recommended)", "description": "Faster, Claude remembers previous work. Best for <15 stories."},
+      {"label": "Fresh context", "description": "Clean slate each story. Best for 20+ stories or overnight builds."}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+**If "Same context"**: Continue to "Start Ralph Wiggum Loop" section below.
+**If "Fresh context"**: Skip to "Fresh Context Mode" section at the end.
+
+## Dependency Checks
+
+Before proceeding, verify required tools are installed:
+
+<jq_check>
+!`command -v jq >/dev/null 2>&1 && echo "jq installed" || echo "jq NOT installed - run: brew install jq"`
+</jq_check>
+
+If jq is not installed, stop and ask the user to install it first.
+
+## Package Manager Detection
+
+<package_manager>
+!`if [ -f "bun.lockb" ]; then echo "bun"; elif [ -f "pnpm-lock.yaml" ]; then echo "pnpm"; elif [ -f "yarn.lock" ]; then echo "yarn"; else echo "npm"; fi`
+</package_manager>
+
+Use the detected package manager for all `npm run` commands (replace with `bun run`, `pnpm run`, or `yarn run` as appropriate).
 
 ## Find prd.json
 
@@ -22,34 +60,6 @@ Named after Ralph Wiggum from The Simpsons. The loop continues until genuine com
 </prd_files>
 
 If $ARGUMENTS includes a path, use that. Otherwise, use `scripts/ralph/prd.json`.
-
-## Design Reference (Optional)
-
-Before starting, ask if user has a design reference:
-
-Use AskUserQuestion tool:
-```json
-{
-  "questions": [{
-    "question": "Do you have a design reference to follow? I can extract the design system from it.",
-    "header": "Design",
-    "options": [
-      {"label": "Website URL", "description": "Paste a URL to extract colours, typography, layout"},
-      {"label": "Figma link", "description": "Extract design tokens from Figma"},
-      {"label": "Screenshot", "description": "Analyse a screenshot for design patterns"},
-      {"label": "No, use defaults", "description": "Continue with existing project styling"}
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-*If user provides reference:*
-- **URL**: Use WebFetch to analyse and extract design system
-- **Figma**: Use mcp__figma__get_figma_data to extract design tokens
-- **Screenshot**: Analyse for colours, typography, spacing
-
-Document extracted design system in `docs/design-system.md` for consistency across stories.
 
 ## Pre-Flight Checks
 
@@ -158,6 +168,20 @@ When a story fails checks, increment its attempts count.
 - If stuck >5 min, add notes and continue
 - Never modify stories with `passes: true`
 
+## AUTONOMY RULES (CRITICAL)
+
+You are in an AUTONOMOUS loop. This means:
+
+1. **NEVER ask for user confirmation** - Just do the work
+2. **NEVER stop to report progress** - The loop handles reporting
+3. **NEVER ask "should I continue?"** - Always continue to next story
+4. **NEVER output a summary and wait** - Keep working
+5. **Only stop when ALL stories pass** - Then output the completion promise
+
+The user has explicitly requested autonomous execution. Stopping to ask questions defeats the entire purpose. If you're unsure about something, make a reasonable decision and document it in progress.txt.
+
+After completing a story, IMMEDIATELY check for the next story and start implementing it. Do not pause between stories.
+
 ## Completion Check
 
 After completing a story, check if ALL stories are done:
@@ -264,4 +288,104 @@ To stop the loop early:
 Or delete the state file:
 ```bash
 rm .claude/ralph-loop.local.md
+```
+
+---
+
+## Fresh Context Mode
+
+> Original Ralph Wiggum - each story gets a fresh context window.
+
+When user selects "Fresh context", generate and run `scripts/ralph/ralph-loop.sh`:
+
+### 1. Generate the Loop Script
+
+```bash
+mkdir -p scripts/ralph
+cat > scripts/ralph/ralph-loop.sh << 'SCRIPT'
+#!/bin/bash
+# Original Ralph - Fresh context per iteration
+
+PRD_PATH="${1:-scripts/ralph/prd.json}"
+MAX_ITERATIONS="${2:-50}"
+LOG_FILE="scripts/ralph/ralph.log"
+
+mkdir -p scripts/ralph
+: > "$LOG_FILE"
+
+echo "🔄 Ralph (fresh context) started at $(date)" | tee -a "$LOG_FILE"
+echo "PRD: $PRD_PATH | Max iterations: $MAX_ITERATIONS" | tee -a "$LOG_FILE"
+echo "" | tee -a "$LOG_FILE"
+
+for ((i=1; i<=MAX_ITERATIONS; i++)); do
+    REMAINING=$(jq '[.userStories[] | select(.passes == false)] | length' "$PRD_PATH" 2>/dev/null || echo "?")
+
+    if [[ "$REMAINING" == "0" ]]; then
+        echo "✅ ALL STORIES COMPLETE!" | tee -a "$LOG_FILE"
+        echo "Finished at $(date)" | tee -a "$LOG_FILE"
+        exit 0
+    fi
+
+    NEXT=$(jq -r '[.userStories[] | select(.passes == false)][0].title // "?"' "$PRD_PATH" 2>/dev/null)
+    echo "═══════════════════════════════════════════════════════════" | tee -a "$LOG_FILE"
+    echo "🔄 Iteration $i/$MAX_ITERATIONS - $NEXT" | tee -a "$LOG_FILE"
+    echo "   Remaining: $REMAINING stories | $(date)" | tee -a "$LOG_FILE"
+    echo "═══════════════════════════════════════════════════════════" | tee -a "$LOG_FILE"
+
+    claude --print "$(cat <<PROMPT
+# Ralph Iteration $i
+
+Read scripts/ralph/prd.json and implement the NEXT story where passes: false.
+
+## Rules
+1. ONE story only - the highest priority with passes: false
+2. Run typecheck, lint, test after implementation
+3. If ALL pass: git commit and set passes: true in prd.json
+4. Update scripts/ralph/progress.txt with learnings
+5. NEVER ask for confirmation - just do the work
+
+Current remaining: $REMAINING stories
+PROMPT
+)" 2>&1 | tee -a "$LOG_FILE"
+
+    echo "" | tee -a "$LOG_FILE"
+done
+
+echo "⚠️ Max iterations ($MAX_ITERATIONS) reached" | tee -a "$LOG_FILE"
+SCRIPT
+chmod +x scripts/ralph/ralph-loop.sh
+```
+
+### 2. Run in Background
+
+```bash
+# Calculate iterations
+REMAINING=$(jq '[.userStories[] | select(.passes == false)] | length' scripts/ralph/prd.json 2>/dev/null || echo 10)
+MAX_ITER=$((REMAINING * 2))
+[[ $MAX_ITER -lt 10 ]] && MAX_ITER=10
+
+# Run in background
+nohup scripts/ralph/ralph-loop.sh scripts/ralph/prd.json $MAX_ITER > /dev/null 2>&1 &
+echo "Ralph PID: $!"
+```
+
+### 3. Output to User
+
+```markdown
+## 🔄 Ralph (Fresh Context) Started
+
+**Mode**: Fresh context per iteration
+**Stories**: [N] remaining
+**Max iterations**: [N]
+
+### Monitor Progress
+```bash
+tail -f scripts/ralph/ralph.log    # Live output
+cat scripts/ralph/prd.json | jq '[.userStories[] | {title, passes}]'  # Story status
+```
+
+### Stop the Build
+```bash
+pkill -f ralph-loop.sh
+```
 ```

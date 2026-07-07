@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 30 commands with full documentation
+// Data - All 33 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -144,6 +144,34 @@ const commands: Command[] = [
       "Generates comprehensive report with Build/Pivot/Don't Build recommendation"
     ],
     example: '/research "Invoice tracking app for freelancers"'
+  },
+  {
+    name: "/landscape",
+    desc: "Competitive landscape + viability assessment, published as a website report",
+    fullDescription: "Run a deep, brutally honest competitive-landscape and viability assessment of the product in the current repo, then publish a polished, shareable website report with a clear verdict.",
+    whenToUse: ["Deciding whether to keep building a product", "A competitor just shipped something worrying", "Need an honest go/no-go assessment"],
+    whatItDoes: [
+      "Runs a parallel multi-agent web research sweep across 6-8 dimensions",
+      "Builds an adversarial bear case, bull case, and completeness critique",
+      "Publishes a self-contained HTML report: verdict stamp, moat scorecard, ranked threats, focus plan",
+      "Saves the verdict to project memory"
+    ],
+    example: '/landscape\n/landscape "given Figma\'s latest updates"'
+  },
+  {
+    name: "/copy",
+    desc: "Audit, improve, or generate copy (sales pages, landing, emails, ads)",
+    fullDescription: "Audit existing copy, improve content, or generate new persuasive copy for sales pages, landing pages, email sequences, case studies, and ads.",
+    whenToUse: ["Auditing existing marketing copy", "Improving weak headlines or CTAs", "Creating sales pages or landing pages", "Generating ad copy for campaigns"],
+    whatItDoes: [
+      "Audit mode: Scans project for copy, scores quality, provides priority fixes",
+      "Improve mode: Rewrites specific file with stronger messaging",
+      "Sales-page mode: Generates complete sales page structure",
+      "Landing mode: Generates lead-gen landing page",
+      "Email-sequence mode: Creates 5-email sequence",
+      "Ads mode: Generates variants for Google, Meta, LinkedIn"
+    ],
+    example: "/copy audit\n/copy improve README.md\n/copy sales-page\n/copy email-sequence"
   },
   {
     name: "/commit",
@@ -454,9 +482,23 @@ const commands: Command[] = [
     ],
     example: "/deploy-check\n# RESULT: READY TO DEPLOY ✅"
   },
+  {
+    name: "/update",
+    desc: "Update Preclaude to the latest version",
+    fullDescription: "Update Preclaude to the latest version from GitHub. Checks for updates, pulls latest changes, and verifies symlinks.",
+    whenToUse: ["Preclaude has new features", "Bug fixes released", "Want latest commands and agents"],
+    whatItDoes: [
+      "Checks ~/.preclaude installation",
+      "Fetches latest from GitHub",
+      "Pulls new commits if available",
+      "Verifies symlinks are intact",
+      "Reports what changed"
+    ],
+    example: "/update\n# Output: Updated from abc123 to def456\n# 3 new commits pulled"
+  },
 ];
 
-// Data - All 15 agents with full documentation
+// Data - All 16 agents with full documentation
 const agents: Agent[] = [
   {
     name: "@frontend-developer",
@@ -616,6 +658,29 @@ const agents: Agent[] = [
       "@code-reviewer Review my recent changes before PR",
       "@code-reviewer Check this function for issues",
       "@code-reviewer Review the auth implementation"
+    ]
+  },
+  {
+    name: "@copywriter",
+    desc: "Brand voice, sales pages, landing pages, email sequences, ad copy",
+    fullDescription: "Brand voice, sales pages, landing pages, email sequences, case studies, ad copy, copy audits, and persuasive content improvement.",
+    expertise: [
+      "Copy auditing and improvement",
+      "Brand voice and tone consistency",
+      "Sales page structure (hero, problem, solution, proof, CTA)",
+      "Landing page optimisation",
+      "Email sequences (welcome, nurture, sales)"
+    ],
+    focusAreas: [
+      "Persuasion frameworks (AIDA, PAS, Before-After-Bridge)",
+      "Ad copy (Google, Meta, LinkedIn)",
+      "SEO copywriting",
+      "Case studies and testimonials"
+    ],
+    whenToUse: [
+      "@copywriter Audit the copy on our landing page",
+      "@copywriter Improve the hero section — it's not converting",
+      "@copywriter Write an email welcome sequence for new users"
     ]
   },
   {
@@ -808,7 +873,7 @@ const agents: Agent[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 30 slash commands, 15 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 16 specialist agents, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -890,7 +955,6 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
               <a href="#commands" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Slash Commands</a>
               <a href="#agents" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Agents</a>
               <a href="#faqs" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">FAQs</a>
-              <a href="#" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Blog</a>
               <hr className="border-[#2D2B2B] my-2" />
               <a
                 href="https://github.com/weareprecode/preclaude"
@@ -1034,7 +1098,6 @@ export default function Home() {
             <a href="#commands" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Slash Commands</a>
             <a href="#agents" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Agents</a>
             <a href="#faqs" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">FAQs</a>
-            <a href="#" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Blog</a>
           </div>
         </div>
 
@@ -1089,7 +1152,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
             >
-              30 slash commands, 15 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
+              33 slash commands, 16 specialist agents, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1116,21 +1179,39 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Hero Screenshot */}
+          {/* Hero Video with Frame Overlay */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 sm:mt-16 rounded-xl sm:rounded-[18px] overflow-hidden"
+            className="mt-10 sm:mt-16 relative"
           >
-            <Image
-              src="/hero-screenshot.png"
-              alt="Ralph autonomous builder running in Cursor IDE"
-              width={2560}
-              height={1761}
-              className="w-full h-auto"
-              priority
-            />
+            {/* Oil painting background */}
+            <div className="absolute inset-0 rounded-xl sm:rounded-[18px] overflow-hidden">
+              <Image
+                src="/hero-bg.png"
+                alt=""
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            {/* Window frame with video */}
+            <div className="relative z-10 p-4 sm:p-8 md:p-12">
+              <div className="rounded-lg overflow-hidden shadow-2xl">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto"
+                  poster="/hero-screenshot.png"
+                >
+                  <source src="/hero-video.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -1219,7 +1300,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">30</span> Slash Commands
+                <span className="text-white">33</span> Slash Commands
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.
@@ -1253,7 +1334,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">15</span> Specialist Agents
+                <span className="text-white">16</span> Specialist Agents
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 Expert knowledge for every part of your stack.

@@ -25,11 +25,11 @@ Follow the claude-md-learner skill methodology exactly.
 </recent_commits>
 
 <files_changed>
-!`git diff HEAD~10 --name-only 2>/dev/null || echo "No changes tracked"`
+!`git diff $(git rev-parse --short HEAD~10 2>/dev/null || git rev-list --max-parents=0 HEAD) --name-only 2>/dev/null || echo "No changes tracked"`
 </files_changed>
 
 <diff_summary>
-!`git diff HEAD~10 --stat 2>/dev/null || echo "No diff available"`
+!`git diff $(git rev-parse --short HEAD~10 2>/dev/null || git rev-list --max-parents=0 HEAD) --stat 2>/dev/null || echo "No diff available"`
 </diff_summary>
 
 ## 3. Analysis Instructions

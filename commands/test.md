@@ -32,6 +32,12 @@ Use AskUserQuestion tool:
 
 ## Phase 2: Detect Test Setup
 
+<package_manager>
+!`if [ -f "bun.lockb" ]; then echo "bun"; elif [ -f "pnpm-lock.yaml" ]; then echo "pnpm"; elif [ -f "yarn.lock" ]; then echo "yarn"; else echo "npm"; fi`
+</package_manager>
+
+Use the detected package manager for running tests.
+
 ```bash
 # Check testing framework
 cat package.json | grep -E "vitest|jest|playwright|cypress" | head -5

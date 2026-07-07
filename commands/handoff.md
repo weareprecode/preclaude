@@ -22,11 +22,11 @@ Create handoff document for session continuity.
 </recent_commits>
 
 <recent_changes>
-!`git diff HEAD~5 --stat 2>/dev/null || echo "No recent changes"`
+!`git diff $(git rev-parse --short HEAD~5 2>/dev/null || git rev-list --max-parents=0 HEAD) --stat 2>/dev/null || echo "No recent changes"`
 </recent_changes>
 
 <modified_files>
-!`git diff HEAD~5 --name-only 2>/dev/null || echo "No files"`
+!`git diff $(git rev-parse --short HEAD~5 2>/dev/null || git rev-list --max-parents=0 HEAD) --name-only 2>/dev/null || echo "No files"`
 </modified_files>
 
 ## Create Handoff Document
