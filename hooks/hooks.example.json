@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.preclaude/hooks/scripts/block-dangerous.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.preclaude/hooks/scripts/format-on-edit.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the work in this session. If the user asked for code changes, verify that lint/typecheck/tests were run and passed before finishing. If verification was skipped, respond with {\"decision\": \"block\", \"reason\": \"Run the project's quality checks (lint, typecheck, tests) before finishing.\"} — otherwise respond with {\"decision\": \"approve\"}."
+          }
+        ]
+      }
+    ]
+  }
+}

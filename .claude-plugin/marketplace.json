@@ -1,0 +1,14 @@
+{
+  "name": "preclaude",
+  "owner": {
+    "name": "Precode",
+    "url": "https://precode.co"
+  },
+  "plugins": [
+    {
+      "name": "preclaude",
+      "source": "./",
+      "description": "33 slash commands, 16 specialist agents, 10 skills, and Ralph autonomous builder — production-ready Claude Code workflows from kickoff to launch."
+    }
+  ]
+}

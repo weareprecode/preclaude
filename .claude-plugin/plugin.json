@@ -1,0 +1,23 @@
+{
+  "name": "preclaude",
+  "version": "2.0.0",
+  "description": "Supercharge Claude Code with 33 slash commands, 16 specialist agents, 10 skills, and Ralph autonomous builder — production-ready workflows from kickoff to launch.",
+  "author": {
+    "name": "Precode",
+    "url": "https://precode.co"
+  },
+  "homepage": "https://preclaude.com",
+  "repository": "https://github.com/weareprecode/preclaude",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "commands",
+    "agents",
+    "skills",
+    "prd",
+    "autonomous-build",
+    "ralph",
+    "marketing",
+    "mvp"
+  ]
+}
