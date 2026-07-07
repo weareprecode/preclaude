@@ -1,7 +1,6 @@
 ---
 description: Analyze session, score learnings, propose CLAUDE.md updates (strict filtering)
-allowed-tools: Read, Write, Bash(git diff), Bash(git log), Bash(wc), Glob, Grep
-model: opus
+allowed-tools: Read, Write, Bash(git diff:*), Bash(git log:*), Bash(wc:*), Glob, Grep
 ---
 
 # Session Learning Analysis

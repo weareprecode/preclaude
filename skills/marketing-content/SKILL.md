@@ -1,3 +1,8 @@
+---
+name: marketing-content
+description: Transforms product information into platform-optimised marketing content with consistent brand voice — Twitter/X posts and threads, LinkedIn posts, Instagram captions, email newsletters, blog posts, and release notes, with A/B variations. Use when creating launch announcements, generating social media content from features, writing blog posts about releases, drafting email campaigns, or producing release notes.
+---
+
 # Marketing Content Generator
 
 ## Purpose

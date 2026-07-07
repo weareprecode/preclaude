@@ -1,7 +1,6 @@
 ---
 description: Research competitors, market gaps, and validate ideas using deep web research
 allowed-tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
-model: opus
 argument-hint: [idea-or-prd-description]
 ---
 
@@ -86,7 +85,7 @@ Starting research now...
    Use WebSearch with queries like:
    - "[product type] software"
    - "[product type] alternatives"
-   - "best [product type] tools 2025"
+   - "best [product type] tools [current year]" (substitute the actual current year)
    - "[product type] startups"
 
 3. **Analyse Each Competitor**

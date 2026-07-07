@@ -1,7 +1,6 @@
 ---
 description: Polish UI to match a design reference - URL, Figma, or screenshot
-allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, mcp__figma__get_figma_data, mcp__figma__download_figma_images, AskUserQuestion
-model: opus
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, mcp__figma__get_design_context, mcp__figma__get_screenshot, mcp__figma__get_variable_defs, mcp__figma__download_assets, AskUserQuestion
 argument-hint: [component-or-page]
 ---
 
@@ -75,18 +74,19 @@ Extract the following design tokens from this page:
 
 ### If Figma Selected
 
-Use mcp__figma__get_figma_data to fetch design:
+Use mcp__figma__get_design_context to fetch the design context and code for the node:
 
 1. Extract fileKey from URL (e.g., `figma.com/design/ABC123/...` → `ABC123`)
 2. Extract nodeId if provided in URL (e.g., `node-id=1234:5678`)
-3. Fetch design data and extract:
+3. Use mcp__figma__get_variable_defs to extract design tokens/variables:
    - Colour styles
    - Text styles
    - Effects (shadows, blurs)
    - Component variants
    - Auto-layout spacing values
+4. Use mcp__figma__get_screenshot for a visual reference of the node.
 
-Use mcp__figma__download_figma_images if icons or images needed.
+Use mcp__figma__download_assets if icons or images needed.
 
 ### If Screenshot Selected
 

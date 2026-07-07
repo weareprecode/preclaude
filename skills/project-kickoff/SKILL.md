@@ -1,3 +1,8 @@
+---
+name: project-kickoff
+description: Initialises new projects with production-ready structure, tooling, and Claude-optimised documentation — directory scaffold, CLAUDE.md, ROADMAP.md, .env.example, CI workflow, and package scripts for Next.js, API-only, or Expo stacks. Use when starting a new project from scratch, setting up a new client project, converting a prototype to production structure, or initialising a new microservice.
+---
+
 # Project Kickoff
 
 ## Purpose
@@ -18,7 +23,7 @@ Before scaffolding, clarify:
 | Question | Options | Default |
 |----------|---------|---------|
 | Project type | Web / Mobile / API / Full-stack / Package | Full-stack |
-| Frontend | Next.js / React / React Native / Vue / None | Next.js 15 |
+| Frontend | Next.js / React / React Native / Vue / None | Next.js latest stable major (16+ at time of writing) |
 | Backend | Node (Hono/Express) / Python / Go / None | Node + Hono |
 | Database | PostgreSQL / Supabase / MongoDB / SQLite / None | Supabase |
 | Auth | Better Auth / Supabase Auth / Clerk / None | Better Auth |

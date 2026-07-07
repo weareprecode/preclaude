@@ -1,7 +1,6 @@
 ---
 description: Generate tests for existing code - unit, integration, or E2E
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-model: opus
 argument-hint: [file-or-component]
 ---
 

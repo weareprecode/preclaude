@@ -1,7 +1,6 @@
 ---
 description: Comprehensive code review of staged or recent changes
 allowed-tools: Read, Bash(git:*), Glob, Grep
-model: opus
 ---
 
 # Code Review

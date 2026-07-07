@@ -1,7 +1,6 @@
 ---
 description: Full workflow from idea to autonomous execution (PRD → Ralph → Build)
-allowed-tools: Read, Write, Edit, Bash(*), Glob, Grep, WebSearch
-model: opus
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch
 argument-hint: [product-description]
 ---
 
@@ -123,8 +122,8 @@ Use AskUserQuestion tool:
     "question": "Which tech stack would you like to use?",
     "header": "Stack",
     "options": [
-      {"label": "Next.js + Supabase (Recommended)", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth"},
-      {"label": "Next.js + Prisma", "description": "Next.js 15, React 19, TypeScript, Tailwind, shadcn/ui, Prisma, PostgreSQL"},
+      {"label": "Next.js + Supabase (Recommended)", "description": "Latest Next.js, React 19, TypeScript, Tailwind, shadcn/ui, Supabase, Better Auth"},
+      {"label": "Next.js + Prisma", "description": "Latest Next.js, React 19, TypeScript, Tailwind, shadcn/ui, Prisma, PostgreSQL"},
       {"label": "Vite + Express", "description": "Vite, React 19, TypeScript, Tailwind, Express backend"}
     ],
     "multiSelect": false
@@ -194,7 +193,7 @@ Use AskUserQuestion tool:
 
 *If user selects URL, Figma, or Screenshot:*
 - **URL**: Use WebFetch to analyse the site and extract the full design system (colours, typography, spacing, border-radius, shadows, layout patterns, animations)
-- **Figma**: Ask user to paste Figma link, use mcp__figma__get_figma_data to extract design tokens
+- **Figma**: Ask user to paste Figma link, use mcp__figma__get_variable_defs to extract design tokens
 - **Screenshot**: Ask user to provide screenshot path, analyse it for design system
 
 Store extracted design system in config for later use by ui-designer agent.
@@ -342,7 +341,7 @@ config:
     - "[feature 2]"
     - "[feature 3]"
   tech_stack:
-    frontend: "Next.js 15, React 19, TypeScript, Tailwind"
+    frontend: "Latest stable Next.js major (16+ as of 2026), React 19, TypeScript, Tailwind"
     ui: "shadcn/ui"
     backend: "Server Actions + API routes"
     database: "Supabase (PostgreSQL)"
@@ -397,7 +396,7 @@ Show summary and get explicit confirmation:
 3. [feature 3]
 
 ### Tech Stack
-- Frontend: Next.js 15, React 19, TypeScript, Tailwind
+- Frontend: latest Next.js, React 19, TypeScript, Tailwind
 - UI: shadcn/ui ([style])
 - Backend: Server Actions + API routes
 - Database: Supabase (PostgreSQL)
@@ -753,7 +752,7 @@ Read `CLAUDE.md` for conventions and gotchas.
 - [feature 3]
 
 ## Stack
-- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind
+- **Frontend**: latest Next.js, React 19, TypeScript, Tailwind
 - **UI**: shadcn/ui ([style])
 - **Backend**: [backend]
 - **Database**: [database]

@@ -1,7 +1,6 @@
 ---
 description: Convert PRD to prd.json format for autonomous build execution
 allowed-tools: Read, Write, Glob
-model: opus
 argument-hint: [path-to-prd]
 ---
 

@@ -1,7 +1,6 @@
 ---
 description: Generate a comprehensive technical PRD for a product or feature MVP
 allowed-tools: Read, Write, WebSearch, WebFetch
-model: opus
 argument-hint: [product-description]
 ---
 

@@ -1,7 +1,6 @@
 ---
 description: Generate stakeholder update pack - daily/weekly progress reports with metrics
 allowed-tools: Read, Write, Bash, Glob, Grep
-model: opus
 argument-hint: [daily|weekly|pack]
 ---
 

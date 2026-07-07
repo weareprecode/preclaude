@@ -1,3 +1,8 @@
+---
+name: prd
+description: Generates a comprehensive technical Product Requirements Document for an MVP or feature — 20+ Gherkin user stories, user flows, screens, architecture, API specs, data model, security, performance, and deployment plan. Use when the user asks to create a PRD, write requirements, or produce a technical spec for a product, feature, or idea, or when starting a new project or major feature that needs implementable specifications.
+---
+
 # Technical PRD Generator
 
 ## Purpose

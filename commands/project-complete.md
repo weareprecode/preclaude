@@ -1,7 +1,6 @@
 ---
 description: Generate end-of-project documentation suite (build journal, features, marketing)
 allowed-tools: Read, Write, Bash(git:*), Glob, Grep
-model: opus
 ---
 
 # Project Complete - Generate Documentation Suite

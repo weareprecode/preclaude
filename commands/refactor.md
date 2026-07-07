@@ -1,7 +1,6 @@
 ---
 description: Refactor code - extract components, improve types, split files, clean up
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-model: opus
 argument-hint: [file-or-pattern]
 ---
 

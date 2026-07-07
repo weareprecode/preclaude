@@ -1,3 +1,8 @@
+---
+name: dev-browser
+description: Automates a persistent, visible Chromium browser via Playwright for visual verification of frontend changes — navigating, clicking, filling forms, and taking screenshots against a running dev server. Use when asked to verify in browser, take a screenshot of a page, navigate to a URL, click an element, test a feature or UI in the browser, or when a frontend story has visual acceptance criteria.
+---
+
 # Dev Browser - Visual Verification
 
 ## Purpose
@@ -18,21 +23,31 @@ Browser automation with persistent page state for visual verification, testing, 
 
 ### Install Dependencies
 ```bash
-npm install puppeteer-core
-# or
-npm install puppeteer  # includes Chromium
+npm install playwright
+npx playwright install chromium
 ```
 
 ### Start Browser
-```bash
-# Fresh profile (no cookies/logins)
-node scripts/dev-browser/start.js
+No helper scripts needed — write a small launcher to a temp file and run it with Node:
 
-# With your Chrome profile (keeps logins)
-node scripts/dev-browser/start.js --profile
+```bash
+cat > /tmp/dev-browser-start.js <<'EOF'
+const { chromium } = require('playwright');
+
+(async () => {
+  const context = await chromium.launchPersistentContext('/tmp/dev-browser-profile', {
+    headless: false,
+    args: ['--remote-debugging-port=9222'],
+  });
+  console.log('Dev browser running on port 9222');
+  // Keep the process alive so page state persists between scripts
+  await new Promise(() => {});
+})();
+EOF
+node /tmp/dev-browser-start.js &
 ```
 
-This starts Chrome on port 9222 with DevTools Protocol enabled.
+This starts a headed Chromium on port 9222 with the DevTools Protocol enabled and a persistent profile (cookies/logins survive restarts). For a fresh profile with no cookies/logins, delete `/tmp/dev-browser-profile` first.
 
 ---
 
@@ -40,14 +55,13 @@ This starts Chrome on port 9222 with DevTools Protocol enabled.
 
 ### Navigate to URL
 ```javascript
-const puppeteer = require('puppeteer-core');
+const { chromium } = require('playwright');
 
 async function navigate(url) {
-  const browser = await puppeteer.connect({
-    browserURL: 'http://localhost:9222'
-  });
-  const page = await browser.newPage();
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  const browser = await chromium.connectOverCDP('http://localhost:9222');
+  const context = browser.contexts()[0];
+  const page = await context.newPage();
+  await page.goto(url, { waitUntil: 'networkidle' });
   return page;
 }
 ```
@@ -88,7 +102,7 @@ await page.$eval('input[name="email"]', el => el.value = '');
 await page.type('input[name="email"]', 'new@example.com');
 
 // Select dropdown
-await page.select('select[name="country"]', 'UK');
+await page.selectOption('select[name="country"]', 'UK');
 ```
 
 ### Get Page State
@@ -114,7 +128,7 @@ const exists = await page.$('.success-message') !== null;
 ```javascript
 async function verifyVisible(page, selector, timeout = 5000) {
   try {
-    await page.waitForSelector(selector, { visible: true, timeout });
+    await page.waitForSelector(selector, { state: 'visible', timeout });
     console.log(`✅ ${selector} is visible`);
     return true;
   } catch {
@@ -148,7 +162,7 @@ async function testFormSubmission(page) {
   await page.click('button[type="submit"]');
   
   // Wait for navigation or response
-  await page.waitForNavigation({ waitUntil: 'networkidle2' });
+  await page.waitForURL('**/dashboard', { waitUntil: 'networkidle' }).catch(() => {});
   
   // Verify success
   const url = page.url();
@@ -215,17 +229,17 @@ const card = await page.$('[data-testid="user-card"]');
 
 ## Script Templates
 
+Write these to a temp file (e.g. `/tmp/verify-page.js`) and run with `node /tmp/verify-page.js` — no repo scripts required.
+
 ### Full Page Verification
 ```javascript
-// scripts/verify-page.js
-const puppeteer = require('puppeteer-core');
+// /tmp/verify-page.js
+const { chromium } = require('playwright');
 
 async function verify() {
-  const browser = await puppeteer.connect({
-    browserURL: 'http://localhost:9222'
-  });
-  
-  const page = await browser.newPage();
+  const browser = await chromium.connectOverCDP('http://localhost:9222');
+  const context = browser.contexts()[0];
+  const page = await context.newPage();
   await page.goto('http://localhost:3000');
   
   // Verify key elements
@@ -252,15 +266,13 @@ verify().catch(console.error);
 
 ### Form Test Script
 ```javascript
-// scripts/test-login.js
-const puppeteer = require('puppeteer-core');
+// /tmp/test-login.js
+const { chromium } = require('playwright');
 
 async function testLogin() {
-  const browser = await puppeteer.connect({
-    browserURL: 'http://localhost:9222'
-  });
-  
-  const page = await browser.newPage();
+  const browser = await chromium.connectOverCDP('http://localhost:9222');
+  const context = browser.contexts()[0];
+  const page = await context.newPage();
   await page.goto('http://localhost:3000/login');
   
   // Test invalid login
@@ -319,7 +331,7 @@ await page.screenshot({ path: `tmp/step-${stepNumber}.png` });
 ### 5. Handle Loading States
 ```javascript
 // Wait for loading spinner to disappear
-await page.waitForSelector('.loading-spinner', { hidden: true });
+await page.waitForSelector('.loading-spinner', { state: 'hidden' });
 
 // Wait for specific content to appear
 await page.waitForSelector('[data-loaded="true"]');

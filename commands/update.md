@@ -20,7 +20,7 @@ If `<preclaude_dir>` shows "NOT INSTALLED":
 Preclaude is not installed at ~/.preclaude
 
 Install with:
-curl -fsSL https://preclaude.dev/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash
 ```
 
 ## Current Version

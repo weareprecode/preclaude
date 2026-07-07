@@ -1,7 +1,6 @@
 ---
 description: Run Ralph autonomous build loop on existing prd.json (uses Ralph Wiggum plugin)
-allowed-tools: Read, Write, Edit, Bash(*), Glob, Grep
-model: opus
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: [iterations] [path-to-prd.json]
 ---
 

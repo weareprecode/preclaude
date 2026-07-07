@@ -1,3 +1,8 @@
+---
+name: claude-md-learner
+description: Analyses coding sessions and maintains CLAUDE.md as a lean, high-signal file — scoring candidate learnings, flagging stale entries for removal, and enforcing a strict size budget. Use when running /learn, at the end of a coding session, after solving a problem that took multiple attempts, or when the user asks to update CLAUDE.md with learnings or lessons from the session.
+---
+
 # CLAUDE.md Learning Analyzer
 
 ## Purpose

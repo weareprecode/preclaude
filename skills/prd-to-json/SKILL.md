@@ -1,3 +1,8 @@
+---
+name: prd-to-json
+description: Converts Product Requirements Documents into structured, validated JSON — objectives, functional and non-functional requirements, user stories with acceptance criteria, tasks, milestones, and risks — for project-management and development workflows. Use when processing a PRD or requirements doc, creating development task lists from requirements, importing requirements into project management tools, or generating structured data for sprint planning.
+---
+
 # PRD to JSON Converter
 
 ## Purpose

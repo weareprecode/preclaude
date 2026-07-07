@@ -1,7 +1,6 @@
 ---
 description: Audit and fix SEO essentials - meta tags, Open Graph, favicon, sitemap, robots.txt
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch
-model: opus
 argument-hint: [fix|audit]
 ---
 

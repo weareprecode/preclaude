@@ -1,6 +1,6 @@
 ---
 description: Initialize new project with full structure, CLAUDE.md, and tooling
-allowed-tools: Read, Write, Bash(*), Glob
+allowed-tools: Read, Write, Bash, Glob
 argument-hint: [project-name]
 ---
 

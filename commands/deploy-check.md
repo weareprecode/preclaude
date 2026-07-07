@@ -1,6 +1,6 @@
 ---
 description: Pre-deployment verification checklist
-allowed-tools: Read, Bash(*), Glob
+allowed-tools: Read, Bash, Glob
 ---
 
 # Pre-Deployment Check

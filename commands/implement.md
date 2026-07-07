@@ -1,6 +1,6 @@
 ---
 description: Execute full feature implementation from PRD through completion
-allowed-tools: Read, Write, Edit, Bash(*), Glob, Grep
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: [feature-description]
 ---
 

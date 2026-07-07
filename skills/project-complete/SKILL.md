@@ -1,3 +1,8 @@
+---
+name: project-complete
+description: Generates the end-of-project documentation suite in docs/public/ — build journal, feature documentation, marketing kit, social media content pack, and technical handoff. Use when a project or 5-Day Sprint finishes, when preparing a product launch, or when asked to create completion documentation, generate marketing materials for a build, or document a sprint for content.
+---
+
 # Project Complete - End-of-Project Documentation
 
 ## Purpose

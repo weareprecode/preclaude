@@ -1,3 +1,8 @@
+---
+name: ralph
+description: Converts PRDs into prd.json format for the Ralph autonomous agent loop, breaking features into small, prioritised user stories with checkable acceptance criteria that each fit one fresh-context iteration. Use when asked to convert a PRD to Ralph format, create prd.json, turn a plan or feature into autonomous tasks, or set up Ralph for a feature.
+---
+
 # Ralph - Autonomous Agent Loop
 
 ## Purpose

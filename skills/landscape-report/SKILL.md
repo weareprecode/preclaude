@@ -1,3 +1,8 @@
+---
+name: landscape-report
+description: Runs a brutally honest competitive-landscape and viability assessment of an EXISTING product using parallel web-research agents and adversarial bear/bull passes, then publishes a shareable website report with a go/no-go verdict. Use when the user runs /landscape, asks "is this product still viable", "what's our biggest USP or threat", "should we carry on", or requests a competitive landscape review after a competitor launch or platform shift.
+---
+
 # Landscape Report - Competitive Viability Assessment
 
 ## Purpose
