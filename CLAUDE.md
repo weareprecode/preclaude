@@ -70,7 +70,7 @@ When not specified by project, prefer:
 - `/deploy-check` — Pre-deployment checklist
 - `/update` — Update Preclaude to the latest version
 
-## Agents Available (16)
+## Agents Available (18)
 Invoke with @agent-name for specialized tasks:
 - `@frontend-developer` — React, Next.js, UI components, state management
 - `@backend-developer` — APIs, server-side logic, database operations
@@ -80,6 +80,8 @@ Invoke with @agent-name for specialized tasks:
 - `@test-engineer` — Unit tests, integration tests, E2E tests
 - `@code-reviewer` — Code review, best practices
 - `@copywriter` — Brand voice, sales pages, landing pages, email sequences, ad copy
+- `@ai-engineer` — Claude API, Agent SDK, RAG pipelines, LLM features
+- `@data-analyst` — SQL, product analytics, funnels, A/B tests, dashboards
 - `@technical-writer` — Documentation, guides, tutorials
 - `@ui-designer` — Design systems, accessibility, animations
 - `@ux-researcher` — User research, usability testing

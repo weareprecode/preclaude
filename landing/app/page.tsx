@@ -498,7 +498,7 @@ const commands: Command[] = [
   },
 ];
 
-// Data - All 16 agents with full documentation
+// Data - All 18 agents with full documentation
 const agents: Agent[] = [
   {
     name: "@frontend-developer",
@@ -867,13 +867,73 @@ const agents: Agent[] = [
       "@android-developer Configure Hilt dependency injection"
     ]
   },
+  {
+    name: "@ai-engineer",
+    desc: "Claude API, Agent SDK, RAG, LLM features",
+    fullDescription: "Production AI features built on the Claude API and Agent SDK — chat interfaces, agentic workflows, tool use, RAG pipelines, and LLM cost optimisation.",
+    expertise: [
+      "Claude API: streaming, tool use, prompt caching",
+      "Claude Agent SDK (TypeScript and Python)",
+      "MCP servers — building and consuming",
+      "RAG: chunking, embeddings, vector stores, reranking",
+      "Prompt engineering and evals"
+    ],
+    focusAreas: [
+      "Graceful degradation: timeouts, fallbacks, refusals",
+      "Cost per feature: token budgets and caching",
+      "Prompt-injection-aware agentic design",
+      "Model selection: right tier for the task"
+    ],
+    whenToUse: [
+      "@ai-engineer Add an AI chat assistant to the dashboard",
+      "@ai-engineer Build a RAG pipeline over our docs",
+      "@ai-engineer Cut our Claude API costs with prompt caching"
+    ]
+  },
+  {
+    name: "@data-analyst",
+    desc: "SQL, product analytics, funnels, dashboards",
+    fullDescription: "Product and marketing analytics — SQL, PostHog/Plausible analysis, funnels, retention, and turning raw numbers into decisions tied to a recommendation.",
+    expertise: [
+      "PostgreSQL: window functions, cohorts, funnels",
+      "PostHog (HogQL), Plausible, GA4",
+      "Attribution and UTM hygiene",
+      "A/B test design and significance",
+      "Dashboards that answer one question each"
+    ],
+    focusAreas: [
+      "Metrics defined precisely before measuring",
+      "Signal vs noise: seasonality, small samples",
+      "Every analysis ends in a recommendation",
+      "Loud flags on data-quality problems"
+    ],
+    whenToUse: [
+      "@data-analyst Which channel drives activated users?",
+      "@data-analyst Write a retention cohort query",
+      "@data-analyst Are these A/B test results significant?"
+    ]
+  },
+];
+
+// Skills Data
+const skills = [
+  { name: "prd", desc: "Comprehensive technical PRDs with 20+ Gherkin user stories" },
+  { name: "prd-to-json", desc: "PRDs into structured, validated JSON for planning tools" },
+  { name: "ralph", desc: "PRDs into atomic prd.json stories for the autonomous loop" },
+  { name: "project-kickoff", desc: "Production-ready project scaffolds with Claude-optimised docs" },
+  { name: "project-complete", desc: "End-of-project documentation suite: journal, features, handoff" },
+  { name: "claude-md-learner", desc: "Keeps CLAUDE.md lean — scores learnings, prunes stale entries" },
+  { name: "marketing-content", desc: "Platform-optimised launch content with consistent brand voice" },
+  { name: "landscape-report", desc: "Brutally honest competitive viability reports, published as websites" },
+  { name: "dev-browser", desc: "Visual verification in a real Chromium browser via Playwright" },
+  { name: "better-auth", desc: "Better Auth setup with every known gotcha handled" },
 ];
 
 // FAQ Data
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 16 specialist agents, 10 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -893,11 +953,23 @@ const faqs = [
   },
   {
     question: "Can I customise the commands and agents?",
-    answer: "Absolutely! All commands and agents are stored as markdown files in your ~/.claude directory. You can modify existing ones or add your own."
+    answer: "Absolutely! Everything is plain markdown. With the installer, files live in ~/.preclaude (symlinked into ~/.claude) — edit them or add your own. With the plugin install, fork the repo, customise, and install your fork as your own marketplace."
   },
   {
-    question: "What's the difference between commands and agents?",
-    answer: "Commands (/command) are specific workflows like /commit or /review. Agents (@agent) are specialist personas like @frontend-developer or @security-auditor that bring domain expertise to conversations."
+    question: "What's the difference between commands, agents, and skills?",
+    answer: "Commands (/command) are workflows you trigger explicitly, like /commit or /review. Agents (@agent) are specialist personas like @frontend-developer or @ai-engineer that bring domain expertise. Skills load automatically when the task matches — you don't invoke them, Claude picks them up when relevant."
+  },
+  {
+    question: "What are the auto-loading skills?",
+    answer: "Ten packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), and Better Auth setup with every gotcha handled."
+  },
+  {
+    question: "What is the marketing engine?",
+    answer: "An optional module of five commands — /demo, /atomise, /listen, /launch, /scorecard — that runs a founder-marketing loop: record a real demo, atomise it into a week of platform-native drafts, monitor conversations worth joining, generate launch packs, and score the week's numbers. It needs a private marketing-codex/ workspace with your voice and positioning, and it never publishes anything — every output is a draft for your approval."
+  },
+  {
+    question: "Which Claude model do the commands use?",
+    answer: "Your session's model. Commands inherit whatever model you're running Claude Code with, so they get better as models do. A couple of quick utility commands (/commit, /status, /update) pin Haiku deliberately to stay fast and cheap."
   },
 ];
 
@@ -954,6 +1026,7 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
               <a href="#ralph" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Ralph</a>
               <a href="#commands" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Slash Commands</a>
               <a href="#agents" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Agents</a>
+              <a href="#skills" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Skills</a>
               <a href="#faqs" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">FAQs</a>
               <hr className="border-[#2D2B2B] my-2" />
               <a
@@ -1097,6 +1170,7 @@ export default function Home() {
             <a href="#ralph" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Ralph</a>
             <a href="#commands" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Slash Commands</a>
             <a href="#agents" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Agents</a>
+            <a href="#skills" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">Skills</a>
             <a href="#faqs" className="px-1 py-1.5 text-sm text-white hover:text-white/80 transition-colors">FAQs</a>
           </div>
         </div>
@@ -1152,7 +1226,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
             >
-              33 slash commands, 16 specialist agents, 10 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
+              33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1165,6 +1239,12 @@ export default function Home() {
               </code>
               <CopyButton />
             </motion.div>
+
+            {/* Plugin install alternative */}
+            <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#666665] -mt-2">
+              or inside Claude Code:{" "}
+              <code className="font-mono text-[#9C9C99]">/plugin marketplace add weareprecode/preclaude</code>
+            </motion.p>
 
             {/* GitHub Button */}
             <motion.div variants={fadeInUp}>
@@ -1323,6 +1403,55 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Marketing Engine Section */}
+      <section id="marketing-engine" className="px-4 py-12 sm:py-20">
+        <div className="max-w-[1100px] mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <div className="bg-[#171615] rounded-lg p-6 sm:p-10">
+              <motion.div variants={fadeInUp} className="max-w-2xl mx-auto text-center mb-8">
+                <h2 className="text-2xl sm:text-[32px] font-semibold text-white leading-tight mb-2">
+                  The Marketing Engine
+                </h2>
+                <p className="text-sm sm:text-base text-[#9C9C99]">
+                  Five commands that run a founder-marketing loop. Everything is a draft for your approval — nothing ever auto-publishes.
+                </p>
+              </motion.div>
+
+              <motion.div variants={staggerContainer} className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                {[
+                  { cmd: "/demo", step: "Monday", desc: "Record a real product demo — you add the voice" },
+                  { cmd: "/atomise", step: "Monday", desc: "Turn it into a week of platform-native drafts" },
+                  { cmd: "/listen", step: "Daily", desc: "The 5 conversations worth your 15 minutes, replies drafted" },
+                  { cmd: "/launch", step: "Per launch", desc: "Show HN, Product Hunt, directories, email — the full pack" },
+                  { cmd: "/scorecard", step: "Friday", desc: "The week's numbers with recommendations tied to them" },
+                ].map((item) => (
+                  <motion.div
+                    key={item.cmd}
+                    variants={fadeInUp}
+                    className="bg-black/40 border border-[#2D2B2B] rounded-[7px] p-4"
+                  >
+                    <div className="flex items-baseline justify-between mb-2">
+                      <code className="text-sm text-white font-mono">{item.cmd}</code>
+                      <span className="text-[10px] uppercase tracking-wide text-[#666665]">{item.step}</span>
+                    </div>
+                    <p className="text-xs text-[#9C9C99] leading-relaxed">{item.desc}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.p variants={fadeInUp} className="text-xs text-[#666665] text-center mt-6">
+                Optional module — powered by a private <code className="font-mono">marketing-codex/</code> workspace holding your voice, positioning and targets.
+              </motion.p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Agents Section */}
       <section id="agents" className="px-4 py-16 sm:py-24">
         <div className="max-w-6xl mx-auto">
@@ -1334,7 +1463,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">16</span> Specialist Agents
+                <span className="text-white">18</span> Specialist Agents
               </h2>
               <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
                 Expert knowledge for every part of your stack.
@@ -1351,6 +1480,43 @@ export default function Home() {
                   agent={agent}
                   onClick={() => setSelectedAgent(agent)}
                 />
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="px-4 py-16 sm:py-24">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
+                <span className="text-white">10</span> Auto-Loading Skills
+              </h2>
+              <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
+                Expertise Claude picks up by itself when the task matches — no command needed.
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={staggerContainer}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+            >
+              {skills.map((skill) => (
+                <motion.div
+                  key={skill.name}
+                  variants={fadeInUp}
+                  className="bg-[#171615] border border-[#2D2B2B] rounded-[7px] p-4 sm:p-5"
+                >
+                  <code className="text-sm text-white font-mono block mb-1.5">{skill.name}</code>
+                  <p className="text-xs sm:text-sm text-[#9C9C99] leading-relaxed">{skill.desc}</p>
+                </motion.div>
               ))}
             </motion.div>
           </motion.div>

@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 33 slash commands, 16 specialist agents, 10 auto-loading skills, and Ralph autonomous builder.
+Supercharge Claude Code with 33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -71,7 +71,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 > **Note:** `/demo`, `/atomise`, `/listen`, `/launch` and `/scorecard` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
 
-### 16 Specialist Agents
+### 18 Specialist Agents
 
 | Agent | Use For |
 |-------|---------|
@@ -83,6 +83,8 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@test-engineer` | Unit, integration, E2E tests, test architecture, mocking |
 | `@code-reviewer` | PR reviews, code quality, best practices |
 | `@copywriter` | Brand voice, sales pages, landing pages, email sequences, ad copy |
+| `@ai-engineer` | Claude API, Agent SDK, RAG pipelines, LLM features, prompt design |
+| `@data-analyst` | SQL, product analytics, funnels, retention, A/B tests, dashboards |
 | `@technical-writer` | Documentation, READMEs, API docs, guides |
 | `@ui-designer` | Design systems, component libraries, accessibility, animations |
 | `@ux-researcher` | User research, flows, wireframes, usability testing |

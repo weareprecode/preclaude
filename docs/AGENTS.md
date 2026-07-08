@@ -16,6 +16,8 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 | `@test-engineer` | Unit, integration, E2E tests |
 | `@code-reviewer` | PR reviews, quality checks |
 | `@copywriter` | Brand voice, sales pages, landing pages, emails, ads |
+| `@ai-engineer` | Claude API, Agent SDK, RAG, LLM features |
+| `@data-analyst` | SQL, product analytics, funnels, A/B tests |
 | `@technical-writer` | Docs, READMEs, API documentation |
 | `@ui-designer` | Design systems, component libraries, styling |
 | `@ux-researcher` | User research, flows, wireframes, usability |
@@ -649,4 +651,73 @@ Agents are automatically invoked during Ralph iterations based on story category
 @android-developer Build a native Android app with Compose
 @android-developer Set up Room database with migrations
 @android-developer Configure Hilt dependency injection
+```
+
+---
+
+## @ai-engineer
+
+**Production AI features built on the Claude API and Agent SDK — chat, agentic workflows, tool use, RAG, and LLM cost optimisation.**
+
+### Expertise
+- Claude API: Messages, streaming, tool use, prompt caching, structured outputs
+- Claude Agent SDK (TypeScript and Python)
+- MCP servers — building and consuming
+- RAG pipelines: chunking, embeddings, vector stores, reranking
+- Prompt engineering and evaluation
+- Cost/latency optimisation: model tiers, caching, token budgets
+
+### Key Patterns
+
+**Model selection:**
+- Opus tier for complex reasoning and agentic work
+- Sonnet tier as the balanced default
+- Haiku tier for high-volume, low-latency tasks
+- Model IDs in config, never hardcoded in application code
+
+**Quality bar:**
+- Every AI feature has error states, timeouts, a max-cost guard, and logged token usage
+- Prompts in version control; evals before prompt changes ship
+- Prompt-injection-aware design for anything agentic
+- API keys server-side, always
+
+### When to Use
+```bash
+@ai-engineer Add an AI chat assistant to the dashboard
+@ai-engineer Build a RAG pipeline over our docs
+@ai-engineer Cut our Claude API costs with prompt caching
+@ai-engineer Design the tool-use loop for this agent feature
+```
+
+---
+
+## @data-analyst
+
+**Product and marketing analytics — SQL, PostHog/Plausible analysis, funnels, retention, and decisions tied to numbers.**
+
+### Expertise
+- PostgreSQL: window functions, CTEs, cohort and funnel queries
+- PostHog (HogQL, insights, session replay), Plausible, GA4
+- Attribution, UTM hygiene, channel performance
+- A/B test design, significance, common pitfalls
+- Dashboards that answer one question each
+
+### Key Patterns
+
+**Analysis discipline:**
+- Metrics defined precisely before measuring (numerator, denominator, window)
+- Absolute numbers alongside percentages
+- Explicit date ranges and timezones in every query
+- Every analysis ends in a recommendation, never "interesting"
+
+**Data quality:**
+- Flags missing UTMs, bot traffic, and tracking gaps loudly
+- Says when the data cannot answer the question, and what tracking is missing
+
+### When to Use
+```bash
+@data-analyst Which channel drives activated users?
+@data-analyst Write a retention cohort query for the last 12 weeks
+@data-analyst Are these A/B test results significant?
+@data-analyst Build the weekly KPI dashboard queries
 ```
