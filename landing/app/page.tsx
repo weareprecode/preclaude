@@ -915,18 +915,88 @@ const agents: Agent[] = [
   },
 ];
 
-// Skills Data
-const skills = [
-  { name: "prd", desc: "Comprehensive technical PRDs with 20+ Gherkin user stories" },
-  { name: "prd-to-json", desc: "PRDs into structured, validated JSON for planning tools" },
-  { name: "ralph", desc: "PRDs into atomic prd.json stories for the autonomous loop" },
-  { name: "project-kickoff", desc: "Production-ready project scaffolds with Claude-optimised docs" },
-  { name: "project-complete", desc: "End-of-project documentation suite: journal, features, handoff" },
-  { name: "claude-md-learner", desc: "Keeps CLAUDE.md lean — scores learnings, prunes stale entries" },
-  { name: "marketing-content", desc: "Platform-optimised launch content with consistent brand voice" },
-  { name: "landscape-report", desc: "Brutally honest competitive viability reports, published as websites" },
-  { name: "dev-browser", desc: "Visual verification in a real Chromium browser via Playwright" },
-  { name: "better-auth", desc: "Better Auth setup with every known gotcha handled" },
+// Skills Data — same shape as Command so skills reuse the command modal
+const skills: Command[] = [
+  {
+    name: "prd",
+    desc: "Comprehensive technical PRDs with 20+ Gherkin user stories",
+    fullDescription: "Generates a full technical Product Requirements Document — user stories in Gherkin format, flows, screens, architecture, API specs, data model, security, and deployment plan.",
+    whenToUse: ["You ask for a PRD, requirements, or a technical spec", "Starting a new project or major feature"],
+    whatItDoes: ["Loads automatically when the task matches — no command needed", "Produces a 15-section PRD with 20+ testable user stories", "Backs the /prd and /full-build commands"],
+    example: '"Write me a PRD for an invoice tracker"\n# Skill loads itself — same expertise as /prd'
+  },
+  {
+    name: "prd-to-json",
+    desc: "PRDs into structured, validated JSON for planning tools",
+    fullDescription: "Converts Product Requirements Documents into structured, validated JSON — objectives, requirements, user stories with acceptance criteria, tasks, milestones, and risks.",
+    whenToUse: ["Processing a PRD or requirements doc", "Importing requirements into project-management tools", "Generating structured data for sprint planning"],
+    whatItDoes: ["Parses any PRD into a validated JSON schema", "Backs the /prd-json command"],
+    example: '"Turn this PRD into structured JSON"'
+  },
+  {
+    name: "ralph",
+    desc: "PRDs into atomic prd.json stories for the autonomous loop",
+    fullDescription: "Converts PRDs into prd.json format for the Ralph autonomous agent loop — small, prioritised user stories with checkable acceptance criteria that each fit one fresh-context iteration.",
+    whenToUse: ["Converting a PRD to Ralph format", "Setting up an autonomous build", "Turning a plan into atomic tasks"],
+    whatItDoes: ["Sizes every story to fit one context window", "Orders stories by dependency", "Backs /build and /full-build"],
+    example: '"Convert this PRD for Ralph"\n# Creates scripts/ralph/prd.json'
+  },
+  {
+    name: "project-kickoff",
+    desc: "Production-ready project scaffolds with Claude-optimised docs",
+    fullDescription: "Initialises new projects with production-ready structure — directory scaffold, CLAUDE.md, ROADMAP.md, .env.example, CI workflow, and package scripts for Next.js, API-only, or Expo stacks.",
+    whenToUse: ["Starting a project from scratch", "Setting up a new client project", "Converting a prototype to production structure"],
+    whatItDoes: ["Scaffolds on the latest stable majors", "Writes a project CLAUDE.md so Claude knows the conventions", "Backs the /kickoff command"],
+    example: '"Set up a new Next.js project called crm-app"'
+  },
+  {
+    name: "project-complete",
+    desc: "End-of-project documentation suite: journal, features, handoff",
+    fullDescription: "Generates the end-of-project documentation suite — build journal, feature documentation, marketing kit, social content pack, and technical handoff.",
+    whenToUse: ["A project or sprint finishes", "Preparing a product launch", "Documenting a build for content"],
+    whatItDoes: ["Creates docs/public/ with five ready documents", "Backs the /project-complete command"],
+    example: '"The project is done — generate the completion docs"'
+  },
+  {
+    name: "claude-md-learner",
+    desc: "Keeps CLAUDE.md lean — scores learnings, prunes stale entries",
+    fullDescription: "Analyses coding sessions and maintains CLAUDE.md as a lean, high-signal file — scoring candidate learnings on novelty, frequency, impact, specificity and durability, and enforcing a strict size budget.",
+    whenToUse: ["End of a coding session", "After solving a problem that took multiple attempts", "When CLAUDE.md is getting bloated"],
+    whatItDoes: ["Scores learnings 0-10 and rejects framework basics", "Flags stale entries for removal", "Backs the /learn command"],
+    example: '"What should we remember from this session?"'
+  },
+  {
+    name: "marketing-content",
+    desc: "Platform-optimised launch content with consistent brand voice",
+    fullDescription: "Transforms product information into platform-optimised marketing content — X posts and threads, LinkedIn posts, email newsletters, blog posts, and release notes, with A/B variations.",
+    whenToUse: ["Creating launch announcements", "Generating social content from features", "Drafting email campaigns"],
+    whatItDoes: ["Adapts one message to each platform's native format", "Backs the /marketing command"],
+    example: '"Write the launch content for our new billing feature"'
+  },
+  {
+    name: "landscape-report",
+    desc: "Brutally honest competitive viability reports, published as websites",
+    fullDescription: "Runs a competitive-landscape and viability assessment of an existing product using parallel web-research agents and adversarial bear/bull passes, then publishes a shareable website report with a go/no-go verdict.",
+    whenToUse: ["\"Is this product still viable?\"", "A competitor just launched something worrying", "Deciding whether to keep building"],
+    whatItDoes: ["Multi-agent research sweep across 6-8 dimensions", "Bear case, bull case, and completeness critique", "Publishes a polished HTML report — backs /landscape"],
+    example: '/landscape "given Figma\'s latest updates"'
+  },
+  {
+    name: "dev-browser",
+    desc: "Visual verification in a real Chromium browser via Playwright",
+    fullDescription: "Automates a persistent, visible Chromium browser via Playwright for visual verification of frontend changes — navigating, clicking, filling forms, and taking screenshots against a running dev server.",
+    whenToUse: ["\"Verify this in the browser\"", "A frontend story has visual acceptance criteria", "Screenshotting a page state"],
+    whatItDoes: ["Launches a persistent visible browser", "Navigates, clicks, fills forms, screenshots", "Confirms changes actually render"],
+    example: '"Take a screenshot of the dashboard after logging in"'
+  },
+  {
+    name: "better-auth",
+    desc: "Better Auth setup with every known gotcha handled",
+    fullDescription: "Sets up Better Auth with PostgreSQL/Supabase in Next.js projects, encoding all the known gotchas — database adapter config, migration CLI, env vars, and the client/server split — so auth works first try.",
+    whenToUse: ["\"Set up auth\" or \"add authentication\"", "A project needs user accounts", "Debugging Better Auth 422 or FAILED_TO_CREATE_USER errors"],
+    whatItDoes: ["Configures the database adapter correctly", "Runs migrations with the right CLI", "Wires client and server halves properly"],
+    example: '"Add authentication with Better Auth and Supabase"'
+  },
 ];
 
 // FAQ Data
@@ -992,7 +1062,7 @@ function CopyButton() {
     >
       {copied ? (
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <path d="M5 11L9 15L17 7" stroke="#9C9C99" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M5 11L9 15L17 7" stroke="#ADADA9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ) : (
         <Image src="/copy-icon.svg" alt="Copy" width={22} height={22} />
@@ -1020,7 +1090,7 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-16 left-4 right-4 bg-[#171615] border border-[#2D2B2B] rounded-xl p-4 z-50 md:hidden"
+            className="fixed top-16 left-4 right-4 bg-[#171615] border border-[#3A3936] rounded-xl p-4 z-50 md:hidden"
           >
             <div className="flex flex-col gap-2">
               <a href="#ralph" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Ralph</a>
@@ -1028,7 +1098,7 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
               <a href="#agents" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Agents</a>
               <a href="#skills" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">Skills</a>
               <a href="#faqs" onClick={onClose} className="px-3 py-2 text-base text-white hover:bg-white/5 rounded-lg transition-colors">FAQs</a>
-              <hr className="border-[#2D2B2B] my-2" />
+              <hr className="border-[#3A3936] my-2" />
               <a
                 href="https://github.com/weareprecode/preclaude"
                 target="_blank"
@@ -1051,10 +1121,10 @@ function CommandCard({ command, onClick }: { command: Command; onClick: () => vo
     <motion.button
       variants={fadeInUp}
       onClick={onClick}
-      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.06] hover:border-white/[0.12] hover:bg-[#1a1918] transition-all duration-300 text-left cursor-pointer w-full"
+      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.12] hover:border-white/[0.22] hover:bg-[#1a1918] transition-all duration-300 text-left cursor-pointer w-full"
     >
       <code className="text-white font-mono text-base sm:text-lg font-medium">{command.name}</code>
-      <p className="mt-2 sm:mt-3 text-[#9C9C99] text-sm leading-relaxed">{command.desc}</p>
+      <p className="mt-2 sm:mt-3 text-[#ADADA9] text-sm leading-relaxed">{command.desc}</p>
     </motion.button>
   );
 }
@@ -1065,10 +1135,10 @@ function AgentCard({ agent, onClick }: { agent: Agent; onClick: () => void }) {
     <motion.button
       variants={fadeInUp}
       onClick={onClick}
-      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.06] hover:border-white/[0.12] hover:bg-[#1a1918] transition-all duration-300 text-left cursor-pointer w-full"
+      className="p-5 sm:p-6 rounded-xl bg-[#171615] border border-white/[0.12] hover:border-white/[0.22] hover:bg-[#1a1918] transition-all duration-300 text-left cursor-pointer w-full"
     >
       <code className="text-white font-mono text-base sm:text-lg font-medium">{agent.name}</code>
-      <p className="mt-2 sm:mt-3 text-[#9C9C99] text-sm leading-relaxed">{agent.desc}</p>
+      <p className="mt-2 sm:mt-3 text-[#ADADA9] text-sm leading-relaxed">{agent.desc}</p>
     </motion.button>
   );
 }
@@ -1104,7 +1174,7 @@ function FAQItem({ question, answer, isOpen, onToggle }: {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <p className="text-sm text-[#9C9C99] leading-relaxed pb-2">{answer}</p>
+            <p className="text-sm text-[#ADADA9] leading-relaxed pb-2">{answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1224,7 +1294,7 @@ export default function Home() {
             {/* Subheadline */}
             <motion.p
               variants={fadeInUp}
-              className="text-base sm:text-xl text-[#9C9C99] max-w-[780px] leading-relaxed px-2"
+              className="text-base sm:text-xl text-[#ADADA9] max-w-[780px] leading-relaxed px-2"
             >
               33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
@@ -1232,7 +1302,7 @@ export default function Home() {
             {/* Install Command */}
             <motion.div
               variants={fadeInUp}
-              className="flex items-center gap-2 sm:gap-2.5 px-3 sm:px-[17px] py-3 sm:py-3.5 bg-[#171615] border border-[#2D2B2B] rounded-[7px] w-full max-w-full sm:max-w-fit overflow-hidden"
+              className="flex items-center gap-2 sm:gap-2.5 px-3 sm:px-[17px] py-3 sm:py-3.5 bg-[#171615] border border-[#3A3936] rounded-[7px] w-full max-w-full sm:max-w-fit overflow-hidden"
             >
               <code className="text-xs sm:text-sm text-white font-mono truncate flex-1 sm:flex-none sm:max-w-[568px]">
                 {installCommand}
@@ -1241,9 +1311,9 @@ export default function Home() {
             </motion.div>
 
             {/* Plugin install alternative */}
-            <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#666665] -mt-2">
+            <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#8B8B87] -mt-2">
               or inside Claude Code:{" "}
-              <code className="font-mono text-[#9C9C99]">/plugin marketplace add weareprecode/preclaude</code>
+              <code className="font-mono text-[#ADADA9]">/plugin marketplace add weareprecode/preclaude</code>
             </motion.p>
 
             {/* GitHub Button */}
@@ -1326,7 +1396,7 @@ export default function Home() {
                     <h2 className="text-2xl sm:text-[32px] font-semibold text-white leading-tight">
                       Meet&nbsp;Ralph
                     </h2>
-                    <p className="text-sm sm:text-base text-[#9C9C99]">
+                    <p className="text-sm sm:text-base text-[#ADADA9]">
                       Your Autonomous Builder
                     </p>
                   </div>
@@ -1342,13 +1412,13 @@ export default function Home() {
                     <li>Commits and moves to next story</li>
                   </ul>
 
-                  <p className="text-xs text-[#666665]">
+                  <p className="text-xs text-[#8B8B87]">
                     Powered by{" "}
                     <a
                       href="https://github.com/anthropics/claude-code/tree/main/plugins/official/ralph-loop"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="underline hover:text-[#9C9C99] transition-colors"
+                      className="underline hover:text-[#ADADA9] transition-colors"
                     >
                       Ralph Wiggum
                     </a>
@@ -1357,7 +1427,7 @@ export default function Home() {
                       href="https://github.com/ghuntley"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="underline hover:text-[#9C9C99] transition-colors"
+                      className="underline hover:text-[#ADADA9] transition-colors"
                     >
                       Geoffrey Huntley
                     </a>
@@ -1382,7 +1452,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
                 <span className="text-white">33</span> Slash Commands
               </h2>
-              <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
+              <p className="text-base sm:text-xl text-[#ADADA9] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.
               </p>
             </motion.div>
@@ -1417,7 +1487,7 @@ export default function Home() {
                 <h2 className="text-2xl sm:text-[32px] font-semibold text-white leading-tight mb-2">
                   The Marketing Engine
                 </h2>
-                <p className="text-sm sm:text-base text-[#9C9C99]">
+                <p className="text-sm sm:text-base text-[#ADADA9]">
                   Five commands that run a founder-marketing loop. Everything is a draft for your approval — nothing ever auto-publishes.
                 </p>
               </motion.div>
@@ -1430,21 +1500,25 @@ export default function Home() {
                   { cmd: "/launch", step: "Per launch", desc: "Show HN, Product Hunt, directories, email — the full pack" },
                   { cmd: "/scorecard", step: "Friday", desc: "The week's numbers with recommendations tied to them" },
                 ].map((item) => (
-                  <motion.div
+                  <motion.button
                     key={item.cmd}
                     variants={fadeInUp}
-                    className="bg-black/40 border border-[#2D2B2B] rounded-[7px] p-4"
+                    onClick={() => {
+                      const cmd = commands.find((c) => c.name === item.cmd);
+                      if (cmd) setSelectedCommand(cmd);
+                    }}
+                    className="bg-black/40 border border-white/[0.12] hover:border-white/[0.22] hover:bg-black/60 rounded-[7px] p-4 text-left cursor-pointer transition-all duration-300"
                   >
                     <div className="flex items-baseline justify-between mb-2">
                       <code className="text-sm text-white font-mono">{item.cmd}</code>
-                      <span className="text-[10px] uppercase tracking-wide text-[#666665]">{item.step}</span>
+                      <span className="text-[10px] uppercase tracking-wide text-[#8B8B87]">{item.step}</span>
                     </div>
-                    <p className="text-xs text-[#9C9C99] leading-relaxed">{item.desc}</p>
-                  </motion.div>
+                    <p className="text-xs text-[#ADADA9] leading-relaxed">{item.desc}</p>
+                  </motion.button>
                 ))}
               </motion.div>
 
-              <motion.p variants={fadeInUp} className="text-xs text-[#666665] text-center mt-6">
+              <motion.p variants={fadeInUp} className="text-xs text-[#8B8B87] text-center mt-6">
                 Optional module — powered by a private <code className="font-mono">marketing-codex/</code> workspace holding your voice, positioning and targets.
               </motion.p>
             </div>
@@ -1465,7 +1539,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
                 <span className="text-white">18</span> Specialist Agents
               </h2>
-              <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
+              <p className="text-base sm:text-xl text-[#ADADA9] max-w-2xl mx-auto">
                 Expert knowledge for every part of your stack.
               </p>
             </motion.div>
@@ -1499,7 +1573,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
                 <span className="text-white">10</span> Auto-Loading Skills
               </h2>
-              <p className="text-base sm:text-xl text-[#9C9C99] max-w-2xl mx-auto">
+              <p className="text-base sm:text-xl text-[#ADADA9] max-w-2xl mx-auto">
                 Expertise Claude picks up by itself when the task matches — no command needed.
               </p>
             </motion.div>
@@ -1509,14 +1583,15 @@ export default function Home() {
               className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
             >
               {skills.map((skill) => (
-                <motion.div
+                <motion.button
                   key={skill.name}
                   variants={fadeInUp}
-                  className="bg-[#171615] border border-[#2D2B2B] rounded-[7px] p-4 sm:p-5"
+                  onClick={() => setSelectedCommand(skill)}
+                  className="bg-[#171615] border border-white/[0.12] hover:border-white/[0.22] hover:bg-[#1a1918] rounded-[7px] p-4 sm:p-5 text-left cursor-pointer transition-all duration-300"
                 >
                   <code className="text-sm text-white font-mono block mb-1.5">{skill.name}</code>
-                  <p className="text-xs sm:text-sm text-[#9C9C99] leading-relaxed">{skill.desc}</p>
-                </motion.div>
+                  <p className="text-xs sm:text-sm text-[#ADADA9] leading-relaxed">{skill.desc}</p>
+                </motion.button>
               ))}
             </motion.div>
           </motion.div>
@@ -1578,7 +1653,7 @@ export default function Home() {
 
             {/* Install Command */}
             <motion.div variants={fadeInUp} className="flex flex-col items-center gap-3 sm:gap-4 w-full max-w-[640px]">
-              <div className="flex items-center gap-2 sm:gap-2.5 px-3 sm:px-[17px] py-3 sm:py-3.5 bg-[#0A0908] border border-[#2D2B2B] rounded-[7px] w-full justify-center overflow-hidden">
+              <div className="flex items-center gap-2 sm:gap-2.5 px-3 sm:px-[17px] py-3 sm:py-3.5 bg-[#0A0908] border border-[#3A3936] rounded-[7px] w-full justify-center overflow-hidden">
                 <code className="text-xs sm:text-sm text-white font-mono truncate flex-1 text-center">
                   {installCommand}
                 </code>
@@ -1606,14 +1681,14 @@ export default function Home() {
               <Image src="/logo-brand.svg" alt="Preclaude" width={137} height={29} className="h-7 w-auto" />
             </a>
             {/* Meta info */}
-            <div className="flex items-center gap-2 text-xs text-[#666665]">
+            <div className="flex items-center gap-2 text-xs text-[#8B8B87]">
               <span>MIT License</span>
               <span>·</span>
               <a
                 href="https://precode.co"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#9C9C99] transition-colors"
+                className="hover:text-[#ADADA9] transition-colors"
               >
                 Built by Precode
               </a>
@@ -1626,7 +1701,7 @@ export default function Home() {
               href="https://github.com/weareprecode/preclaude"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm text-[#666665] hover:text-[#9C9C99] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#8B8B87] hover:text-[#ADADA9] transition-colors"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -1637,7 +1712,7 @@ export default function Home() {
               href="https://x.com/weareprecode"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm text-[#666665] hover:text-[#9C9C99] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#8B8B87] hover:text-[#ADADA9] transition-colors"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>

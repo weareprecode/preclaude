@@ -48,10 +48,10 @@ export function DetailModal({ isOpen, onClose, title, children }: DetailModalPro
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-              className="w-full max-w-lg max-h-[85vh] bg-[#171615] border border-[#2D2B2B] rounded-xl flex flex-col overflow-hidden pointer-events-auto"
+              className="w-full max-w-lg max-h-[85vh] bg-[#222120] border border-[#454440] rounded-xl shadow-2xl shadow-black/60 flex flex-col overflow-hidden pointer-events-auto"
             >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#2D2B2B]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#3A3936]">
               <code className="text-lg sm:text-xl font-mono font-semibold text-white">{title}</code>
               <button
                 onClick={onClose}
@@ -90,7 +90,7 @@ export function CommandModalContent({ command }: { command: CommandDetail }) {
   return (
     <div className="space-y-5">
       {/* Description */}
-      <p className="text-[#9C9C99] text-sm leading-relaxed">
+      <p className="text-[#C2C2BE] text-sm leading-relaxed">
         {command.fullDescription || command.desc}
       </p>
 
@@ -100,8 +100,8 @@ export function CommandModalContent({ command }: { command: CommandDetail }) {
           <h4 className="text-white text-sm font-semibold mb-2">When to Use</h4>
           <ul className="space-y-1.5">
             {command.whenToUse.map((item, i) => (
-              <li key={i} className="text-[#9C9C99] text-sm flex items-start gap-2">
-                <span className="text-[#666665] mt-1">•</span>
+              <li key={i} className="text-[#C2C2BE] text-sm flex items-start gap-2">
+                <span className="text-[#8B8B87] mt-1">•</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -115,8 +115,8 @@ export function CommandModalContent({ command }: { command: CommandDetail }) {
           <h4 className="text-white text-sm font-semibold mb-2">What It Does</h4>
           <ol className="space-y-1.5">
             {command.whatItDoes.map((item, i) => (
-              <li key={i} className="text-[#9C9C99] text-sm flex items-start gap-2">
-                <span className="text-[#666665] font-mono text-xs mt-0.5">{i + 1}.</span>
+              <li key={i} className="text-[#C2C2BE] text-sm flex items-start gap-2">
+                <span className="text-[#8B8B87] font-mono text-xs mt-0.5">{i + 1}.</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -128,8 +128,8 @@ export function CommandModalContent({ command }: { command: CommandDetail }) {
       {command.example && (
         <div>
           <h4 className="text-white text-sm font-semibold mb-2">Example</h4>
-          <pre className="bg-[#0A0908] rounded-lg p-3 overflow-x-auto">
-            <code className="text-xs sm:text-sm text-[#9C9C99] font-mono whitespace-pre-wrap">{command.example}</code>
+          <pre className="bg-[#121110] rounded-lg p-3 overflow-x-auto">
+            <code className="text-xs sm:text-sm text-[#C2C2BE] font-mono whitespace-pre-wrap">{command.example}</code>
           </pre>
         </div>
       )}
@@ -151,7 +151,7 @@ export function AgentModalContent({ agent }: { agent: AgentDetail }) {
   return (
     <div className="space-y-5">
       {/* Description */}
-      <p className="text-[#9C9C99] text-sm leading-relaxed">
+      <p className="text-[#C2C2BE] text-sm leading-relaxed">
         {agent.fullDescription || agent.desc}
       </p>
 
@@ -161,8 +161,8 @@ export function AgentModalContent({ agent }: { agent: AgentDetail }) {
           <h4 className="text-white text-sm font-semibold mb-2">Expertise</h4>
           <ul className="space-y-1.5">
             {agent.expertise.map((item, i) => (
-              <li key={i} className="text-[#9C9C99] text-sm flex items-start gap-2">
-                <span className="text-[#666665] mt-1">•</span>
+              <li key={i} className="text-[#C2C2BE] text-sm flex items-start gap-2">
+                <span className="text-[#8B8B87] mt-1">•</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -176,8 +176,8 @@ export function AgentModalContent({ agent }: { agent: AgentDetail }) {
           <h4 className="text-white text-sm font-semibold mb-2">Focus Areas</h4>
           <ul className="space-y-1.5">
             {agent.focusAreas.map((item, i) => (
-              <li key={i} className="text-[#9C9C99] text-sm flex items-start gap-2">
-                <span className="text-[#666665] mt-1">•</span>
+              <li key={i} className="text-[#C2C2BE] text-sm flex items-start gap-2">
+                <span className="text-[#8B8B87] mt-1">•</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -189,9 +189,9 @@ export function AgentModalContent({ agent }: { agent: AgentDetail }) {
       {agent.whenToUse && agent.whenToUse.length > 0 && (
         <div>
           <h4 className="text-white text-sm font-semibold mb-2">Example Usage</h4>
-          <div className="bg-[#0A0908] rounded-lg p-3 space-y-1">
+          <div className="bg-[#121110] rounded-lg p-3 space-y-1">
             {agent.whenToUse.map((item, i) => (
-              <code key={i} className="block text-xs sm:text-sm text-[#9C9C99] font-mono">{item}</code>
+              <code key={i} className="block text-xs sm:text-sm text-[#C2C2BE] font-mono">{item}</code>
             ))}
           </div>
         </div>
