@@ -16,12 +16,22 @@ Part of the optional **marketing engine** module (see docs/MARKETING-ENGINE.md).
 "The marketing engine needs a marketing-codex workspace. See docs/MARKETING-ENGINE.md to scaffold one."
 Then Read as hard constraints: `marketing-codex/codex/voice.md`, `marketing-codex/codex/config.md`.
 
-**0b. Higgsfield bootstrap.**
+**0b. Higgsfield onboarding + auth (Higgsfield is a CLI, not an MCP — "linking" means logging the CLI in).**
 ```bash
-command -v higgsfield >/dev/null 2>&1 || { echo "Higgsfield CLI not installed: curl -fsSL https://raw.githubusercontent.com/higgsfield-ai/cli/main/install.sh | sh"; exit 1; }
+# 1. Install the CLI if missing
+command -v higgsfield >/dev/null 2>&1 || {
+  echo "Higgsfield CLI not found. Installing..."
+  curl -fsSL https://raw.githubusercontent.com/higgsfield-ai/cli/main/install.sh | sh
+}
+# 2. Check the account/session
 higgsfield account status
 ```
-If it reports `Session expired` / `Not authenticated`, STOP and tell the user to run `higgsfield auth login` (interactive) then re-run. Never attempt `auth login` non-interactively.
+Interpret the result:
+- **Prints "<email> — <plan>, N credits"** → linked and ready. Note the credit balance for the cost gate later.
+- **"Session expired" / "Not authenticated" / install just happened** → the user must LINK Higgsfield. STOP and tell them, in plain language:
+  > "Higgsfield isn't linked yet. Run `higgsfield auth login` in your terminal — it opens a browser to sign in to your Higgsfield account. Once it says you're logged in, re-run `/ugc`."
+  Never run `higgsfield auth login` yourself non-interactively (it needs a real browser device-login). Wait for the user to confirm, then continue.
+- **Low/zero credits** → tell the user the balance and that a video costs ~81 credits; stop if they can't cover it.
 
 ## Step 1 — Product selection
 
@@ -60,13 +70,41 @@ Derive angle from `## Promise`/`## Pain`, CTA verbatim from `## CTA`. Then apply
 
 Produce one `--prompt` string (spoken brief + scene direction) and a `--mode`. **Show the assembled prompt to the user for approval or edit before generating.** This is where the codex earns its keep — surface it.
 
-## Step 5 — Choices (default to no synthetic presenter)
+## Step 5 — Interactive brief: what do you want to make? (ask one question at a time)
 
-One question per phase, codex-derived defaults:
-1. **Mode** (`--mode`): default `product_showcase` (no presenter). Only offer `ugc`/`product_review`/`ugc_unboxing` if the user explicitly wants a presenter and the suitability gate allowed it. Full slugs in `references/marketing-modes.md`; hooks/settings valid only for `ugc, ugc_how_to, ugc_unboxing, product_review, ugc_virtual_try_on`.
-2. **Avatar** (`--avatars`): **default OMIT.** Only attach on explicit request. Never present a synthesised avatar as a real customer. A custom founder avatar needs Matt's explicit opt-in (likeness).
-3. **Hook/setting** (optional, presenter modes only): default none — the codex prompt carries the angle.
-4. **Format:** `--aspect_ratio 9:16` (or 16:9 for LinkedIn), `--duration 15`, `--resolution 720p`, `--generate_audio true`.
+Walk the user through the choices conversationally; never batch-ask. Each question has a codex-derived default they can accept with a word.
+
+**Q1 — Video type** (maps to `--mode`). Present the options with the suitability read for this product:
+- **Product showcase** (default, no presenter) → `product_showcase`. Safest; what the research recommends for all three. Wide product shots + typography cards.
+- **Presenter UGC** (a person talks to camera) → `ugc`. Surface the suitability warning; discouraged for Layout/SuperDuperUI.
+- **Founder testimonial** (an avatar of YOU narrating your real experience, e.g. "I paid a stranger £25 to roast my SaaS") → `ugc` + a custom founder avatar. Defensible only as the genuine founder; needs an AI-disclosure downstream.
+- **How-to / Unboxing / Product review** → `ugc_how_to` / `ugc_unboxing` / `product_review`.
+Hooks/settings are valid only for `ugc, ugc_how_to, ugc_unboxing, product_review, ugc_virtual_try_on`.
+
+**Q2 — Avatar** (only if a presenter/testimonial type was chosen; for `product_showcase`, skip — no avatar). First check `marketing-codex/codex/avatars.md` for a previously-created custom avatar and offer to reuse it. Otherwise:
+- **None / synthesised** → omit `--avatars`; the backend synthesises a generic Soul Character. Never present it as a real customer.
+- **Preset** → `higgsfield marketing-studio avatars list --json`; let the user pick by name; use `{"id":"<id>","type":"preset"}`.
+- **Custom from a photo (the founder route)** → run the avatar-creation sub-flow below.
+- **New synthetic persona** → generate a face first (`higgsfield generate create gpt_image_2 --prompt "<described person>" --wait`), then feed that image into the sub-flow. Costs an extra image generation.
+
+### Avatar-creation sub-flow (custom, from a photo)
+1. Ask the user for a local photo path (clear, front-on, well-lit face). If they don't have one ready, STOP this branch and let them pick a preset or product_showcase instead — do not invent a face for a "real founder" claim.
+2. Upload and create, capturing the id + cloudfront URL:
+```bash
+UP=$(higgsfield upload create "<photo-path>" --json)
+IMG_ID=$(echo "$UP" | jq -r '.id'); IMG_URL=$(echo "$UP" | jq -r '.url')
+AV=$(higgsfield marketing-studio avatars create --name "<name>" --image "$IMG_ID" --image-url "$IMG_URL" --json)
+AVATAR_ID=$(echo "$AV" | jq -r '.id')
+```
+3. **Save it for reuse** so we never rebuild it: append to `marketing-codex/codex/avatars.md` a line `- <name> · custom · id: <AVATAR_ID> · created <date> · from <photo filename>`. (Create the file if absent.)
+4. Use it in the video as `--avatars @file.json` with `[{"id":"<AVATAR_ID>","type":"custom"}]`.
+5. **Consent/likeness note:** a custom avatar is only for the person who owns that face and consents. Never build a founder avatar from a third party's photo; never dress a synthetic or preset avatar up as a named real customer.
+
+**Q3 — Hook/setting** (optional, presenter modes only): default none — the codex prompt already carries the angle. Offer `higgsfield marketing-studio hooks list --json` / `settings list --json` if the user wants one; don't copy the hook text into `--prompt`.
+
+**Q4 — Format:** `--aspect_ratio 9:16` (or 16:9 for LinkedIn), `--duration 15`, `--resolution 720p` (1080p available at 2x cost), `--generate_audio true`.
+
+Then assemble the final flag set and go to the cost gate. For a founder-testimonial the spoken line is the user's real experience, kept in their voice and scrubbed against banned-claims (it narrates a genuine event; it must not fabricate one).
 
 ## Step 6 — Cost gate (hard stop before any paid call)
 
