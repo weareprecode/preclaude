@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph autonomous builder.
+Supercharge Claude Code with 33 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -94,9 +94,9 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@ios-developer` | Swift, SwiftUI, native iOS development |
 | `@android-developer` | Kotlin, Jetpack Compose, native Android development |
 
-### 10 Agent Skills
+### 11 Agent Skills
 
-Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `dev-browser` (visual verification via Playwright), and `better-auth` (auth setup with every gotcha handled).
+Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `dev-browser` (visual verification via Playwright), `better-auth` (auth setup with every gotcha handled), and `fable-build` (Fable 5 scaffolds the architecture, Opus/Sonnet subagents carry out the build — with the Anthropic advisor-tool pattern for API code).
 
 ### Starter Hooks & MCP Template (opt-in)
 

@@ -997,13 +997,26 @@ const skills: Command[] = [
     whatItDoes: ["Configures the database adapter correctly", "Runs migrations with the right CLI", "Wires client and server halves properly"],
     example: '"Add authentication with Better Auth and Supabase"'
   },
+  {
+    name: "fable-build",
+    desc: "Fable 5 scaffolds the architecture, Opus/Sonnet carry out the build",
+    fullDescription: "A multi-model build pattern: Claude Fable 5 makes the decisions — architecture, interface contracts, file skeletons, atomic task plan — while Opus/Sonnet subagents type the implementation. Includes the Anthropic advisor-tool pattern for the same split in API code: a Sonnet/Opus executor consults a Fable 5 advisor mid-generation.",
+    whenToUse: ["\"Scaffold with Fable, build with Sonnet\"", "Features where planning quality matters more than who types the code", "Adding the advisor tool to a script or product"],
+    whatItDoes: [
+      "Fable produces contracts, skeletons, and an atomic task plan",
+      "Delegates tasks to Opus/Sonnet builders with explicit contracts",
+      "Reviews every diff against its contract before declaring done",
+      "In API code: advisor_20260301 with claude-fable-5 advising a claude-sonnet-5 executor"
+    ],
+    example: '"/fable-build add multi-tenant billing"\n# Fable scaffolds → sonnet builders implement → Fable reviews'
+  },
 ];
 
 // FAQ Data
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -1031,7 +1044,7 @@ const faqs = [
   },
   {
     question: "What are the auto-loading skills?",
-    answer: "Ten packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), and Better Auth setup with every gotcha handled."
+    answer: "Eleven packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
   },
   {
     question: "What is the marketing engine?",
@@ -1296,7 +1309,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#ADADA9] max-w-[780px] leading-relaxed px-2"
             >
-              33 slash commands, 18 specialist agents, 10 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
+              33 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1571,7 +1584,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">10</span> Auto-Loading Skills
+                <span className="text-white">11</span> Auto-Loading Skills
               </h2>
               <p className="text-base sm:text-xl text-[#ADADA9] max-w-2xl mx-auto">
                 Expertise Claude picks up by itself when the task matches — no command needed.
