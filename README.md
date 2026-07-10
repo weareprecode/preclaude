@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 33 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder.
+Supercharge Claude Code with 34 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -31,7 +31,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 33 Slash Commands
+### 34 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -63,13 +63,14 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/listen` | Daily social-listening digest from HN and Reddit with drafted replies |
 | `/scorecard` | Weekly marketing scorecard from analytics with data-tied recommendations |
 | `/demo` | Semi-automated demo video: agent records the screen demo, you add voice |
+| `/ugc` | Generate a codex-grounded product/UGC video ad via Higgsfield (cost-gated, drafts only) |
 | `/stakeholder` | Generate stakeholder updates - daily, weekly, or full pack |
 | `/project-complete` | Generate end-of-project documentation suite |
 | `/handoff` | Create session handoff notes for continuity |
 | `/deploy-check` | Pre-deployment verification checklist |
 | `/update` | Update Preclaude to the latest version |
 
-> **Note:** `/demo`, `/atomise`, `/listen`, `/launch` and `/scorecard` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
+> **Note:** `/demo`, `/atomise`, `/listen`, `/launch`, `/scorecard` and `/ugc` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
 
 ### 18 Specialist Agents
 
