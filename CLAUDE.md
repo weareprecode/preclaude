@@ -35,7 +35,7 @@ When not specified by project, prefer:
 
 **Always start on the latest stable major.** At kickoff, scaffold with `@latest` (`npx create-next-app@latest`, latest Tailwind) and use the current stable major of each framework (Next.js 16+, React 19+, Tailwind v4+ as of 2026). Only pin behind latest for a concrete blocker, and note why in the project's CLAUDE.md.
 
-## Commands Available (33)
+## Commands Available (42)
 - `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -64,6 +64,15 @@ When not specified by project, prefer:
 - `/launch [product]` — Full launch pack: Show HN, Product Hunt, directories, posts, email
 - `/listen [keyword]` — Daily social-listening digest with drafted replies (never posts)
 - `/scorecard [week]` — Weekly marketing scorecard from Plausible + npm with recommendations
+- `/ugc [product]` — Codex-grounded product/UGC video ad via Higgsfield (cost-gated, drafts only)
+- `/offer [product]` — Irresistible offer builder: value scoring, stack, pricing, guarantees, naming
+- `/adfactory [product|ad-file]` — Ad creative volume engine: hook/meat/CTA variations + testing protocol
+- `/nurture [lead source]` — Speed-to-lead and show-rate sequences (respond, schedule, show)
+- `/moneymodel [business]` — Sequence attraction offer, upsells, downsells, continuity for CAC payback
+- `/valueladder [business]` — Map products onto a value ladder and match funnels to rungs
+- `/dream100 [product + customer]` — List of channels/creators where dream customers gather, with outreach plans
+- `/webinar [offer]` — Presentation-funnel script: one big belief, stories, stack and close
+- `/emailseq [mode]` — Story-driven email sequences: soap-opera onboarding, broadcasts, diagnostics
 - `/stakeholder [type]` — Generate stakeholder updates: daily, weekly, or full pack
 - `/project-complete` — Generate full doc suite (journal, features, marketing)
 - `/handoff` — Session handoff notes

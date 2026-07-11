@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 34 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder.
+Supercharge Claude Code with 42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -31,7 +31,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 34 Slash Commands
+### 42 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -64,6 +64,14 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/scorecard` | Weekly marketing scorecard from analytics with data-tied recommendations |
 | `/demo` | Semi-automated demo video: agent records the screen demo, you add voice |
 | `/ugc` | Generate a codex-grounded product/UGC video ad via Higgsfield (cost-gated, drafts only) |
+| `/offer` | Build an irresistible offer - value scoring, stack, pricing, guarantees, bonuses, naming |
+| `/adfactory` | Ad creative volume engine - hook/meat/CTA variations at scale with a testing protocol |
+| `/nurture` | Speed-to-lead and show-rate sequences - get leads to respond, schedule, and show |
+| `/moneymodel` | Sequence attraction offer, upsells, downsells and continuity so customers fund acquisition |
+| `/valueladder` | Map products onto an ascending value ladder and match the right funnel to each rung |
+| `/dream100` | Build the list of channels and creators where your dream customers already gather |
+| `/webinar` | Complete presentation-funnel script - one big belief, story-driven, stack and close |
+| `/emailseq` | Story-driven email sequences - serialised onboarding, broadcasts, and email diagnostics |
 | `/stakeholder` | Generate stakeholder updates - daily, weekly, or full pack |
 | `/project-complete` | Generate end-of-project documentation suite |
 | `/handoff` | Create session handoff notes for continuity |

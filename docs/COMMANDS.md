@@ -38,6 +38,15 @@ Complete reference for all available slash commands.
 | `/launch` | Launch-episode pack | Launching a product or feature |
 | `/listen` | Social-listening digest | Daily community engagement |
 | `/scorecard` | Weekly marketing scorecard | Reviewing marketing performance |
+| `/ugc` | Codex-grounded video ad via Higgsfield | Producing a product/UGC video ad |
+| `/offer` | Irresistible offer builder | Packaging or pricing anything |
+| `/adfactory` | Ad creative volume engine | Scaling paid ads past the wall |
+| `/nurture` | Speed-to-lead + show-rate sequences | Leads not booking or not showing |
+| `/moneymodel` | Offer sequencing + CAC payback | Making acquisition self-funding |
+| `/valueladder` | Product suite → funnel map | Structuring what you sell |
+| `/dream100` | Channel/influencer target list | Finding where customers gather |
+| `/webinar` | Presentation funnel script | Webinars, VSLs, launch keynotes |
+| `/emailseq` | Story-driven email sequences | Onboarding + broadcast emails |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
 | `/update` | Update Preclaude | Getting the latest commands and agents |
@@ -1177,6 +1186,215 @@ The report is brutally honest by design — a hedged report is a failed report.
 ```bash
 /landscape
 /landscape "given Figma's latest updates"
+```
+
+---
+
+## `/ugc [product or product URL]`
+
+**Generate a codex-grounded product/UGC video ad via Higgsfield (cost-gated, drafts only).**
+
+> Part of the marketing engine module — requires a `marketing-codex/` workspace and Higgsfield access.
+
+### When to Use
+- Producing a UGC-style or product video ad
+- Turning a winning script (e.g. from `/adfactory`) into rendered video
+
+### What It Does
+1. Guided Q&A for avatar and video type, grounded in your marketing codex
+2. Estimates generation cost and asks before spending
+3. Generates the ad via Higgsfield (Marketing Studio / avatar flows)
+4. Saves drafts for approval — never publishes
+
+### Example
+```bash
+/ugc "Layout — Figma design system extractor"
+```
+
+---
+
+## `/offer [product or offer description]`
+
+**Build an irresistible offer — value scoring, offer stack, pricing, guarantees, scarcity, bonuses, and naming.**
+
+### When to Use
+- Packaging a new product or service
+- An offer that converts poorly or competes on price
+- Before writing any sales page, webinar, or ad campaign
+
+### What It Does
+1. Scores the market (pain, purchasing power, targetability, growth)
+2. Audits the offer against the value equation (outcome × likelihood ÷ time × effort) and finds the weakest lever
+3. Builds the offer stack: problems → solutions → delivery vehicles, priced so total value dwarfs the price
+4. Adds enhancers: bonuses, guarantee (unconditional/conditional/anti), true scarcity/urgency, and a name via the naming checklist
+5. Saves a complete offer doc ready for `/copy`, `/webinar`, or `/moneymodel`
+
+### Example
+```bash
+/offer "Design-system extraction tool for agency dev teams, currently £49/mo"
+# → docs/marketing/offer-[slug]-[date].md
+```
+
+---
+
+## `/adfactory [product/offer or path to winning ad]`
+
+**Ad creative volume engine — split winners into hook/meat/CTA and generate dozens of recombined, testable variations.**
+
+### When to Use
+- CAC rising when you try to scale spend ("we've saturated the market")
+- Producing this week's batch of ad creative
+- You have one winning ad and need fifty more
+
+### What It Does
+1. Deconstructs your best ad (or drafts a baseline) into callout, hook, meat, CTA
+2. Runs the kaleidoscope: 50 hooks across 10 angles, 10 meat frames, 5 CTAs
+3. Assembles a starter batch of 15 platform-formatted ads (or video scripts)
+4. Adds a weekly testing protocol and scale-past-the-wall rules
+5. Pairs with `/ugc` to render winning scripts as video
+
+### Example
+```bash
+/adfactory docs/copy/ads-spring-campaign.md
+/adfactory "quick — CLI tool for indie hackers"
+```
+
+---
+
+## `/nurture [business type or lead source]`
+
+**Speed-to-lead and show-rate machine built on the four nurture pillars: availability, speed, personalisation, volume.**
+
+### When to Use
+- Paid leads not answering, booking, or showing up
+- First-response time measured in hours, not minutes
+- No-show rate above 30%
+
+### What It Does
+1. Audits your funnel against the four pillars and names the biggest leak
+2. Writes the speed-to-lead sequence (first contact in 1-5 minutes)
+3. Writes lead-to-booking (8-12 touches, multi-channel), booking-to-show, and no-show recovery sequences — every message verbatim
+4. Defines the weekly metrics: contact rate, booking rate, show rate
+
+### Example
+```bash
+/nurture "demo bookings from Meta ads"
+# → docs/marketing/nurture-system-[date].md
+```
+
+---
+
+## `/moneymodel [product suite or business]`
+
+**Design the offer sequence — attraction offer, upsell, downsell, continuity — so new customers fund their own acquisition.**
+
+### When to Use
+- Ad spend doesn't pay back fast enough to scale
+- You sell one thing, once, to each customer
+- Deciding what to sell first vs what to sell next
+
+### What It Does
+1. Targets customer-financed acquisition: 30-day gross profit ≥ 2× CAC
+2. Designs all four slots: attraction offer (win-back, giveaway, decoy, trial…), point-of-purchase upsell, downsell, and continuity
+3. Models the 30-day cash maths per 100 customers with labelled assumptions
+4. Recommends rollout order (usually: ship the upsell first)
+
+### Example
+```bash
+/moneymodel "£99 course, considering a membership"
+# → docs/marketing/money-model-[date].md
+```
+
+---
+
+## `/valueladder [business or product suite]`
+
+**Map everything you sell onto an ascending value ladder, find the gaps, and match the right funnel type to each rung.**
+
+### When to Use
+- Structuring a product suite (or realising you only have one product)
+- Deciding which funnel to build first
+- Customers buy once and have nowhere to ascend
+
+### What It Does
+1. Inventories every product on the ladder: bait → frontend → middle → backend → continuity
+2. Flags structural gaps (no free rung, cliff jumps, no recurring baseline)
+3. Matches funnel types to rungs: lead funnel, tripwire, presentation, application
+4. Recommends the ONE funnel to build first, with ascension triggers between rungs
+
+### Example
+```bash
+/valueladder "SaaS with free tier and £29/mo plan"
+# → docs/marketing/value-ladder-[date].md
+```
+
+---
+
+## `/dream100 [product + ideal customer]`
+
+**Build the list of ~100 channels, creators and communities where your dream customers already gather — with work-in and buy-in plans.**
+
+### When to Use
+- Launching into a market where you have no audience
+- Planning partnerships, guest slots, or sponsorships
+- Deciding where paid placement money goes
+
+### What It Does
+1. Researches real podcasts, newsletters, YouTube channels, communities, influencers, publications and adjacent tools (web-searched, with URLs)
+2. Scores each on reach × relevance × accessibility; produces a Top 10, Next 30, and nurture list
+3. Writes the work-your-way-in plan per Top-10 target (engage first, value first, ask ladder) with first-touch drafts
+4. Writes the buy-your-way-in test plan with budgets
+
+### Example
+```bash
+/dream100 "design-system tool for indie SaaS founders"
+# → docs/marketing/dream100-[date].md
+```
+
+---
+
+## `/webinar [offer or path to offer doc]`
+
+**Write a complete presentation-funnel script — one big belief, story-driven objection breaking, stack and close.**
+
+### When to Use
+- Selling a £500+ offer that needs more than a sales page
+- Writing a webinar, VSL, or launch keynote
+- Your presentation teaches well but doesn't sell
+
+### What It Does
+1. Defines the One Big Belief the presentation must install, positioned as a new opportunity
+2. Maps the three false beliefs (vehicle, internal, external) blocking the sale
+3. Writes four epiphany-bridge stories — persuasion by narrative, not argument
+4. Assembles the full script: opening (10%), three secrets (60%), stack & close (30%), plus slide outline and registration-page copy
+
+### Example
+```bash
+/webinar docs/marketing/offer-layout-2026-07-11.md
+# → docs/marketing/webinar-script-[date].md
+```
+
+---
+
+## `/emailseq [soap-opera|broadcast|diagnose <file>]`
+
+**Story-driven email sequences — serialised onboarding, daily-broadcast episodes, and hook-story-offer diagnostics.**
+
+### When to Use
+- New subscribers get one welcome email and then silence
+- Your list only hears from you when you're selling
+- Existing emails underperform and you don't know why
+
+### What It Does
+1. Establishes the attractive character (identity, flaws, voice) emails come from
+2. **soap-opera**: 5-email serialised onboarding (stage → drama → epiphany → hidden benefits → urgency), each ending on an open loop
+3. **broadcast**: 7 standalone episodes (ordinary moment → pivot → one point → soft CTA)
+4. **diagnose**: scores existing emails on hook, story, offer and rewrites the weakest lever
+
+### Example
+```bash
+/emailseq soap-opera "Preclaude npm installers"
+/emailseq diagnose docs/copy/email-sequence-welcome.md
 ```
 
 ---

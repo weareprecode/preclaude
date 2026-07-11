@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 33 commands with full documentation
+// Data - All 42 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -428,6 +428,123 @@ const commands: Command[] = [
       "Writes three recommendations tied to numbers, plus one keep/kill candidate"
     ],
     example: "/scorecard\n# Headline table + 3 recommendations\n/scorecard 2026-W28  # regenerate a past week"
+  },
+  {
+    name: "/ugc",
+    desc: "Codex-grounded product/UGC video ad via Higgsfield (cost-gated, drafts only)",
+    fullDescription: "Generate a product or UGC-style video ad through Higgsfield, grounded in your marketing codex. Guided avatar and video-type Q&A, cost estimate before any spend, drafts only — never publishes.",
+    whenToUse: ["Producing a UGC-style or product video ad", "Turning a winning ad script into rendered video", "Testing video creative without a studio"],
+    whatItDoes: [
+      "Guided Q&A for avatar and video type, grounded in your codex",
+      "Estimates generation cost and asks before spending",
+      "Generates via Higgsfield Marketing Studio / avatar flows",
+      "Saves drafts for approval — never publishes"
+    ],
+    example: '/ugc "Layout — Figma design system extractor"'
+  },
+  {
+    name: "/offer",
+    desc: "Build an irresistible offer - value scoring, stack, pricing, guarantees, naming",
+    fullDescription: "Build a complete, high-converting offer: score the market, audit the offer against the value equation, construct the stack, then add bonuses, guarantee, true scarcity and a compelling name.",
+    whenToUse: ["Packaging a new product or service", "An offer converting poorly or competing on price", "Before writing any sales page, webinar or ad campaign"],
+    whatItDoes: [
+      "Scores the market: pain, purchasing power, targetability, growth",
+      "Audits the value equation (outcome × likelihood ÷ time × effort) and finds the weakest lever",
+      "Builds the stack: problems → solutions → delivery vehicles, priced so value dwarfs price",
+      "Adds bonuses, guarantee type, true scarcity/urgency, and a name via the naming checklist"
+    ],
+    example: '/offer "Design-system extraction tool for agency dev teams, currently £49/mo"'
+  },
+  {
+    name: "/adfactory",
+    desc: "Ad creative volume engine - hook/meat/CTA variations at scale",
+    fullDescription: "Ads stall from lack of creative volume, not market saturation. Deconstructs your best ad into hook, meat and CTA, then generates dozens of recombined variations with a weekly testing protocol.",
+    whenToUse: ["CAC rising when you try to scale spend", "Producing this week's batch of ad creative", "You have one winning ad and need fifty more"],
+    whatItDoes: [
+      "Deconstructs the winning ad into callout, hook, meat, CTA",
+      "Generates 50 hooks across 10 angles, 10 meat frames, 5 CTAs",
+      "Assembles 15 platform-formatted ads or video scripts",
+      "Adds a testing protocol, kill rules, and scale-past-the-wall plan"
+    ],
+    example: "/adfactory docs/copy/ads-spring-campaign.md"
+  },
+  {
+    name: "/nurture",
+    desc: "Speed-to-lead and show-rate sequences - respond, schedule, show",
+    fullDescription: "Most paid leads die before sales ever speaks to them. Audits your follow-up against the four pillars — availability, speed, personalisation, volume — and writes every sequence verbatim.",
+    whenToUse: ["Leads not answering, booking, or showing up", "First response measured in hours, not minutes", "No-show rate above 30%"],
+    whatItDoes: [
+      "Audits the funnel against the four nurture pillars and names the biggest leak",
+      "Writes the speed-to-lead sequence (first contact in 1-5 minutes)",
+      "Writes lead-to-booking, booking-to-show, and no-show recovery sequences",
+      "Defines weekly metrics: contact rate, booking rate, show rate"
+    ],
+    example: '/nurture "demo bookings from Meta ads"'
+  },
+  {
+    name: "/moneymodel",
+    desc: "Sequence offers - attraction, upsell, downsell, continuity - for CAC payback",
+    fullDescription: "An offer is what you sell; a money model is the sequence that maximises 30-day gross profit per customer — ideally more than acquisition cost, so growth funds itself.",
+    whenToUse: ["Ad spend doesn't pay back fast enough to scale", "You sell one thing, once, to each customer", "Deciding what to sell first vs next"],
+    whatItDoes: [
+      "Targets customer-financed acquisition: 30-day gross profit ≥ 2× CAC",
+      "Designs the four slots: attraction offer, upsell, downsell, continuity",
+      "Models the 30-day cash maths per 100 customers with labelled assumptions",
+      "Recommends rollout order — usually ship the upsell first"
+    ],
+    example: '/moneymodel "£99 course, considering a membership"'
+  },
+  {
+    name: "/valueladder",
+    desc: "Map products onto a value ladder and match funnels to rungs",
+    fullDescription: "Nobody buys the expensive thing first. Places everything you sell on an ascending ladder — bait, frontend, middle, backend, continuity — finds the gaps, and matches the right funnel type to each rung.",
+    whenToUse: ["Structuring a product suite", "Deciding which funnel to build first", "Customers buy once and have nowhere to ascend"],
+    whatItDoes: [
+      "Inventories every product onto the five rungs with prices",
+      "Flags structural gaps: no free rung, cliff jumps, no recurring baseline",
+      "Matches funnel types: lead funnel, tripwire, presentation, application",
+      "Recommends the ONE funnel to build first, with ascension triggers"
+    ],
+    example: '/valueladder "SaaS with free tier and £29/mo plan"'
+  },
+  {
+    name: "/dream100",
+    desc: "Build the list of channels and creators where dream customers gather",
+    fullDescription: "Your dream customers already congregate in audiences someone else built. Researches ~100 real podcasts, newsletters, communities and creators, then plans how to work in (earn attention) and buy in (pay for it).",
+    whenToUse: ["Launching into a market with no audience", "Planning partnerships, guest slots, or sponsorships", "Deciding where placement budget goes"],
+    whatItDoes: [
+      "Web-researches real channels across 8 buckets, with URLs",
+      "Scores reach × relevance × accessibility into Top 10 / Next 30 / nurture list",
+      "Writes per-target warm-up plans and first-touch drafts",
+      "Builds the paid placement test plan with budgets"
+    ],
+    example: '/dream100 "design-system tool for indie SaaS founders"'
+  },
+  {
+    name: "/webinar",
+    desc: "Presentation-funnel script - one big belief, stories, stack and close",
+    fullDescription: "Write the classic perfect-presentation structure: install one big belief, break the three false beliefs with stories rather than arguments, then stack the offer and close. For webinars, VSLs, and launch keynotes.",
+    whenToUse: ["Selling a £500+ offer that needs more than a sales page", "Writing a webinar, VSL, or launch keynote", "Your presentation teaches well but doesn't sell"],
+    whatItDoes: [
+      "Defines the One Big Belief, positioned as a new opportunity",
+      "Maps the three false beliefs: vehicle, internal, external",
+      "Writes four epiphany-bridge stories that carry the persuasion",
+      "Assembles the full script: opening, three secrets, stack & close, plus slides and registration copy"
+    ],
+    example: "/webinar docs/marketing/offer-layout-2026-07.md"
+  },
+  {
+    name: "/emailseq",
+    desc: "Story-driven email sequences - onboarding soap opera, broadcasts, diagnostics",
+    fullDescription: "Emails people actually read: a 5-part serialised onboarding sequence where every email opens a loop the next one closes, daily-style broadcast episodes, and a hook-story-offer diagnostic for underperformers.",
+    whenToUse: ["New subscribers get one welcome email then silence", "Your list only hears from you when you're selling", "Existing emails underperform"],
+    whatItDoes: [
+      "Establishes the attractive character emails come from",
+      "soap-opera: 5-email serialised onboarding ending on open loops",
+      "broadcast: 7 standalone episodes — ordinary moment → pivot → one point → soft CTA",
+      "diagnose: scores hook, story, offer and rewrites the weakest lever"
+    ],
+    example: '/emailseq soap-opera "Preclaude npm installers"\n/emailseq diagnose docs/copy/email-sequence-welcome.md'
   },
   {
     name: "/stakeholder",
@@ -1016,7 +1133,7 @@ const skills: Command[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 33 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -1309,7 +1426,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#ADADA9] max-w-[780px] leading-relaxed px-2"
             >
-              33 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
+              42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1463,7 +1580,7 @@ export default function Home() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-10 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-[1.1]">
-                <span className="text-white">33</span> Slash Commands
+                <span className="text-white">42</span> Slash Commands
               </h2>
               <p className="text-base sm:text-xl text-[#ADADA9] max-w-2xl mx-auto">
                 From project kickoff to deployment — every workflow covered.
