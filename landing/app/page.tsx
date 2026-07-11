@@ -615,6 +615,41 @@ const commands: Command[] = [
   },
 ];
 
+// Category groupings for the Commands section — looked up by name, not reordering `commands`
+interface CommandCategory {
+  title: string;
+  blurb: string;
+  names: string[];
+}
+
+const commandCategories: CommandCategory[] = [
+  {
+    title: "Plan & Build",
+    blurb: "From idea to running product — PRDs, scaffolding, and the autonomous build loop.",
+    names: ["/kickoff", "/prd", "/prd-json", "/full-build", "/build", "/implement", "/research", "/landscape"],
+  },
+  {
+    title: "Ship & Maintain",
+    blurb: "Everyday engineering: quality, refactoring, dependencies, and getting changes out the door.",
+    names: ["/commit", "/pr", "/review", "/test", "/debug", "/status", "/polish", "/refactor", "/migrate", "/deps", "/deploy-check"],
+  },
+  {
+    title: "Growth Toolkit",
+    blurb: "Offers, funnels, ads and emails — battle-tested direct-response frameworks as commands.",
+    names: ["/offer", "/valueladder", "/moneymodel", "/dream100", "/adfactory", "/nurture", "/webinar", "/emailseq", "/copy", "/marketing"],
+  },
+  {
+    title: "Marketing Engine",
+    blurb: "The founder-marketing loop: demo, atomise, listen, launch, score — drafts only, never auto-published.",
+    names: ["/demo", "/atomise", "/launch", "/listen", "/scorecard", "/ugc"],
+  },
+  {
+    title: "Project Ops",
+    blurb: "Analytics, SEO, stakeholder comms, handoffs and keeping Preclaude itself up to date.",
+    names: ["/seo", "/analytics", "/stakeholder", "/project-complete", "/handoff", "/learn", "/update"],
+  },
+];
+
 // Data - All 18 agents with full documentation
 const agents: Agent[] = [
   {
@@ -1032,6 +1067,41 @@ const agents: Agent[] = [
   },
 ];
 
+// Category groupings for the Agents section — looked up by name, not reordering `agents`
+interface AgentCategory {
+  title: string;
+  blurb: string;
+  names: string[];
+}
+
+const agentCategories: AgentCategory[] = [
+  {
+    title: "Engineering",
+    blurb: "Core builders for web apps, APIs, data and AI features.",
+    names: ["@frontend-developer", "@backend-developer", "@database-architect", "@devops-engineer", "@ai-engineer"],
+  },
+  {
+    title: "Mobile",
+    blurb: "Native and cross-platform mobile specialists.",
+    names: ["@expo-developer", "@ios-developer", "@android-developer"],
+  },
+  {
+    title: "Quality & Security",
+    blurb: "Testing, review, performance and security before anything ships.",
+    names: ["@test-engineer", "@code-reviewer", "@security-auditor", "@performance-engineer"],
+  },
+  {
+    title: "Product & Design",
+    blurb: "Requirements, research and interfaces that make sense.",
+    names: ["@product-analyst", "@ux-researcher", "@ui-designer"],
+  },
+  {
+    title: "Content & Growth",
+    blurb: "Words, docs and data that move the product.",
+    names: ["@copywriter", "@technical-writer", "@data-analyst"],
+  },
+];
+
 // Skills Data — same shape as Command so skills reuse the command modal
 const skills: Command[] = [
   {
@@ -1295,19 +1365,16 @@ function FAQItem({ question, answer, isOpen, onToggle }: {
           <Image src="/chevron-down.svg" alt="" width={16} height={16} />
         </motion.div>
       </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <p className="text-sm text-[#ADADA9] leading-relaxed pb-2">{answer}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Answer stays mounted so it is present in the prerendered HTML for crawlers */}
+      <motion.div
+        initial={false}
+        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+        className="overflow-hidden"
+        aria-hidden={!isOpen}
+      >
+        <p className="text-sm text-[#ADADA9] leading-relaxed pb-2">{answer}</p>
+      </motion.div>
     </div>
   );
 }
@@ -1587,18 +1654,42 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <motion.div
-              variants={staggerContainer}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
-            >
-              {commands.map((cmd) => (
-                <CommandCard
-                  key={cmd.name}
-                  command={cmd}
-                  onClick={() => setSelectedCommand(cmd)}
-                />
-              ))}
-            </motion.div>
+            {commandCategories.map((category) => {
+              const categoryCommands = category.names
+                .map((n) => commands.find((c) => c.name === n))
+                .filter((c): c is Command => c !== undefined);
+
+              return (
+                <motion.div
+                  key={category.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={staggerContainer}
+                  className="mb-10 sm:mb-12 last:mb-0"
+                >
+                  <motion.div variants={fadeInUp} className="mb-4 sm:mb-5">
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-[#8B8B87]">
+                      {category.title}
+                    </h3>
+                    <p className="text-sm text-[#6E6E6A] mt-1">{category.blurb}</p>
+                  </motion.div>
+
+                  <motion.div
+                    variants={staggerContainer}
+                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                  >
+                    {categoryCommands.map((cmd) => (
+                      <CommandCard
+                        key={cmd.name}
+                        command={cmd}
+                        onClick={() => setSelectedCommand(cmd)}
+                      />
+                    ))}
+                  </motion.div>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>
@@ -1618,17 +1709,18 @@ export default function Home() {
                   The Marketing Engine
                 </h2>
                 <p className="text-sm sm:text-base text-[#ADADA9]">
-                  Five commands that run a founder-marketing loop. Everything is a draft for your approval — nothing ever auto-publishes.
+                  Six commands that run a founder-marketing loop. Everything is a draft for your approval — nothing ever auto-publishes.
                 </p>
               </motion.div>
 
-              <motion.div variants={staggerContainer} className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              <motion.div variants={staggerContainer} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {[
                   { cmd: "/demo", step: "Monday", desc: "Record a real product demo — you add the voice" },
                   { cmd: "/atomise", step: "Monday", desc: "Turn it into a week of platform-native drafts" },
                   { cmd: "/listen", step: "Daily", desc: "The 5 conversations worth your 15 minutes, replies drafted" },
                   { cmd: "/launch", step: "Per launch", desc: "Show HN, Product Hunt, directories, email — the full pack" },
                   { cmd: "/scorecard", step: "Friday", desc: "The week's numbers with recommendations tied to them" },
+                  { cmd: "/ugc", step: "Per ad", desc: "Codex-grounded video ad via Higgsfield — cost-gated drafts" },
                 ].map((item) => (
                   <motion.button
                     key={item.cmd}
@@ -1674,18 +1766,42 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <motion.div
-              variants={staggerContainer}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
-            >
-              {agents.map((agent) => (
-                <AgentCard
-                  key={agent.name}
-                  agent={agent}
-                  onClick={() => setSelectedAgent(agent)}
-                />
-              ))}
-            </motion.div>
+            {agentCategories.map((category) => {
+              const categoryAgents = category.names
+                .map((n) => agents.find((a) => a.name === n))
+                .filter((a): a is Agent => a !== undefined);
+
+              return (
+                <motion.div
+                  key={category.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={staggerContainer}
+                  className="mb-10 sm:mb-12 last:mb-0"
+                >
+                  <motion.div variants={fadeInUp} className="mb-4 sm:mb-5">
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-[#8B8B87]">
+                      {category.title}
+                    </h3>
+                    <p className="text-sm text-[#6E6E6A] mt-1">{category.blurb}</p>
+                  </motion.div>
+
+                  <motion.div
+                    variants={staggerContainer}
+                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                  >
+                    {categoryAgents.map((agent) => (
+                      <AgentCard
+                        key={agent.name}
+                        agent={agent}
+                        onClick={() => setSelectedAgent(agent)}
+                      />
+                    ))}
+                  </motion.div>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>
