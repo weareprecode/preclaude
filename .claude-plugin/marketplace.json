@@ -8,7 +8,27 @@
     {
       "name": "preclaude",
       "source": "./",
-      "description": "42 slash commands, 18 specialist agents, 11 skills, and Ralph autonomous builder — production-ready Claude Code workflows from kickoff to launch."
+      "description": "46 slash commands, 18 specialist agents, 12 skills, and Ralph autonomous builder — production-ready Claude Code workflows from kickoff to launch."
+    },
+    {
+      "name": "preclaude-design",
+      "source": "./bundles/preclaude-design",
+      "description": "Design without the AI look — build a taste library, explore variants side by side, and tune the result live."
+    },
+    {
+      "name": "preclaude-build",
+      "source": "./bundles/preclaude-build",
+      "description": "Idea to running product — PRDs, project scaffolding, and the Ralph autonomous build loop."
+    },
+    {
+      "name": "preclaude-ship",
+      "source": "./bundles/preclaude-ship",
+      "description": "Everyday engineering — review, tests, refactors, dependencies, deploys, and setup diagnostics."
+    },
+    {
+      "name": "preclaude-growth",
+      "source": "./bundles/preclaude-growth",
+      "description": "Direct-response frameworks as commands — offers, value ladders, money models, ads, nurture and email."
     }
   ]
 }

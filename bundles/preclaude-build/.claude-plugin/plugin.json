@@ -1,0 +1,12 @@
+{
+  "name": "preclaude-build",
+  "version": "2.4.0",
+  "description": "Idea to running product — PRDs, project scaffolding, and the Ralph autonomous build loop.",
+  "author": {
+    "name": "Precode",
+    "url": "https://precode.co"
+  },
+  "homepage": "https://preclaude.com",
+  "repository": "https://github.com/weareprecode/preclaude",
+  "license": "MIT"
+}
