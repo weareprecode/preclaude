@@ -1274,6 +1274,10 @@ const faqs = [
     answer: "Two ways. As a Claude Code plugin (recommended): run /plugin marketplace add weareprecode/preclaude then /plugin install preclaude@preclaude inside Claude Code. Or via the terminal one-liner: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash (macOS and Linux). Either way, restart Claude Code afterwards to load the new commands and agents."
   },
   {
+    question: "Can I install just part of Preclaude?",
+    answer: "Yes. Once you've added the marketplace, you can install a single bundle instead of the full pack: /plugin install preclaude-design@preclaude for the design commands (taste, variants, tweakbar, polish), preclaude-build for PRDs and the Ralph build loop, preclaude-ship for review, tests and deploys, or preclaude-growth for offers, funnels, ads and email. Every command loads its description into Claude's context, so if you only need one slice, installing one slice keeps that context clear. Bundles are generated from the same files as the full pack, so nothing forks — and installing more than one is fine, shared agents simply resolve once."
+  },
+  {
     question: "What is Ralph?",
     answer: "Ralph is an autonomous builder that takes your PRD (Product Requirements Document) and builds it story by story, committing as it goes. It reads prd.json, implements stories one at a time, runs typecheck/lint/tests, and commits automatically."
   },
@@ -1295,7 +1299,7 @@ const faqs = [
   },
   {
     question: "What are the auto-loading skills?",
-    answer: "Eleven packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
+    answer: "Twelve packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, design taste (aesthetic families, reference briefs and anti-slop guardrails), browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
   },
   {
     question: "What is the marketing engine?",
@@ -1575,6 +1579,12 @@ export default function Home() {
             <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#8B8B87] -mt-2">
               or inside Claude Code:{" "}
               <code className="font-mono text-[#ADADA9]">/plugin marketplace add weareprecode/preclaude</code>
+            </motion.p>
+
+            {/* Single-bundle install */}
+            <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#8B8B87] -mt-4">
+              or just the part you want:{" "}
+              <code className="font-mono text-[#ADADA9]">/plugin install preclaude-design@preclaude</code>
             </motion.p>
 
             {/* GitHub Button */}
@@ -1974,7 +1984,11 @@ export default function Home() {
                 <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer" className="underline">
                   Claude Code
                 </a>
-                {" "}to be installed.
+                {" "}to be installed. Only want one slice? Install a single bundle instead —{" "}
+                <code className="font-mono">preclaude-design</code>,{" "}
+                <code className="font-mono">preclaude-build</code>,{" "}
+                <code className="font-mono">preclaude-ship</code> or{" "}
+                <code className="font-mono">preclaude-growth</code>.
               </p>
             </motion.div>
           </motion.div>

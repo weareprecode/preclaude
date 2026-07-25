@@ -116,6 +116,14 @@ const structuredData = {
         },
         {
           "@type": "Question",
+          name: "Can I install just part of Preclaude?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Once you've added the marketplace, install a single bundle instead of the full pack: /plugin install preclaude-design@preclaude for the design commands, preclaude-build for PRDs and the Ralph build loop, preclaude-ship for review, tests and deploys, or preclaude-growth for offers, funnels, ads and email. Every command loads its description into Claude's context, so installing one slice keeps that context clear. Bundles are generated from the same files as the full pack, and installing more than one is fine.",
+          },
+        },
+        {
+          "@type": "Question",
           name: "What is Ralph?",
           acceptedAnswer: {
             "@type": "Answer",
@@ -159,7 +167,7 @@ const structuredData = {
           name: "What are the auto-loading skills?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Eleven packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build.",
+            text: "Twelve packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, design taste (aesthetic families, reference briefs and anti-slop guardrails), browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build.",
           },
         },
         {

@@ -160,6 +160,10 @@ const COUNT_FILES = [
   '.claude-plugin/marketplace.json',
   'landing/app/layout.tsx',
   'landing/app/page.tsx',
+  // GEO files — what LLMs read about Preclaude, so stale counts here are the
+  // ones that propagate furthest.
+  'landing/public/llms.txt',
+  'landing/public/llms-full.txt',
 ];
 
 const PATTERNS = [
@@ -174,9 +178,38 @@ const PATTERNS = [
   [/(\d+)\s+Agent Skills/gi, 'skills'],
 ];
 
+// Counts also get written out in words ("Eleven packages of expertise..."),
+// which slipped past the numeric patterns until it went stale.
+const WORDS = {
+  eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14,
+  fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20,
+};
+const WORD_RE = new RegExp(`\\b(${Object.keys(WORDS).join('|')})\\b`, 'gi');
+const SUBJECT_RE = /\b(commands?|agents?|skills?)\b/gi;
+const WINDOW = 140; // chars either side — the subject often sits in a nearby field
+
 for (const file of COUNT_FILES) {
   if (!exists(file)) continue;
   const text = read(file);
+
+  for (const m of text.matchAll(WORD_RE)) {
+    const found = WORDS[m[1].toLowerCase()];
+    const context = text.slice(Math.max(0, m.index - WINDOW), m.index + WINDOW);
+
+    // Only flag when the nearby subject is unambiguous — a window mentioning
+    // both "commands" and "skills" can't tell us which number was meant.
+    const kinds = new Set(
+      [...context.matchAll(SUBJECT_RE)].map((s) => `${s[1].toLowerCase().replace(/s$/, '')}s`),
+    );
+    if (kinds.size !== 1) continue;
+
+    const kind = [...kinds][0];
+    if (ACTUAL[kind] !== undefined && found !== ACTUAL[kind]) {
+      const line = text.slice(0, m.index).split('\n').length;
+      err(`${file}:${line}`, `spells out "${m[1]}" near "${kind}", actual is ${ACTUAL[kind]}`);
+    }
+  }
+
   for (const [re, kind] of PATTERNS) {
     for (const m of text.matchAll(re)) {
       const found = Number(m[1]);
