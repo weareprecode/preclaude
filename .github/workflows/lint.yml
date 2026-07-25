@@ -1,0 +1,25 @@
+name: Lint
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lint commands, agents, skills and counts
+        run: node scripts/preclaude-lint.mjs
+
+      - name: Check à-la-carte bundles are in sync
+        run: node scripts/build-bundles.mjs --check
+
+      - name: Check the Open Graph template counts are current
+        run: node scripts/build-og-image.mjs --check
