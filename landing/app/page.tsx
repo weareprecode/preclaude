@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 42 commands with full documentation
+// Data - All 46 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -252,6 +252,50 @@ const commands: Command[] = [
       "Test suite"
     ],
     example: "/status\n# 📁 GIT: feature/new-feature +3/-0\n# 📝 TYPECHECK: ✅ Types OK\n# 🔍 LINT: ✅ Lint OK\n# 🧪 TESTS: ✅ Tests pass"
+  },
+  {
+    name: "/taste",
+    desc: "Build a taste library - turn saved screenshots and URLs into reusable aesthetic references",
+    fullDescription: "AI design output isn't bad, it's generic - and better models only move where generic sits. /taste fixes that at the source by building a library of references you actually like, classified so the rest of the design module can use them.",
+    whenToUse: ["Your output looks AI-generated", "You have a folder of screenshots doing nothing", "Before running /variants"],
+    whatItDoes: [
+      "Looks at each reference properly - reads the image or fetches the URL",
+      "Assigns an aesthetic family, inventing a new one where nothing fits",
+      "Extracts the real vocabulary: type pairing, colour behaviour, grid, imagery, motion",
+      "Writes .taste/library.json plus a paste-ready brief per family",
+      "Reviews the library honestly - thin families, misclassifications, dead links"
+    ],
+    example: "/taste add ~/Desktop/screenshots\n/taste add https://example.com\n/taste review"
+  },
+  {
+    name: "/variants",
+    desc: "Build wide then narrow - design variants side by side, then converge on one",
+    fullDescription: "Stop one-shotting designs. Generates five complete versions in five genuinely different aesthetic families, shows them side by side in a contact sheet, then narrows: three body variants, then hero imagery, then tweaks.",
+    whenToUse: ["Any new page or major redesign", "You don't yet know what direction you want", "One-shot output keeps missing"],
+    whatItDoes: [
+      "Assembles the four-part brief: aesthetic, reference, intent, guardrails",
+      "Builds five versions in parallel - one subagent each, so they don't converge",
+      "Contact sheet at design-lab/index.html: all five as live iframes, desktop and mobile",
+      "You pick one, then three body variants, then you pick again",
+      "Hero imagery last: four options in place, then colour variations - cost-gated",
+      "Never touches your real pages during exploration"
+    ],
+    example: '/variants "landing page for an AI analytics tool for small startups"'
+  },
+  {
+    name: "/tweakbar",
+    desc: "Live tweak panel on the dev server, with write-back into your tokens",
+    fullDescription: "Design decisions that are hard to describe are easy to make visually. Puts the real decisions on sliders in the browser, then writes the values you land on back into your actual tokens - the half most tools miss.",
+    whenToUse: ["The design is close and the rest is eye-judgement", "You keep asking for 'more premium' and re-rolling"],
+    whatItDoes: [
+      "Reads the page and works out which decisions it actually contains",
+      "Refactors hard-coded values into CSS custom properties",
+      "Builds a dev-only panel: type, colour, space, shape, motion",
+      "On apply, diffs against the originals and writes into your existing tokens",
+      "Keeps semantic names - a slider value still lands in --space-section",
+      "Checks AA contrast survived the colour change"
+    ],
+    example: "/tweakbar app/page.tsx\n# ... move sliders in the browser ...\n/tweakbar apply"
   },
   {
     name: "/polish",
@@ -600,6 +644,21 @@ const commands: Command[] = [
     example: "/deploy-check\n# RESULT: READY TO DEPLOY ✅"
   },
   {
+    name: "/doctor",
+    desc: "Diagnose your setup - broken links, conflicts, version drift, low-quality skills",
+    fullDescription: "Checks that Preclaude is actually installed the way it thinks it is, and audits every command, agent and skill on the machine for the things that quietly stop them working. Diagnoses first, fixes second - nothing under ~/.claude changes without your say-so.",
+    whenToUse: ["Commands are missing", "Edits to a command have no effect", "After an update", "Auditing your own custom skills"],
+    whatItDoes: [
+      "Finds dangling symlinks and entries shadowing the install",
+      "Catches the plugin and symlink installs both being live - the usual cause of 'my edits do nothing'",
+      "Validates settings JSON, reports version drift and orphaned backups",
+      "Lists MCP servers awaiting authentication",
+      "Audits skills: missing frontmatter, name mismatches, descriptions that never say when to use them",
+      "Flags over-prescriptive commands that stronger models deviate from"
+    ],
+    example: "/doctor\n/doctor skills"
+  },
+  {
     name: "/update",
     desc: "Update Preclaude to the latest version",
     fullDescription: "Update Preclaude to the latest version from GitHub. Checks for updates, pulls latest changes, and verifies symlinks.",
@@ -631,7 +690,12 @@ const commandCategories: CommandCategory[] = [
   {
     title: "Ship & Maintain",
     blurb: "Everyday engineering: quality, refactoring, dependencies, and getting changes out the door.",
-    names: ["/commit", "/pr", "/review", "/test", "/debug", "/status", "/polish", "/refactor", "/migrate", "/deps", "/deploy-check"],
+    names: ["/commit", "/pr", "/review", "/test", "/debug", "/status", "/refactor", "/migrate", "/deps", "/deploy-check"],
+  },
+  {
+    title: "Design Studio",
+    blurb: "Escape the AI look: curate taste, explore variants side by side, then tune the winner live.",
+    names: ["/taste", "/variants", "/tweakbar", "/polish"],
   },
   {
     title: "Growth Toolkit",
@@ -646,7 +710,7 @@ const commandCategories: CommandCategory[] = [
   {
     title: "Project Ops",
     blurb: "Analytics, SEO, stakeholder comms, handoffs and keeping Preclaude itself up to date.",
-    names: ["/seo", "/analytics", "/stakeholder", "/project-complete", "/handoff", "/learn", "/update"],
+    names: ["/seo", "/analytics", "/stakeholder", "/project-complete", "/handoff", "/learn", "/doctor", "/update"],
   },
 ];
 
@@ -1203,11 +1267,15 @@ const skills: Command[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
     answer: "Two ways. As a Claude Code plugin (recommended): run /plugin marketplace add weareprecode/preclaude then /plugin install preclaude@preclaude inside Claude Code. Or via the terminal one-liner: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash (macOS and Linux). Either way, restart Claude Code afterwards to load the new commands and agents."
+  },
+  {
+    question: "Can I install just part of Preclaude?",
+    answer: "Yes. Once you've added the marketplace, you can install a single bundle instead of the full pack: /plugin install preclaude-design@preclaude for the design commands (taste, variants, tweakbar, polish), preclaude-build for PRDs and the Ralph build loop, preclaude-ship for review, tests and deploys, or preclaude-growth for offers, funnels, ads and email. Every command loads its description into Claude's context, so if you only need one slice, installing one slice keeps that context clear. Bundles are generated from the same files as the full pack, so nothing forks — and installing more than one is fine, shared agents simply resolve once."
   },
   {
     question: "What is Ralph?",
@@ -1231,7 +1299,7 @@ const faqs = [
   },
   {
     question: "What are the auto-loading skills?",
-    answer: "Eleven packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
+    answer: "Twelve packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, design taste (aesthetic families, reference briefs and anti-slop guardrails), browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
   },
   {
     question: "What is the marketing engine?",
@@ -1493,7 +1561,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#ADADA9] max-w-[780px] leading-relaxed px-2"
             >
-              42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
+              46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}
@@ -1511,6 +1579,12 @@ export default function Home() {
             <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#8B8B87] -mt-2">
               or inside Claude Code:{" "}
               <code className="font-mono text-[#ADADA9]">/plugin marketplace add weareprecode/preclaude</code>
+            </motion.p>
+
+            {/* Single-bundle install */}
+            <motion.p variants={fadeInUp} className="text-xs sm:text-sm text-[#8B8B87] -mt-4">
+              or just the part you want:{" "}
+              <code className="font-mono text-[#ADADA9]">/plugin install preclaude-design@preclaude</code>
             </motion.p>
 
             {/* GitHub Button */}
@@ -1910,7 +1984,11 @@ export default function Home() {
                 <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer" className="underline">
                   Claude Code
                 </a>
-                {" "}to be installed.
+                {" "}to be installed. Only want one slice? Install a single bundle instead —{" "}
+                <code className="font-mono">preclaude-design</code>,{" "}
+                <code className="font-mono">preclaude-build</code>,{" "}
+                <code className="font-mono">preclaude-ship</code> or{" "}
+                <code className="font-mono">preclaude-growth</code>.
               </p>
             </motion.div>
           </motion.div>

@@ -1,0 +1,12 @@
+{
+  "name": "preclaude-ship",
+  "version": "2.4.0",
+  "description": "Everyday engineering — review, tests, refactors, dependencies, deploys, and setup diagnostics.",
+  "author": {
+    "name": "Precode",
+    "url": "https://precode.co"
+  },
+  "homepage": "https://preclaude.com",
+  "repository": "https://github.com/weareprecode/preclaude",
+  "license": "MIT"
+}

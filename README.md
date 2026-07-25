@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder.
+Supercharge Claude Code with 46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -19,6 +19,19 @@ Inside Claude Code:
 
 Versioned, updateable from the plugin manager, and easy to share with a team.
 
+### Or just the part you want
+
+Every command and skill loads its description into context, so if you only need one slice, install one slice:
+
+```
+/plugin install preclaude-design@preclaude    # taste, variants, tweakbar, polish
+/plugin install preclaude-build@preclaude     # PRDs, scaffolding, Ralph
+/plugin install preclaude-ship@preclaude      # review, tests, deploys, doctor
+/plugin install preclaude-growth@preclaude    # offers, funnels, ads, email
+```
+
+Bundles are generated from the same files as the full pack — nothing forks. Install more than one and any shared agents simply resolve once.
+
 ### Or the one-line installer
 
 ```bash
@@ -31,7 +44,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 42 Slash Commands
+### 46 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -50,6 +63,9 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/test` | Generate tests for existing code - unit, integration, or E2E |
 | `/debug` | Analyse error messages and suggest fixes |
 | `/status` | Quick health check - git, lint, types, tests in one view |
+| `/taste` | Build a taste library — turn saved screenshots and URLs into reusable aesthetic references |
+| `/variants` | Build wide then narrow — design variants side by side, then converge on one |
+| `/tweakbar` | Live tweak panel on the dev server, with write-back into your tokens |
 | `/polish` | Polish UI to match a design reference - URL, Figma, or screenshot |
 | `/refactor` | Refactor code - extract components, improve types, split files |
 | `/migrate` | Run migrations - database, Next.js upgrades, dependency updates |
@@ -76,6 +92,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/project-complete` | Generate end-of-project documentation suite |
 | `/handoff` | Create session handoff notes for continuity |
 | `/deploy-check` | Pre-deployment verification checklist |
+| `/doctor` | Diagnose your setup - broken links, conflicts, version drift, low-quality skills |
 | `/update` | Update Preclaude to the latest version |
 
 > **Note:** `/demo`, `/atomise`, `/listen`, `/launch`, `/scorecard` and `/ugc` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
@@ -103,9 +120,9 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@ios-developer` | Swift, SwiftUI, native iOS development |
 | `@android-developer` | Kotlin, Jetpack Compose, native Android development |
 
-### 11 Agent Skills
+### 12 Agent Skills
 
-Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `dev-browser` (visual verification via Playwright), `better-auth` (auth setup with every gotcha handled), and `fable-build` (Fable 5 scaffolds the architecture, Opus/Sonnet subagents carry out the build — with the Anthropic advisor-tool pattern for API code).
+Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `design-taste` (aesthetic families, reference briefs and anti-slop guardrails), `dev-browser` (visual verification via Playwright), `better-auth` (auth setup with every gotcha handled), and `fable-build` (Fable 5 scaffolds the architecture, Opus/Sonnet subagents carry out the build — with the Anthropic advisor-tool pattern for API code).
 
 ### Starter Hooks & MCP Template (opt-in)
 

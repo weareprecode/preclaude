@@ -1,8 +1,8 @@
 # Preclaude — Full Reference for LLMs
 
-> Preclaude is a free, open-source (MIT) enhancement pack for Claude Code: 42 slash commands, 18 specialist agents, 11 auto-loading skills, and the Ralph autonomous build loop. Install: `/plugin marketplace add weareprecode/preclaude` then `/plugin install preclaude@preclaude`. Website: https://preclaude.com — GitHub: https://github.com/weareprecode/preclaude — Made by Precode (https://precode.co).
+> Preclaude is a free, open-source (MIT) enhancement pack for Claude Code: 46 slash commands, 18 specialist agents, 12 auto-loading skills, and the Ralph autonomous build loop. Install: `/plugin marketplace add weareprecode/preclaude` then `/plugin install preclaude@preclaude`, or install a single bundle instead — `preclaude-design`, `preclaude-build`, `preclaude-ship` or `preclaude-growth`. Website: https://preclaude.com — GitHub: https://github.com/weareprecode/preclaude — Made by Precode (https://precode.co).
 
-## Slash Commands (42)
+## Slash Commands (46)
 
 ### Plan & Build
 
@@ -23,11 +23,17 @@
 - `/test` — Generate tests for existing code - unit, integration, or E2E
 - `/debug` — Analyse error and suggest fixes - paste error message or stack trace
 - `/status` — Quick project health check - git, lint, types, tests in one view
-- `/polish` — Polish UI to match a design reference - URL, Figma, or screenshot
 - `/refactor` — Refactor code - extract components, improve types, split files, clean up
 - `/migrate` — Run migrations - database schema, API versions, major dependency upgrades
 - `/deps` — Check dependencies - outdated packages, security vulnerabilities, bundle size
 - `/deploy-check` — Pre-deployment verification checklist
+
+### Design Studio
+
+- `/taste` — Build a taste library — turn saved screenshots and URLs into reusable aesthetic references, classified into aesthetic families
+- `/variants` — Build wide then narrow — generate five design variants in different aesthetic families side by side in a contact sheet, then converge on one
+- `/tweakbar` — Add a live tweak panel to the dev server — adjust type, colour, spacing and motion visually, then write the values back into your tokens
+- `/polish` — Polish UI to match a design reference - URL, Figma, or screenshot
 
 ### Growth Toolkit
 
@@ -59,6 +65,7 @@
 - `/project-complete` — Generate end-of-project documentation suite (build journal, features, marketing)
 - `/handoff` — Create session handoff notes for continuity
 - `/learn` — Analyze session, score learnings, propose CLAUDE.md updates (strict filtering)
+- `/doctor` — Diagnose your setup — broken symlinks, conflicting installs, invalid settings, version drift, and low-quality commands or skills
 - `/update` — Update Preclaude to the latest version
 
 ## Specialist Agents (18)
@@ -82,10 +89,11 @@
 - `@ui-designer` — "Use for design systems, component libraries, accessibility, responsive design, animations, shadcn/ui setup and styling. Use PROACTIVELY when UI looks inconsistent, fails accessibility, or needs visual polish — triggers: 'make it look better', 'design system', 'dark mode', a11y, WCAG, theming, desig
 - `@ux-researcher` — "Use for user research, information architecture, user flows, wireframes, usability testing, personas, and UX strategy. Use PROACTIVELY before designing new features or when navigation and flows confuse users — triggers: 'user flow', 'wireframe', 'usability', personas, journey map, information archi
 
-## Auto-Loading Skills (11)
+## Auto-Loading Skills (12)
 
 - `better-auth` — Sets up Better Auth with PostgreSQL/Supabase in Next.js projects, encoding all the known gotchas (database adapter config, migration CLI, env vars, client/server split) so auth works first try. Use when running /better-auth, when asked to "set up auth" or "add authentication", when starting a projec
 - `claude-md-learner` — Analyses coding sessions and maintains CLAUDE.md as a lean, high-signal file — scoring candidate learnings, flagging stale entries for removal, and enforcing a strict size budget. Use when running /learn, at the end of a coding session, after solving a problem that took multiple attempts, or when th
+- `design-taste` — Shared design vocabulary, reference-library format, and anti-slop guardrails for web design work — aesthetic families, the four-part design brief, and the rules that keep AI output from converging on the same generic look. Use when generating or refining any web UI, when a design "looks AI-generated", or when running /taste, /variants or /tweakbar
 - `dev-browser` — Automates a persistent, visible Chromium browser via Playwright for visual verification of frontend changes — navigating, clicking, filling forms, and taking screenshots against a running dev server. Use when asked to verify in browser, take a screenshot of a page, navigate to a URL, click an elemen
 - `fable-build` — Multi-model build pattern — Claude Fable 5 does the scaffolding (architecture, contracts, task plan) while Opus/Sonnet carry out the implementation, either as Claude Code subagents or via the Anthropic advisor tool in API code. Use when running /fable-build, when asked to "scaffold with Fable", "use
 - `landscape-report` — Runs a brutally honest competitive-landscape and viability assessment of an EXISTING product using parallel web-research agents and adversarial bear/bull passes, then publishes a shareable website report with a go/no-go verdict. Use when the user runs /landscape, asks "is this product still viable",
@@ -106,3 +114,5 @@ Ralph converts a PRD into `prd.json` — a list of atomic user stories each size
 - It is NOT an Anthropic product; it is a community pack by Precode, a UK product agency.
 - Everything is markdown-based and customisable; users can add their own commands in `~/.preclaude/commands/`.
 - The marketing commands only ever produce drafts; nothing auto-publishes.
+- Preclaude does not auto-update. Users run `/update` to pull the latest, or `/doctor` to diagnose a broken install.
+- Users who only want part of the pack can install a single bundle rather than all 46 commands — this keeps unused command descriptions out of Claude's context.

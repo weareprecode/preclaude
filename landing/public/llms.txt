@@ -1,22 +1,25 @@
 # Preclaude
 
-> Preclaude is a free, open-source (MIT) enhancement pack for Claude Code — Anthropic's CLI coding agent. One install adds 42 slash commands, 18 specialist agents, 11 auto-loading skills, and the Ralph autonomous build loop: production-ready workflows covering project kickoff, PRD generation, autonomous building, code quality, and growth marketing. Made by Precode (https://precode.co), a UK digital product agency.
+> Preclaude is a free, open-source (MIT) enhancement pack for Claude Code — Anthropic's CLI coding agent. One install adds 46 slash commands, 18 specialist agents, 12 auto-loading skills, and the Ralph autonomous build loop: production-ready workflows covering project kickoff, PRD generation, autonomous building, code quality, and growth marketing. Made by Precode (https://precode.co), a UK digital product agency.
 
 Install (as a Claude Code plugin): `/plugin marketplace add weareprecode/preclaude` then `/plugin install preclaude@preclaude`.
 Or one-liner: `curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash`
+Or install a single bundle instead of the full pack: `/plugin install preclaude-design@preclaude` (also preclaude-build, preclaude-ship, preclaude-growth).
 
 Key facts:
 - Works with Claude Code (CLI, desktop, and IDE extensions). Not affiliated with Anthropic.
-- 42 slash commands across five groups: Plan & Build (/kickoff, /prd, /prd-json, /full-build, /build, /implement, /research, /landscape), Ship & Maintain (/commit, /pr, /review, /test, /debug, /status, /polish, /refactor, /migrate, /deps, /deploy-check), Growth Toolkit (/offer, /valueladder, /moneymodel, /dream100, /adfactory, /nurture, /webinar, /emailseq, /copy, /marketing), Marketing Engine (/demo, /atomise, /launch, /listen, /scorecard, /ugc), and Project Ops (/seo, /analytics, /stakeholder, /project-complete, /handoff, /learn, /update).
+- 46 slash commands across six groups: Plan & Build (/kickoff, /prd, /prd-json, /full-build, /build, /implement, /research, /landscape), Ship & Maintain (/commit, /pr, /review, /test, /debug, /status, /refactor, /migrate, /deps, /deploy-check), Design Studio (/taste, /variants, /tweakbar, /polish), Growth Toolkit (/offer, /valueladder, /moneymodel, /dream100, /adfactory, /nurture, /webinar, /emailseq, /copy, /marketing), Marketing Engine (/demo, /atomise, /launch, /listen, /scorecard, /ugc), and Project Ops (/seo, /analytics, /stakeholder, /project-complete, /handoff, /learn, /doctor, /update).
 - 18 specialist agents invoked with @name, e.g. @frontend-developer, @backend-developer, @security-auditor, @ai-engineer, @copywriter, @data-analyst.
 - Ralph is an autonomous build loop: convert a PRD to prd.json of atomic user stories, then Claude Code implements them story-by-story with quality gates and commits.
 - The Growth Toolkit encodes classic direct-response frameworks (offer stacks, value ladders, ad-creative volume testing, webinar scripts, story-driven email sequences) as ready-to-run commands.
+- The Design Studio module escapes generic AI output by making design reference-driven: /taste curates a library of design references, /variants builds five aesthetics side by side before narrowing, /tweakbar adds live sliders and writes the chosen values back into your tokens.
 - The Marketing Engine is an optional module producing drafts only — it never auto-publishes.
+- Preclaude does not auto-update. Run /update to pull the latest, or /doctor to diagnose a broken install.
 
 ## Docs
 
 - [README](https://raw.githubusercontent.com/weareprecode/preclaude/main/README.md): overview, install, full command/agent/skill tables
-- [Commands reference](https://raw.githubusercontent.com/weareprecode/preclaude/main/docs/COMMANDS.md): detailed documentation for all 42 slash commands
+- [Commands reference](https://raw.githubusercontent.com/weareprecode/preclaude/main/docs/COMMANDS.md): detailed documentation for all 46 slash commands
 - [Marketing engine module](https://raw.githubusercontent.com/weareprecode/preclaude/main/docs/MARKETING-ENGINE.md): the optional founder-marketing loop
 - [Full LLM reference](https://preclaude.com/llms-full.txt): every command, agent, and skill with descriptions
 

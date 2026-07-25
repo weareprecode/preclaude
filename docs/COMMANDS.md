@@ -25,6 +25,9 @@ Complete reference for all available slash commands.
 | `/implement` | Feature build | Smaller features |
 | `/research` | Deep web research | Market research, competitor analysis |
 | `/landscape` | Competitive viability report | Honest go/no-go assessment of this product |
+| `/taste` | Build a taste library | Curating design references you like |
+| `/variants` | Design variants side by side | Starting a design, avoiding one-shot output |
+| `/tweakbar` | Live tweak panel | Last-mile visual adjustment |
 | `/polish` | Polish UI | Match design reference |
 | `/refactor` | Refactor code | Improve code structure |
 | `/migrate` | Run migrations | Database, deps, framework upgrades |
@@ -49,6 +52,7 @@ Complete reference for all available slash commands.
 | `/emailseq` | Story-driven email sequences | Onboarding + broadcast emails |
 | `/project-complete` | Full doc suite | Project finished |
 | `/deploy-check` | Pre-deploy verification | Before deployment |
+| `/doctor` | Diagnose your setup | Commands missing, edits not taking effect |
 | `/update` | Update Preclaude | Getting the latest commands and agents |
 
 ---
@@ -1417,4 +1421,116 @@ The report is brutally honest by design — a hedged report is a failed report.
 ```bash
 /update
 # ✅ Preclaude is up to date
+```
+
+---
+
+## The design module
+
+`/taste`, `/variants` and `/tweakbar` are one funnel: curate references, explore wide, then converge. Each works on its own, but the sequence is the intended path. All three read the `design-taste` skill, which holds the aesthetic vocabulary, the four-part brief and the anti-slop guardrails.
+
+The four-part brief is the core idea. Every design prompt carries an **aesthetic** (a named family, not "modern and clean"), a **reference** (image or URL — match the feel, never copy the content), an **intent** (what, for whom, and the one action wanted), and **guardrails** (the always and never list). Miss one and the output regresses to the mean.
+
+---
+
+## `/taste [add <path|url> | review | brief <family>]`
+
+**Build and maintain a library of design references, classified into reusable aesthetic families.**
+
+### When to Use
+- Starting to take design seriously and wanting a reference point that isn't the model's default
+- You have a folder of screenshots doing nothing
+- Before `/variants`, so it has something real to work from
+
+### What It Does
+1. Looks at each reference properly — reads the image or fetches the URL
+2. Assigns an aesthetic family, inventing a new one where nothing fits
+3. Extracts the actual design vocabulary: type pairing, colour behaviour, grid, imagery, motion, texture
+4. Writes entries into `.taste/library.json` and a paste-ready brief per family into `.taste/families/`
+5. On `review`, audits the library honestly — thin families, misclassifications, dead links, and what's missing given what you build
+
+### Example
+```bash
+/taste add ~/Desktop/screenshots
+/taste add https://example.com
+/taste review
+```
+
+---
+
+## `/variants [what you're building]`
+
+**Build wide, then narrow — generate design variants side by side and converge deliberately.**
+
+### When to Use
+- Any new page or major redesign
+- The output "looks AI-generated" and you can't say why
+- You don't yet know what direction you want
+
+### What It Does
+1. Assembles the four-part brief, pulling from `.taste/` where it exists
+2. Builds five complete versions in five genuinely different aesthetic families — **in parallel, one subagent each**, so they don't converge
+3. Builds a **contact sheet** at `design-lab/index.html`: all five as live scaled iframes, desktop and mobile, click to open full size
+4. You pick one → three body/layout variants of it → you pick one
+5. Hero imagery last: four options in place, then colour variations of the winner
+6. Hands off to `/tweakbar`
+
+Everything lands in `design-lab/`. Your real pages are never overwritten during exploration.
+
+### Cost
+Image generation is the only paid step, and it is gated — the cost is stated and confirmed before any call.
+
+### Example
+```bash
+/variants "landing page for an AI analytics tool for small startups"
+```
+
+---
+
+## `/tweakbar [page | apply]`
+
+**Put the design decisions on sliders, then write the chosen values back into the code.**
+
+### When to Use
+- The design is close and the remaining decisions are ones you can only judge by eye
+- You keep asking for "more premium" and re-rolling the whole page
+
+### What It Does
+1. Reads the page and works out which decisions it actually contains
+2. Refactors hard-coded values into CSS custom properties
+3. Builds a dev-only panel over them — type, colour, space, shape, motion, and whatever is specific to this page
+4. On `apply`, diffs the current values against the originals and writes them into your existing tokens, theme config or design-system file — keeping the semantic names
+
+The panel never ships: it is gated to dev, and the gating is explained when it's installed.
+
+### Example
+```bash
+/tweakbar app/page.tsx
+# ... move sliders in the browser ...
+/tweakbar apply
+```
+
+---
+
+## `/doctor [install | skills]`
+
+**Diagnose your Preclaude and Claude Code setup.**
+
+### When to Use
+- Commands are missing, or edits to a command have no effect
+- After an update, or when you're not sure which install is live
+- Auditing your own custom commands and skills for quality
+
+### What It Does
+
+**`install`** — dangling symlinks, entries shadowing the install, **both the plugin and the symlink install being live at once** (the most common cause of "my edits do nothing"), invalid settings JSON, version drift against the remote, orphaned `~/.claude-backup-*` directories, and MCP servers awaiting authentication.
+
+**`skills`** — audits every command, agent and skill for structural failures (missing frontmatter, name/directory mismatch, absent description) and quality problems: descriptions that never say *when* to use the thing, over-prescriptive step-by-step scripts that stronger models deviate from, excessive length, and colliding descriptions.
+
+It diagnoses first and fixes second. Nothing under `~/.claude` is modified without confirming that specific change.
+
+### Example
+```bash
+/doctor
+/doctor skills
 ```

@@ -1,0 +1,12 @@
+{
+  "name": "preclaude-growth",
+  "version": "2.4.0",
+  "description": "Direct-response frameworks as commands — offers, value ladders, money models, ads, nurture and email.",
+  "author": {
+    "name": "Precode",
+    "url": "https://precode.co"
+  },
+  "homepage": "https://preclaude.com",
+  "repository": "https://github.com/weareprecode/preclaude",
+  "license": "MIT"
+}

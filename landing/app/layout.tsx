@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://preclaude.com"),
   title: "Preclaude - Supercharge Your Claude Code",
   description:
-    "42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
+    "46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
   keywords: [
     "Claude Code",
     "Claude Code plugin",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
+      "46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
     type: "website",
     url: "https://preclaude.com",
     siteName: "Preclaude",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
+      "46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
     images: ["/opengraph-image.png"],
   },
 };
@@ -71,7 +71,7 @@ const structuredData = {
       "@id": "https://preclaude.com/#software",
       name: "Preclaude",
       description:
-        "Open-source enhancement pack for Claude Code: 42 slash commands, 18 specialist agents, 11 auto-loading skills, and the Ralph autonomous build loop — production-ready workflows from kickoff to launch.",
+        "Open-source enhancement pack for Claude Code: 46 slash commands, 18 specialist agents, 12 auto-loading skills, and the Ralph autonomous build loop — production-ready workflows from kickoff to launch.",
       url: "https://preclaude.com",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "macOS, Linux, Windows",
@@ -103,7 +103,7 @@ const structuredData = {
           name: "What is Preclaude?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Preclaude is a pre-configured setup for Claude Code that includes 42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows.",
+            text: "Preclaude is a pre-configured setup for Claude Code that includes 46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows.",
           },
         },
         {
@@ -112,6 +112,14 @@ const structuredData = {
           acceptedAnswer: {
             "@type": "Answer",
             text: "Two ways. As a Claude Code plugin (recommended): run /plugin marketplace add weareprecode/preclaude then /plugin install preclaude@preclaude inside Claude Code. Or via the terminal one-liner: curl -fsSL https://raw.githubusercontent.com/weareprecode/preclaude/main/install-remote.sh | bash (macOS and Linux). Either way, restart Claude Code afterwards to load the new commands and agents.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Can I install just part of Preclaude?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Once you've added the marketplace, install a single bundle instead of the full pack: /plugin install preclaude-design@preclaude for the design commands, preclaude-build for PRDs and the Ralph build loop, preclaude-ship for review, tests and deploys, or preclaude-growth for offers, funnels, ads and email. Every command loads its description into Claude's context, so installing one slice keeps that context clear. Bundles are generated from the same files as the full pack, and installing more than one is fine.",
           },
         },
         {
@@ -159,7 +167,7 @@ const structuredData = {
           name: "What are the auto-loading skills?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Eleven packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build.",
+            text: "Twelve packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, design taste (aesthetic families, reference briefs and anti-slop guardrails), browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build.",
           },
         },
         {
