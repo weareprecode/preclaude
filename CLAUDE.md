@@ -35,7 +35,7 @@ When not specified by project, prefer:
 
 **Always start on the latest stable major.** At kickoff, scaffold with `@latest` (`npx create-next-app@latest`, latest Tailwind) and use the current stable major of each framework (Next.js 16+, React 19+, Tailwind v4+ as of 2026). Only pin behind latest for a concrete blocker, and note why in the project's CLAUDE.md.
 
-## Commands Available (42)
+## Commands Available (46)
 - `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -51,6 +51,9 @@ When not specified by project, prefer:
 - `/test [file]` — Generate tests for existing code
 - `/debug [error]` — Analyse error messages and suggest fixes
 - `/status` — Quick health check: git, lint, types, tests
+- `/taste [add|review|brief]` — Build a taste library of design references, classified into aesthetic families
+- `/variants [what you're building]` — Build wide then narrow: variants side by side, then converge
+- `/tweakbar [page]` — Live tweak panel on the dev server, with write-back into your tokens
 - `/polish [component]` — Polish UI to match design reference (URL, Figma, screenshot)
 - `/refactor [file]` — Refactor code: extract components, improve types, split files
 - `/migrate [type]` — Run migrations: database, Next.js, dependencies
@@ -77,6 +80,7 @@ When not specified by project, prefer:
 - `/project-complete` — Generate full doc suite (journal, features, marketing)
 - `/handoff` — Session handoff notes
 - `/deploy-check` — Pre-deployment checklist
+- `/doctor [install|skills]` — Diagnose your setup: broken links, conflicts, version drift, weak skills
 - `/update` — Update Preclaude to the latest version
 
 ## Agents Available (18)

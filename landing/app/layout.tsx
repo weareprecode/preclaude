@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://preclaude.com"),
   title: "Preclaude - Supercharge Your Claude Code",
   description:
-    "42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
+    "46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
   keywords: [
     "Claude Code",
     "Claude Code plugin",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
+      "46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
     type: "website",
     url: "https://preclaude.com",
     siteName: "Preclaude",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Preclaude - Supercharge Your Claude Code",
     description:
-      "42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
+      "46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.",
     images: ["/opengraph-image.png"],
   },
 };
@@ -71,7 +71,7 @@ const structuredData = {
       "@id": "https://preclaude.com/#software",
       name: "Preclaude",
       description:
-        "Open-source enhancement pack for Claude Code: 42 slash commands, 18 specialist agents, 11 auto-loading skills, and the Ralph autonomous build loop — production-ready workflows from kickoff to launch.",
+        "Open-source enhancement pack for Claude Code: 46 slash commands, 18 specialist agents, 12 auto-loading skills, and the Ralph autonomous build loop — production-ready workflows from kickoff to launch.",
       url: "https://preclaude.com",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "macOS, Linux, Windows",
@@ -103,7 +103,7 @@ const structuredData = {
           name: "What is Preclaude?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Preclaude is a pre-configured setup for Claude Code that includes 42 slash commands, 18 specialist agents, 11 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows.",
+            text: "Preclaude is a pre-configured setup for Claude Code that includes 46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows.",
           },
         },
         {
