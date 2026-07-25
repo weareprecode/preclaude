@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Preclaude — Open Graph image</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /*
+   * Source template for landing/public/opengraph-image.png.
+   *
+   * The counts in the stat line are baked into that PNG, so they went stale
+   * every time a command was added. Regenerate instead of pixel-patching:
+   *
+   *   node ../scripts/build-og-image.mjs
+   *
+   * The brand lockup and the bottom visual are cropped from the original
+   * image (public/og/) so only the type is re-rendered.
+   */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    background: #0A0A09;
+    font-family: 'Figtree', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  .logo {
+    display: block;
+    width: 230px;
+    height: 42px;
+    margin: 36px auto 0;
+  }
+
+  h1 {
+    margin-top: 15px;
+    font-size: 67px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-align: center;
+  }
+
+  .stats {
+    margin-top: 16px;
+    font-size: 23.7px;
+    font-weight: 400;
+    letter-spacing: -0.016em;
+    line-height: 1;
+    color: #9C9C99;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .stats b { font-weight: 700; color: #fff; }
+  .stats i { font-style: normal; color: #E4571B; padding: 0 10px; }
+
+  .panel {
+    display: block;
+    width: 1200px;
+    margin-top: 19px;
+  }
+</style>
+</head>
+<body>
+  <img class="logo" src="public/og/logo.png" alt="Preclaude">
+
+  <h1>Supercharge Your Claude Code</h1>
+
+  <p class="stats">
+    <b>46</b> slash commands <i>·</i> <b>18</b> specialist agents <i>·</i>
+    <b>12</b> auto-loading skills <i>·</i> <b>Ralph</b> autonomous builder
+  </p>
+
+  <img class="panel" src="public/og/panel.png" alt="">
+</body>
+</html>
