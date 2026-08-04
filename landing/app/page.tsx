@@ -44,7 +44,7 @@ interface Agent {
   whenToUse?: string[];
 }
 
-// Data - All 46 commands with full documentation
+// Data - All 47 commands with full documentation
 const commands: Command[] = [
   {
     name: "/full-build",
@@ -132,18 +132,30 @@ const commands: Command[] = [
   },
   {
     name: "/research",
-    desc: "Deep research on competitors, market gaps, and idea validation",
-    fullDescription: "Deep web research on competitors, market gaps, and idea validation. Generates comprehensive competitive analysis.",
+    desc: "Deep research on competitors, market gaps, and idea validation — parallel lanes + skeptic pass",
+    fullDescription: "Deep web research run as a diamond graph rather than one self-graded pass: parallel research lanes, a skeptic pass to kill weak findings, and a recommendation built from surviving evidence only.",
     whenToUse: ["Before building a new product", "Competitive analysis", "Market validation", "Finding opportunities"],
     whatItDoes: [
-      "Identifies search terms from idea",
-      "Finds 10+ competitors via web search",
-      "Analyses each competitor's features, pricing, UX",
-      "Reads reviews and user feedback",
-      "Identifies market gaps and opportunities",
+      "Plans four research lanes with per-lane briefs",
+      "Runs the lanes as parallel subagents — customers, competitors, distribution, pricing",
+      "Reads reviews and user feedback, dates every claim",
+      "Runs a @skeptic pass to kill unsupported, stale, or conflated findings",
       "Generates comprehensive report with Build/Pivot/Don't Build recommendation"
     ],
     example: '/research "Invoice tracking app for freelancers"'
+  },
+  {
+    name: "/graph",
+    desc: "Turn any workflow into a managed agent graph — parallel lanes, skeptic pass, merge, human gate",
+    fullDescription: "Run any question or workflow as an agent graph instead of one giant chat: a planner splits it into parallel lanes, a skeptic attacks the evidence, a merger synthesises the survivors, and a human gate sits before anything expensive.",
+    whenToUse: ["A should-we decision that needs evidence from several angles", "A workflow you already run with AI every week", "A one-shot AI answer you don't fully trust"],
+    whatItDoes: [
+      "Designs the graph first and shows it before running — jobs, arrows, human gate placement",
+      "Runs parallel lane subagents, each writing its own file under docs/graphs/",
+      "Runs a @skeptic pass over all lanes: killed, wounded, survived, unanswered",
+      "Merges surviving evidence into a recommendation and stops at the human gate"
+    ],
+    example: '/graph "Should I launch an AI bookkeeping tool for Shopify merchants?"'
   },
   {
     name: "/landscape",
@@ -685,7 +697,7 @@ const commandCategories: CommandCategory[] = [
   {
     title: "Plan & Build",
     blurb: "From idea to running product — PRDs, scaffolding, and the autonomous build loop.",
-    names: ["/kickoff", "/prd", "/prd-json", "/full-build", "/build", "/implement", "/research", "/landscape"],
+    names: ["/kickoff", "/prd", "/prd-json", "/full-build", "/build", "/implement", "/research", "/landscape", "/graph"],
   },
   {
     title: "Ship & Maintain",
@@ -714,7 +726,7 @@ const commandCategories: CommandCategory[] = [
   },
 ];
 
-// Data - All 18 agents with full documentation
+// Data - All 19 agents with full documentation
 const agents: Agent[] = [
   {
     name: "@frontend-developer",
@@ -874,6 +886,28 @@ const agents: Agent[] = [
       "@code-reviewer Review my recent changes before PR",
       "@code-reviewer Check this function for issues",
       "@code-reviewer Review the auth implementation"
+    ]
+  },
+  {
+    name: "@skeptic",
+    desc: "Adversarial evidence checking — kill weak findings before you act on them",
+    fullDescription: "Adversarially checks evidence, claims, and recommendations produced by another agent or an earlier pass. The writer never grades its own work — checking is its own job.",
+    expertise: [
+      "Support — which claims have evidence, which just sound confident",
+      "Staleness — undated claims are weak claims",
+      "Omission — ignored competitors, risks, counterexamples",
+      "Conflation — pain vs willingness to pay, announced vs shipped",
+      "Confidence without proof — numbers that trace to no source"
+    ],
+    focusAreas: [
+      "Verdict: SURVIVES / SURVIVES WITH CUTS / DOES NOT SURVIVE",
+      "Killed / Wounded / Survived / Unanswered",
+      "No strawmen — every kill must survive fact-checking too"
+    ],
+    whenToUse: [
+      "@skeptic Attack the findings in this research report",
+      "@skeptic Is the evidence behind this pricing decision solid?",
+      "@skeptic Red-team this launch plan before I commit to it"
     ]
   },
   {
@@ -1152,7 +1186,7 @@ const agentCategories: AgentCategory[] = [
   {
     title: "Quality & Security",
     blurb: "Testing, review, performance and security before anything ships.",
-    names: ["@test-engineer", "@code-reviewer", "@security-auditor", "@performance-engineer"],
+    names: ["@test-engineer", "@code-reviewer", "@skeptic", "@security-auditor", "@performance-engineer"],
   },
   {
     title: "Product & Design",
@@ -1225,6 +1259,14 @@ const skills: Command[] = [
     example: '"Write the launch content for our new billing feature"'
   },
   {
+    name: "graph-engineering",
+    desc: "Turn a messy AI workflow into a managed agent graph with a file paper trail",
+    fullDescription: "Turns any messy AI workflow into a managed agent graph: a planner splits the question, parallel lanes work independently, a skeptic attacks the evidence, a merger synthesises survivors, and a human gate sits where mistakes get expensive.",
+    whenToUse: ["\"Run this as a graph\"", "\"Split this into parallel research\"", "A one-shot AI answer is about to drive an expensive decision"],
+    whatItDoes: ["Designs jobs, arrows, and gate placement before running", "Parallel lanes + skeptic pass + merge, all written to files", "Backs the /graph command"],
+    example: '/graph "Should I launch an AI bookkeeping tool for Shopify merchants?"'
+  },
+  {
     name: "landscape-report",
     desc: "Brutally honest competitive viability reports, published as websites",
     fullDescription: "Runs a competitive-landscape and viability assessment of an existing product using parallel web-research agents and adversarial bear/bull passes, then publishes a shareable website report with a go/no-go verdict.",
@@ -1267,7 +1309,7 @@ const skills: Command[] = [
 const faqs = [
   {
     question: "What is Preclaude?",
-    answer: "Preclaude is a pre-configured setup for Claude Code that includes 46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
+    answer: "Preclaude is a pre-configured setup for Claude Code that includes 47 slash commands, 19 specialist agents, 13 auto-loading skills, and Ralph - an autonomous builder. It supercharges your Claude Code experience with production-ready workflows."
   },
   {
     question: "How do I install Preclaude?",
@@ -1299,7 +1341,7 @@ const faqs = [
   },
   {
     question: "What are the auto-loading skills?",
-    answer: "Twelve packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, design taste (aesthetic families, reference briefs and anti-slop guardrails), browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
+    answer: "Thirteen packages of expertise Claude loads when the job matches: PRD generation, Ralph task conversion, project kickoff and completion, CLAUDE.md learning, marketing content, competitive landscape reports, design taste (aesthetic families, reference briefs and anti-slop guardrails), browser-based visual verification (Playwright), Better Auth setup with every gotcha handled, graph engineering (parallel lanes, skeptic pass, human gate), and a multi-model build pattern where Fable 5 scaffolds and Opus/Sonnet carry out the build."
   },
   {
     question: "What is the marketing engine?",
@@ -1561,7 +1603,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-base sm:text-xl text-[#ADADA9] max-w-[780px] leading-relaxed px-2"
             >
-              46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
+              47 slash commands, 19 specialist agents, 13 auto-loading skills, and Ralph autonomous builder — all pre-configured and ready to use.
             </motion.p>
 
             {/* Install Command */}

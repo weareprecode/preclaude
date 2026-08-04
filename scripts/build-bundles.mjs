@@ -33,14 +33,15 @@ export const BUNDLES = [
     name: 'preclaude-build',
     description:
       'Idea to running product — PRDs, project scaffolding, and the Ralph autonomous build loop.',
-    commands: ['kickoff', 'prd', 'prd-json', 'full-build', 'build', 'implement', 'research'],
-    skills: ['prd', 'prd-to-json', 'ralph', 'project-kickoff', 'better-auth', 'fable-build'],
+    commands: ['kickoff', 'prd', 'prd-json', 'full-build', 'build', 'implement', 'research', 'graph'],
+    skills: ['prd', 'prd-to-json', 'ralph', 'project-kickoff', 'better-auth', 'fable-build', 'graph-engineering'],
     agents: [
       'backend-developer',
       'frontend-developer',
       'database-architect',
       'product-analyst',
       'test-engineer',
+      'skeptic',
     ],
   },
   {

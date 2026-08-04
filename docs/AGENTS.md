@@ -15,6 +15,7 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 | `@security-auditor` | Vulnerability review, OWASP compliance |
 | `@test-engineer` | Unit, integration, E2E tests |
 | `@code-reviewer` | PR reviews, quality checks |
+| `@skeptic` | Adversarial evidence checking, killing weak findings |
 | `@copywriter` | Brand voice, sales pages, landing pages, emails, ads |
 | `@ai-engineer` | Claude API, Agent SDK, RAG, LLM features |
 | `@data-analyst` | SQL, product analytics, funnels, A/B tests |
@@ -271,6 +272,34 @@ Specialised agent personas for targeted expertise. Invoke with `@agent-name`.
 @code-reviewer Check this function for issues
 @code-reviewer Review the auth implementation
 ```
+
+---
+
+## @skeptic
+
+**Adversarial checking of evidence, claims, and recommendations — the writer never grades its own work.**
+
+### Focus Areas
+1. Support — which claims have evidence, which just sound confident
+2. Staleness — undated claims are weak claims
+3. Omission — ignored competitors, risks, counterexamples
+4. Conflation — pain vs willingness to pay, announced vs shipped
+5. Confidence without proof — numbers that trace to no source
+
+### Output Format
+```
+Verdict: SURVIVES / SURVIVES WITH CUTS / DOES NOT SURVIVE
+Killed / Wounded / Survived / Unanswered
+```
+
+### When to Use
+```bash
+@skeptic Attack the findings in docs/research/competitive-analysis.md
+@skeptic Is the evidence behind this pricing decision actually solid?
+@skeptic Red-team this launch plan before I commit to it
+```
+
+Used automatically by `/research` (deep mode) and `/graph`.
 
 ---
 
