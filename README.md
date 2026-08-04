@@ -2,7 +2,7 @@
 
 ![Preclaude - Supercharge Your Claude Code](landing/public/opengraph-image.png)
 
-Supercharge Claude Code with 46 slash commands, 18 specialist agents, 12 auto-loading skills, and Ralph autonomous builder.
+Supercharge Claude Code with 47 slash commands, 19 specialist agents, 13 auto-loading skills, and Ralph autonomous builder.
 
 **Website:** [preclaude.com](https://preclaude.com)
 
@@ -44,7 +44,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 ## What You Get
 
-### 46 Slash Commands
+### 47 Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -54,7 +54,8 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `/kickoff` | Initialise new project with full structure, CLAUDE.md, and tooling |
 | `/prd-json` | Convert PRD to prd.json format for autonomous build |
 | `/build` | Run Ralph autonomous loop with completion promise |
-| `/research` | Deep research on competitors, market gaps, and idea validation |
+| `/research` | Deep research on competitors, market gaps, and idea validation - parallel lanes + skeptic pass |
+| `/graph` | Turn any workflow into a managed agent graph - parallel lanes, skeptic pass, merge, human gate |
 | `/landscape` | Competitive landscape + viability assessment of an existing product, published as a website report |
 | `/copy` | Audit, improve, or generate copy (sales pages, landing pages, emails, ads) |
 | `/commit` | Create conventional commit from staged changes |
@@ -97,7 +98,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 
 > **Note:** `/demo`, `/atomise`, `/listen`, `/launch`, `/scorecard` and `/ugc` form the optional [marketing engine module](docs/MARKETING-ENGINE.md). They need a `marketing-codex/` workspace (your private voice, positioning and config) and stop with setup instructions if it is absent. They never publish anything — all output is drafts for your approval.
 
-### 18 Specialist Agents
+### 19 Specialist Agents
 
 | Agent | Use For |
 |-------|---------|
@@ -108,6 +109,7 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@security-auditor` | Vulnerability review, OWASP compliance, security best practices |
 | `@test-engineer` | Unit, integration, E2E tests, test architecture, mocking |
 | `@code-reviewer` | PR reviews, code quality, best practices |
+| `@skeptic` | Adversarial evidence checking - kill weak findings before you act on them |
 | `@copywriter` | Brand voice, sales pages, landing pages, email sequences, ad copy |
 | `@ai-engineer` | Claude API, Agent SDK, RAG pipelines, LLM features, prompt design |
 | `@data-analyst` | SQL, product analytics, funnels, retention, A/B tests, dashboards |
@@ -120,9 +122,9 @@ After installation, **restart Claude Code** to load the new commands and agents.
 | `@ios-developer` | Swift, SwiftUI, native iOS development |
 | `@android-developer` | Kotlin, Jetpack Compose, native Android development |
 
-### 12 Agent Skills
+### 13 Agent Skills
 
-Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `design-taste` (aesthetic families, reference briefs and anti-slop guardrails), `dev-browser` (visual verification via Playwright), `better-auth` (auth setup with every gotcha handled), and `fable-build` (Fable 5 scaffolds the architecture, Opus/Sonnet subagents carry out the build — with the Anthropic advisor-tool pattern for API code).
+Auto-loading expertise Claude picks up when the task matches: `prd`, `prd-to-json`, `ralph`, `project-kickoff`, `project-complete`, `claude-md-learner`, `marketing-content`, `landscape-report`, `design-taste` (aesthetic families, reference briefs and anti-slop guardrails), `dev-browser` (visual verification via Playwright), `better-auth` (auth setup with every gotcha handled), `fable-build` (Fable 5 scaffolds the architecture, Opus/Sonnet subagents carry out the build — with the Anthropic advisor-tool pattern for API code), and `graph-engineering` (turn a messy AI workflow into parallel lanes, a skeptic pass, a merge, and a human gate — with a file paper trail).
 
 ### Starter Hooks & MCP Template (opt-in)
 

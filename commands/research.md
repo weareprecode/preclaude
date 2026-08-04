@@ -1,6 +1,6 @@
 ---
-description: Research competitors, market gaps, and validate ideas using deep web research
-allowed-tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
+description: Research competitors, market gaps, and validate ideas using parallel research lanes and a skeptic pass
+allowed-tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, Agent
 argument-hint: [idea-or-prd-description]
 ---
 
@@ -66,46 +66,31 @@ If user selected "Deep research", show warning first:
 
 ```markdown
 ⏱️ **Deep research typically takes 5-10 minutes** as I'll be:
-- Searching for 10+ competitors
-- Analysing features, pricing, and UX patterns
+- Running 4 parallel research lanes (customers, competitors, distribution, pricing)
 - Reading reviews and user feedback
-- Identifying gaps and opportunities
+- Running a skeptic pass to kill weak findings
+- Building the recommendation from surviving evidence only
 
 Starting research now...
 ```
 
-### Deep Research Process
+### Deep Research Process (diamond pattern)
 
-1. **Identify Search Terms**
-   - Extract key concepts from idea/PRD
-   - Generate competitor search queries
-   - Industry-specific terms
+One model researching, interpreting, AND grading its own answer in a single pass inflates confidence. Deep research runs as a graph instead: parallel lanes → skeptic → merge.
 
-2. **Find Competitors**
-   Use WebSearch with queries like:
-   - "[product type] software"
-   - "[product type] alternatives"
-   - "best [product type] tools [current year]" (substitute the actual current year)
-   - "[product type] startups"
+1. **Plan the lanes**
+   Extract key concepts from the idea/PRD and write a one-paragraph brief per lane: the question that lane must answer, what evidence would settle it, and instructions to date every claim and note what could not be confirmed. Include today's date in every brief.
 
-3. **Analyse Each Competitor**
-   Use WebFetch on each competitor's site to extract:
-   - **Positioning**: How they describe themselves
-   - **Features**: What they offer
-   - **Pricing**: Tiers, pricing model
-   - **Target audience**: Who they serve
-   - **UX patterns**: How they solve the problem
-   - **Weaknesses**: Reviews, complaints, missing features
+2. **Run 4 research lanes in parallel** — launch all subagents in a single message (use an agent type with WebSearch/WebFetch). Lanes are blind to each other; that independence is the point.
 
-4. **Find Reviews and Sentiment**
-   Search for:
-   - "[competitor] reviews"
-   - "[competitor] vs alternatives"
-   - "[competitor] complaints reddit"
-   - "why I switched from [competitor]"
+   - **Customer lane**: who has this pain and how do they solve it today? Search "[audience] [problem] reddit", "how do [audience] handle [problem]", forum threads, job-to-be-done evidence. Distinguish pain from willingness to pay.
+   - **Competitor lane**: who already solves this? Search "[product type] software", "[product type] alternatives", "best [product type] tools [current year]", "[product type] startups". WebFetch each competitor's site for positioning, features, pricing, target audience; search "[competitor] reviews", "[competitor] complaints reddit", "why I switched from [competitor]" for weaknesses.
+   - **Distribution lane**: where does this audience actually gather? Newsletters, communities, marketplaces, app-store categories, search terms with buying intent, who already has their trust.
+   - **Pricing lane**: what do comparable tools charge and earn? Free-tier expectations, pricing gaps (too expensive / no entry tier), any shutdowns in the space (autopsy them).
 
-5. **Identify Market Gaps**
-   Look for:
+3. **Skeptic pass** — after all lanes return, launch the `@skeptic` agent on the combined findings. It attacks: which claims are actually supported, which evidence is stale, which competitors are being ignored, where pain is confused with willingness to pay, and where the research sounds confident without proving anything. It may run its own verification searches.
+
+4. **Merge** — identify market gaps and build the recommendation using ONLY claims that survived the skeptic:
    - Features users request but no one offers
    - Underserved niches
    - Pricing gaps (too expensive or no free tier)
@@ -114,6 +99,7 @@ Starting research now...
 
 ### Quick Scan Process
 
+Single-pass is fine here — no lanes, no skeptic (say so in the output):
 1. Search for top 5 competitors
 2. Brief analysis of each (1 paragraph)
 3. Key differentiators
@@ -185,7 +171,22 @@ Create `docs/research/competitive-analysis.md`:
 1. **[Risk 1]**: [description and mitigation]
 2. **[Risk 2]**: [description and mitigation]
 
+## Skeptic Pass
+
+*(deep research only)*
+
+### Killed
+- [claim that did not survive — and why]
+
+### Downgraded
+- [claim that survives only in weakened form]
+
+### Open Questions
+- [question that would change the recommendation but couldn't be answered]
+
 ## Recommendations
+
+*(built only from claims that survived the skeptic pass)*
 
 ### Build ✅
 [If the idea is validated, explain why and what to prioritise]

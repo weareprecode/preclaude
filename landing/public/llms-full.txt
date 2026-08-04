@@ -1,8 +1,8 @@
 # Preclaude — Full Reference for LLMs
 
-> Preclaude is a free, open-source (MIT) enhancement pack for Claude Code: 46 slash commands, 18 specialist agents, 12 auto-loading skills, and the Ralph autonomous build loop. Install: `/plugin marketplace add weareprecode/preclaude` then `/plugin install preclaude@preclaude`, or install a single bundle instead — `preclaude-design`, `preclaude-build`, `preclaude-ship` or `preclaude-growth`. Website: https://preclaude.com — GitHub: https://github.com/weareprecode/preclaude — Made by Precode (https://precode.co).
+> Preclaude is a free, open-source (MIT) enhancement pack for Claude Code: 47 slash commands, 19 specialist agents, 13 auto-loading skills, and the Ralph autonomous build loop. Install: `/plugin marketplace add weareprecode/preclaude` then `/plugin install preclaude@preclaude`, or install a single bundle instead — `preclaude-design`, `preclaude-build`, `preclaude-ship` or `preclaude-growth`. Website: https://preclaude.com — GitHub: https://github.com/weareprecode/preclaude — Made by Precode (https://precode.co).
 
-## Slash Commands (46)
+## Slash Commands (47)
 
 ### Plan & Build
 
@@ -14,6 +14,7 @@
 - `/implement` — Execute full feature implementation from PRD through completion
 - `/research` — Research competitors, market gaps, and validate ideas using deep web research
 - `/landscape` — Deep competitive landscape + viability assessment of THIS product, published as a website report
+- `/graph` — Turn any workflow into a managed agent graph - parallel lanes, skeptic pass, merge, human gate
 
 ### Ship & Maintain
 
@@ -68,7 +69,7 @@
 - `/doctor` — Diagnose your setup — broken symlinks, conflicting installs, invalid settings, version drift, and low-quality commands or skills
 - `/update` — Update Preclaude to the latest version
 
-## Specialist Agents (18)
+## Specialist Agents (19)
 
 - `@ai-engineer` — "Use for building AI features with the Claude API and Agent SDK — chat interfaces, agentic workflows, tool use, RAG pipelines, prompt design, and LLM cost/latency optimisation. Use PROACTIVELY when a feature calls an LLM or builds on Claude — triggers: 'add AI to', 'Claude API', 'Agent SDK', 'build 
 - `@android-developer` — "Use for native Android development with Kotlin, Jetpack Compose, Room, and Play Store deployment. Use PROACTIVELY for any native Android work — triggers: 'Android app', 'Kotlin', 'Jetpack Compose', Gradle, Play Store submission, Room database."
@@ -84,18 +85,20 @@
 - `@performance-engineer` — "Use for Core Web Vitals, bundle analysis, Lighthouse audits, profiling, caching strategies, and performance optimisation. Use PROACTIVELY when pages feel slow, bundles grow, or before performance-sensitive launches — triggers: 'it's slow', 'Lighthouse score', 'bundle size', LCP, CLS, memory leak, c
 - `@product-analyst` — "Use for PRDs, user stories, requirements gathering, feature specifications, acceptance criteria, and product strategy. Use PROACTIVELY when scoping new features or turning vague ideas into buildable specs — triggers: 'write a PRD', 'user stories', 'acceptance criteria', requirements, scope, feature
 - `@security-auditor` — "Use for security reviews, vulnerability analysis, penetration testing guidance, OWASP compliance, and security best practices. Use PROACTIVELY after auth, payment, or user-input handling changes and before production deploys — triggers: 'is this secure', 'security review', 'audit this', XSS, SQL in
+- `@skeptic` — "Use to adversarially check evidence, claims, and recommendations produced by another agent or an earlier pass — research findings, offers, PRD assumptions, launch plans, financial projections. The writer must never grade its own work. Use PROACTIVELY before acting on any single-pass AI output — trig
 - `@technical-writer` — "Use for README files, API documentation, architecture decision records, guides, tutorials, and technical content. Use PROACTIVELY when features ship without docs or existing docs drift from the code — triggers: 'write the README', 'document this API', 'add a guide', changelog, ADR, onboarding docs.
 - `@test-engineer` — "Use for writing unit tests, integration tests, E2E tests, test architecture, mocking strategies, and test coverage analysis. Use PROACTIVELY after implementing features or fixing bugs to add missing coverage — triggers: 'write tests', 'test this', 'coverage', flaky test, Vitest, Playwright, mocking
 - `@ui-designer` — "Use for design systems, component libraries, accessibility, responsive design, animations, shadcn/ui setup and styling. Use PROACTIVELY when UI looks inconsistent, fails accessibility, or needs visual polish — triggers: 'make it look better', 'design system', 'dark mode', a11y, WCAG, theming, desig
 - `@ux-researcher` — "Use for user research, information architecture, user flows, wireframes, usability testing, personas, and UX strategy. Use PROACTIVELY before designing new features or when navigation and flows confuse users — triggers: 'user flow', 'wireframe', 'usability', personas, journey map, information archi
 
-## Auto-Loading Skills (12)
+## Auto-Loading Skills (13)
 
 - `better-auth` — Sets up Better Auth with PostgreSQL/Supabase in Next.js projects, encoding all the known gotchas (database adapter config, migration CLI, env vars, client/server split) so auth works first try. Use when running /better-auth, when asked to "set up auth" or "add authentication", when starting a projec
 - `claude-md-learner` — Analyses coding sessions and maintains CLAUDE.md as a lean, high-signal file — scoring candidate learnings, flagging stale entries for removal, and enforcing a strict size budget. Use when running /learn, at the end of a coding session, after solving a problem that took multiple attempts, or when th
 - `design-taste` — Shared design vocabulary, reference-library format, and anti-slop guardrails for web design work — aesthetic families, the four-part design brief, and the rules that keep AI output from converging on the same generic look. Use when generating or refining any web UI, when a design "looks AI-generated", or when running /taste, /variants or /tweakbar
 - `dev-browser` — Automates a persistent, visible Chromium browser via Playwright for visual verification of frontend changes — navigating, clicking, filling forms, and taking screenshots against a running dev server. Use when asked to verify in browser, take a screenshot of a page, navigate to a URL, click an elemen
 - `fable-build` — Multi-model build pattern — Claude Fable 5 does the scaffolding (architecture, contracts, task plan) while Opus/Sonnet carry out the implementation, either as Claude Code subagents or via the Anthropic advisor tool in API code. Use when running /fable-build, when asked to "scaffold with Fable", "use
+- `graph-engineering` — Turns any messy AI workflow into a managed agent graph — a planner splits the question, parallel lanes work independently, a skeptic attacks the evidence, a merger synthesises survivors, and a human gate sits where mistakes get expensive, with a file paper trail that compounds across runs. U
 - `landscape-report` — Runs a brutally honest competitive-landscape and viability assessment of an EXISTING product using parallel web-research agents and adversarial bear/bull passes, then publishes a shareable website report with a go/no-go verdict. Use when the user runs /landscape, asks "is this product still viable",
 - `marketing-content` — Transforms product information into platform-optimised marketing content with consistent brand voice — Twitter/X posts and threads, LinkedIn posts, Instagram captions, email newsletters, blog posts, and release notes, with A/B variations. Use when creating launch announcements, generating social med
 - `prd-to-json` — Converts Product Requirements Documents into structured, validated JSON — objectives, functional and non-functional requirements, user stories with acceptance criteria, tasks, milestones, and risks — for project-management and development workflows. Use when processing a PRD or requirements doc, cre
@@ -115,4 +118,4 @@ Ralph converts a PRD into `prd.json` — a list of atomic user stories each size
 - Everything is markdown-based and customisable; users can add their own commands in `~/.preclaude/commands/`.
 - The marketing commands only ever produce drafts; nothing auto-publishes.
 - Preclaude does not auto-update. Users run `/update` to pull the latest, or `/doctor` to diagnose a broken install.
-- Users who only want part of the pack can install a single bundle rather than all 46 commands — this keeps unused command descriptions out of Claude's context.
+- Users who only want part of the pack can install a single bundle rather than all 47 commands — this keeps unused command descriptions out of Claude's context.

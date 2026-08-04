@@ -35,7 +35,7 @@ When not specified by project, prefer:
 
 **Always start on the latest stable major.** At kickoff, scaffold with `@latest` (`npx create-next-app@latest`, latest Tailwind) and use the current stable major of each framework (Next.js 16+, React 19+, Tailwind v4+ as of 2026). Only pin behind latest for a concrete blocker, and note why in the project's CLAUDE.md.
 
-## Commands Available (46)
+## Commands Available (47)
 - `/full-build [description]` — Complete workflow: PRD → prd.json → Build (Ralph Wiggum)
 - `/implement [feature]` — Full feature implementation
 - `/prd [description]` — Generate comprehensive technical PRD
@@ -44,6 +44,7 @@ When not specified by project, prefer:
 - `/build` — Run Ralph Wiggum autonomous loop (choose: same context or fresh context per story)
 - `/research [idea]` — Deep research on competitors, market gaps, idea validation
 - `/landscape [focus]` — Competitive landscape + viability assessment, published as a website report
+- `/graph [question]` — Turn any workflow into a managed agent graph: parallel lanes, skeptic pass, merge, human gate
 - `/copy [type]` — Audit, improve, or generate copy (sales pages, landing pages, emails, ads)
 - `/commit` — Conventional commit from staged changes
 - `/pr [base-branch]` — Create pull request with auto-generated description
@@ -83,7 +84,7 @@ When not specified by project, prefer:
 - `/doctor [install|skills]` — Diagnose your setup: broken links, conflicts, version drift, weak skills
 - `/update` — Update Preclaude to the latest version
 
-## Agents Available (18)
+## Agents Available (19)
 Invoke with @agent-name for specialized tasks:
 - `@frontend-developer` — React, Next.js, UI components, state management
 - `@backend-developer` — APIs, server-side logic, database operations
@@ -92,6 +93,7 @@ Invoke with @agent-name for specialized tasks:
 - `@security-auditor` — Security reviews, vulnerability analysis
 - `@test-engineer` — Unit tests, integration tests, E2E tests
 - `@code-reviewer` — Code review, best practices
+- `@skeptic` — Adversarial evidence checking: kill weak findings before acting on them
 - `@copywriter` — Brand voice, sales pages, landing pages, email sequences, ad copy
 - `@ai-engineer` — Claude API, Agent SDK, RAG pipelines, LLM features
 - `@data-analyst` — SQL, product analytics, funnels, A/B tests, dashboards

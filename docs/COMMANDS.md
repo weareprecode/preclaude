@@ -25,6 +25,7 @@ Complete reference for all available slash commands.
 | `/implement` | Feature build | Smaller features |
 | `/research` | Deep web research | Market research, competitor analysis |
 | `/landscape` | Competitive viability report | Honest go/no-go assessment of this product |
+| `/graph` | Agent graph runner | Any workflow needing parallel lanes, a skeptic pass, and a human gate |
 | `/taste` | Build a taste library | Curating design references you like |
 | `/variants` | Design variants side by side | Starting a design, avoiding one-shot output |
 | `/tweakbar` | Live tweak panel | Last-mile visual adjustment |
@@ -755,12 +756,12 @@ Uncommitted: 2 files
 - Finding opportunities
 
 ### What It Does
-1. Identifies search terms from idea
-2. Finds 10+ competitors via web search
-3. Analyses each competitor's features, pricing, UX
-4. Reads reviews and user feedback
-5. Identifies market gaps and opportunities
-6. Generates comprehensive report
+Deep research runs as a diamond graph rather than one self-graded pass:
+1. Plans four research lanes with per-lane briefs
+2. Runs the lanes as parallel subagents — customers, competitors, distribution, pricing
+3. Reads reviews and user feedback, dates every claim
+4. Runs a `@skeptic` pass to kill unsupported, stale, or conflated findings
+5. Identifies market gaps and builds the recommendation from surviving evidence only
 
 ### Output
 Creates `docs/research/competitive-analysis.md` with:
@@ -768,11 +769,39 @@ Creates `docs/research/competitive-analysis.md` with:
 - Competitor analysis with strengths/weaknesses
 - Feature comparison matrix
 - Market gaps and opportunities
+- Skeptic pass — killed, downgraded, and open questions
 - Build/Pivot/Don't Build recommendation
 
 ### Example
 ```bash
 /research "Invoice tracking app for freelancers"
+```
+
+---
+
+## `/graph [question or workflow]`
+
+**Turn any workflow into a managed agent graph — parallel lanes, skeptic pass, merge, human gate.**
+
+### When to Use
+- A should-we decision that needs evidence from several angles before you commit
+- A workflow you already run with AI weekly (research, content, feedback synthesis)
+- A one-shot AI answer you don't fully trust, re-run properly
+- NOT for simple tasks — brainstorming names or summarising an email doesn't need a graph
+
+### What It Does
+1. Designs the graph first and shows it before running: jobs, arrows, and where the human gate sits
+2. Runs parallel lane subagents, each blind to the others, each writing its own file under `docs/graphs/<slug>/`
+3. Runs a `@skeptic` pass over all lanes — killed, wounded, survived, unanswered (`review.md`)
+4. Merges surviving evidence into `recommendation.md`, including what evidence would change the answer
+5. Stops at the human gate — the graph produces the evidence, you make the decision
+
+### Output
+A file paper trail in `docs/graphs/<slug>/` (`plan.md`, one file per lane, `review.md`, `recommendation.md`) that stays comparable and reusable across runs.
+
+### Example
+```bash
+/graph "Should I launch an AI bookkeeping tool for Shopify merchants?"
 ```
 
 ---
