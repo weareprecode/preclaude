@@ -1,0 +1,39 @@
+name: memory
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  record-present:
+    name: A source change carries a memory record
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check memory/ changed alongside source
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          changed="$(git diff --name-only "$BASE" "$HEAD")"
+          source="$(printf '%s\n' "$changed" | grep -Ev '^(memory|docs|\.claude|\.github)/' | grep -Ev '^[^/]+\.md$' || true)"
+          if [ -z "$source" ]; then
+            echo "No source change; nothing to check."
+            exit 0
+          fi
+          if printf '%s\n' "$changed" | grep -Eq '^memory/'; then
+            echo "memory/ updated alongside source. OK."
+            exit 0
+          fi
+          if printf '%s' "$BODY" | grep -Eq '(^|[[:space:]])no-memory:[[:space:]]*[^[:space:]]'; then
+            echo "PR body carries a 'no-memory:' reason. OK."
+            exit 0
+          fi
+          echo "::error::This PR changes source but nothing under memory/."
+          echo "Write a record with /remember (and rewrite memory/NOW.md), or add a line"
+          echo "'no-memory: <reason>' to the PR description."
+          exit 1
