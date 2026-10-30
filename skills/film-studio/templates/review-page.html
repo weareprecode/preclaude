@@ -1,0 +1,305 @@
+<title>Film Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single-column screening room. One card per cut, the film first, the verdict right under it. */
+:root {
+  --bg: #0b1626;          /* navy: swap for the film's own ground colour */
+  --panel: #13223a;
+  --line: #24385a;
+  --fg: #eef2f8;
+  --muted: #9aaac4;
+  --accent: #4a8cff;      /* signal blue, used for the primary action only */
+  --ok: #3fbf86;
+  --warn: #f0b04a;
+  --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+  display: grid;
+  gap: 28px;
+}
+header { display: grid; gap: 8px; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 1.08;
+  margin: 0;
+  text-wrap: balance;
+}
+.lede { color: var(--muted); margin: 0; max-width: 60ch; }
+.notice {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.cuts { display: grid; gap: 28px; }
+.cut {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: grid;
+}
+.player { background: #000; display: grid; place-items: center; }
+.player video { display: block; width: 100%; max-width: 100%; height: auto; }
+.player.vertical video { max-height: 78vh; width: auto; }
+.player .pending {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 16px;
+  text-align: center;
+}
+.body { padding: 18px 18px 20px; display: grid; gap: 14px; min-width: 0; }
+.titleRow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.cut h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 21px;
+  margin: 0;
+  text-wrap: balance;
+}
+.meta {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.changes { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+.status {
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border-radius: 999px;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.status.approved { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
+.status.changes { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
+.verdict { display: grid; gap: 10px; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+button {
+  font: 600 15px/1 var(--font-body);
+  min-height: 46px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+button:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button[aria-pressed="true"].approve { background: var(--ok); border-color: var(--ok); color: #06231a; }
+button[aria-pressed="true"].change { background: var(--warn); border-color: var(--warn); color: #2b1c02; }
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 92px;
+  resize: vertical;
+  font: 15px/1.45 var(--font-body);
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+textarea::placeholder { color: var(--muted); }
+.save { background: var(--accent); border-color: var(--accent); color: #fff; }
+.save[disabled] { opacity: 0.5; cursor: default; }
+.saved { font-size: 13px; color: var(--muted); min-height: 1.2em; }
+@media (prefers-reduced-motion: no-preference) {
+  button { transition: background-color 120ms ease, border-color 120ms ease; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Film review</div>
+    <h1>Films for review</h1>
+    <p class="lede">Watch each cut, then approve it or ask for changes. Your answer saves here and I read it straight away.</p>
+  </header>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <section id="cuts" class="cuts" aria-live="polite">
+    <div class="notice" id="empty">Loading the cuts. The newest cut appears first, with what changed since the last one.</div>
+  </section>
+</div>
+
+<script>
+(function () {
+  const cutsEl = document.getElementById('cuts');
+  const noticeEl = document.getElementById('notice');
+  let cuts = [];
+  let reviews = {};
+  const drafts = {};
+  let db = null;
+
+  function fmtLen(s) {
+    if (!s && s !== 0) return '';
+    const m = Math.floor(s / 60), r = Math.round(s % 60);
+    return m + ':' + String(r).padStart(2, '0');
+  }
+
+  function el(tag, attrs, children) {
+    const n = document.createElement(tag);
+    for (const k in attrs || {}) {
+      if (k === 'class') n.className = attrs[k];
+      else if (k === 'text') n.textContent = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    }
+    (children || []).forEach(c => c && n.appendChild(c));
+    return n;
+  }
+
+  function render() {
+    // Keep players mounted across re-renders so playback is not interrupted.
+    const existing = {};
+    cutsEl.querySelectorAll('[data-cut]').forEach(n => { existing[n.dataset.cut] = n; });
+    if (!cuts.length) {
+      cutsEl.replaceChildren(el('div', { class: 'notice', text: 'No cuts yet. When a cut is ready it appears here with a player and buttons to approve it or ask for changes.' }));
+      return;
+    }
+    const nodes = cuts.map(c => {
+      let card = existing[c.id];
+      if (!card) card = buildCard(c);
+      updateCard(card, c);
+      return card;
+    });
+    cutsEl.replaceChildren(...nodes);
+  }
+
+  function buildCard(c) {
+    const card = el('article', { class: 'cut', 'data-cut': c.id });
+    const player = el('div', { class: 'player' + (c.aspect === '9x16' ? ' vertical' : '') });
+    if (c.url) {
+      const v = el('video', { controls: '', playsinline: '', preload: 'metadata' });
+      v.src = c.url;
+      if (c.poster) v.poster = c.poster;
+      player.appendChild(v);
+    } else {
+      player.appendChild(el('div', { class: 'pending', text: c.pendingText || 'This cut is still being made. It appears here when it is ready.' }));
+    }
+    const body = el('div', { class: 'body' });
+    const titleRow = el('div', { class: 'titleRow' }, [
+      el('h2', { text: c.title || 'Cut' }),
+      el('span', { class: 'meta', text: [c.version, fmtLen(c.lengthSec), c.aspect === '9x16' ? 'vertical' : ''].filter(Boolean).join(' · ') }),
+    ]);
+    const status = el('span', { class: 'status' });
+    const list = el('ul', { class: 'changes' });
+    (c.changes || []).forEach(t => list.appendChild(el('li', { text: t })));
+
+    const verdict = el('div', { class: 'verdict' });
+    const approve = el('button', { type: 'button', class: 'approve', 'aria-pressed': 'false', text: 'Approve' });
+    const change = el('button', { type: 'button', class: 'change', 'aria-pressed': 'false', text: 'Request changes' });
+    const notes = el('textarea', { id: 'notes-' + c.id, placeholder: 'Notes, timings, anything to change (optional)' });
+    const save = el('button', { type: 'button', class: 'save', text: 'Save my answer' });
+    const saved = el('div', { class: 'saved', role: 'status' });
+
+    approve.addEventListener('click', () => choose(c.id, 'approved'));
+    change.addEventListener('click', () => choose(c.id, 'changes'));
+    notes.addEventListener('input', () => { (drafts[c.id] = drafts[c.id] || {}).notes = notes.value; refreshSave(c.id); });
+    save.addEventListener('click', () => submit(c.id));
+
+    verdict.append(el('div', { class: 'choices' }, [approve, change]), notes, save, saved);
+    body.append(titleRow, status, list, c.url ? verdict : el('div'));
+    card.append(player, body);
+    card._ui = { status, approve, change, notes, save, saved };
+    return card;
+  }
+
+  function currentDecision(id) {
+    return (drafts[id] && drafts[id].decision) || (reviews[id] && reviews[id].decision) || null;
+  }
+
+  function updateCard(card, c) {
+    const ui = card._ui; if (!ui) return;
+    const r = reviews[c.id];
+    ui.status.className = 'status' + (r ? ' ' + r.decision : '');
+    ui.status.textContent = r ? (r.decision === 'approved' ? 'Approved' : 'Changes requested') + (r.at ? ' · ' + new Date(r.at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '') : 'Waiting for your answer';
+    const d = currentDecision(c.id);
+    ui.approve.setAttribute('aria-pressed', String(d === 'approved'));
+    ui.change.setAttribute('aria-pressed', String(d === 'changes'));
+    if (document.activeElement !== ui.notes && !(drafts[c.id] && 'notes' in drafts[c.id])) ui.notes.value = (r && r.notes) || '';
+    refreshSave(c.id);
+  }
+
+  function refreshSave(id) {
+    const card = cutsEl.querySelector('[data-cut="' + id + '"]'); if (!card) return;
+    card._ui.save.disabled = !currentDecision(id) || !db;
+  }
+
+  function choose(id, decision) {
+    (drafts[id] = drafts[id] || {}).decision = decision;
+    const card = cutsEl.querySelector('[data-cut="' + id + '"]');
+    if (card) updateCard(card, cuts.find(c => c.id === id) || {});
+  }
+
+  async function submit(id) {
+    const card = cutsEl.querySelector('[data-cut="' + id + '"]'); if (!card || !db) return;
+    const decision = currentDecision(id); if (!decision) return;
+    const notes = card._ui.notes.value.trim();
+    card._ui.save.disabled = true;
+    card._ui.saved.textContent = 'Saving...';
+    try {
+      await db.doc('reviews/' + id).set({ cut: id, decision, notes, at: new Date().toISOString() });
+      delete drafts[id];
+      card._ui.saved.textContent = decision === 'approved' ? 'Saved. Approved.' : 'Saved. I will pick up your notes.';
+    } catch (e) {
+      card._ui.saved.textContent = (e && e.code === 'permission_denied') ? 'This account cannot save answers here. Open the page signed in as the owner.' : 'That did not save. Check your connection and try again.';
+      refreshSave(id);
+    }
+  }
+
+  async function start() {
+    try { db = await (window.claude && window.claude.use ? window.claude.use('db') : null); } catch (e) { db = null; }
+    if (!db) {
+      noticeEl.hidden = false;
+      noticeEl.textContent = 'Open this page signed in to claude.ai to see the cuts and save your answer.';
+      cutsEl.replaceChildren();
+      return;
+    }
+    db.collection('cuts').orderBy('order', 'desc').onSnapshot(snap => {
+      cuts = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+      render();
+    }, () => { noticeEl.hidden = false; noticeEl.textContent = 'The cuts could not load. Reload the page to try again.'; });
+    db.collection('reviews').onSnapshot(snap => {
+      reviews = {};
+      snap.docs.forEach(d => { reviews[d.id] = d.data(); });
+      cutsEl.querySelectorAll('[data-cut]').forEach(card => updateCard(card, cuts.find(c => c.id === card.dataset.cut) || {}));
+    }, () => {});
+  }
+  start();
+})();
+</script>
