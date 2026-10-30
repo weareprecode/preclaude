@@ -1,0 +1,4 @@
+# built on first run by ocr_gate.sh, and local installs
+scripts/ocr
+scripts/node_modules/
+__pycache__/
