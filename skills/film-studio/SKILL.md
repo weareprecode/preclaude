@@ -1,6 +1,6 @@
 ---
 name: film-studio
-description: Make marketing, product, explainer, demo and social films with agents, end to end, from brief and storyboard through capture, AI-generated footage (Seedance/Higgsfield, Veo, Kling), grading, beat-grid editing and independent judging to phone review and delivery. Use whenever someone asks for a video, film, promo, launch film, explainer, demo reel, social cut, vertical, animatic, b-roll or "make it more dynamic", or wants AI footage that must look real. Includes tested capture, QA and delivery scripts.
+description: Make marketing, product, explainer, demo and social films with agents, end to end: brief, storyboard, capture, AI-generated footage (Seedance/Higgsfield, Veo, Kling), grading, beat-grid editing, independent judging, phone review and delivery. Use when someone asks for a video, film, promo, launch film, explainer, demo reel, social cut, vertical, animatic, b-roll or "make it more dynamic", or wants AI footage that must look real. Includes tested capture, QA and delivery scripts.
 ---
 
 # Film studio
@@ -9,9 +9,10 @@ A film is a skill, not a prompt: **fix the rule, not the video.** Every correcti
 
 Read before starting:
 - `references/research.md`: current outside practice with sources (flxrnc Motion Lab, Lago, Remotion and HyperFrames skills, Seedance/Veo/Kling/Sora guides, loudness, captions, platform specs, ASA/CAP and EU AI Act).
-- The project's own house rules and learnings file, when it has one (kept locally, not shipped with this toolkit).
-- `references/judges.md`: ready-to-use briefs for the judge lanes.
-- `scripts/README.md`: the 14 tools and the order to use them.
+- `references/judges.md`: ready-to-use briefs for the judge lanes, starting with the play-the-deliverable gate every judge passes first.
+- `references/qa.md`: the capture gates (refine hold, sharpness, region state) and how to read PASS / CHECK / FAIL.
+- `scripts/README.md`: the tools and the order to use them.
+- The project's own house rules and learnings file, when it has one (for example `references/<project>.md` or `references/learnings.md`, kept locally and not shipped with this toolkit): brand, legal position, product facts and earlier review feedback.
 
 ## The pipeline and its gates
 
@@ -44,12 +45,15 @@ Each stage ends in a gate. Do not start the next stage until the gate is met. Hu
 
 ### 3. Capture real pixels
 - Capture web pages frame by frame on a virtual clock, with the page's timers on that clock too. Never screen-record in real time: real timers gave 164 to 209 blink blobs a shot, virtual timers gave 0. [`film_rig.mjs`]
+- **Take the clock over only while capturing.** Load, setup, prewarm and the refine hold run on the browser's own clock with native `requestAnimationFrame`; the rig switches to the virtual clock at the first frame. Replacing rAF from page load stopped a streamed photoreal refining past its first level (sharpness 29.8 against 116 on the plain page), and an idle flush loop beside native rAF left the page in a state the product never shows. Both made soft or wrong takes that looked fine at review size.
+- **Let streamed content refine, then prove it.** 3D tiles, photoreal meshes and splats keep refining 15 to 45 s after "loaded". Prewarm every pose the take shows on the real clock, hold the first pose 45 to 75 s (`refineHold`), and gate on measured sharpness of a fixed-detail box (`gate`; calibrated against the plain page). Add a region-state gate when the page can settle in more than one state. A refused gate reloads and retries. [`film_rig.mjs`, `sharpness.py`, `region_match.py`, `references/qa.md`]
+- One browser session per take where the page runs a simulation (particles, trails): a resumed take splices visibly. Set `FILM_ATTEMPTS=1` and retry the whole take.
 - Every frame must be a pure function of time. No `Date.now`, no timers, no unseeded random numbers, no CSS transitions, pinned libraries, and wait for fonts.
 - Route lines are revealed by slicing the geometry with constant paint: no dashes, no pulses. Keep feed refreshes outside the shot.
 - Run one live capture at a time and make the rig resumable.
 - Check each live layer has data at capture time, and save a per-shot data-check JSON.
 - Every on-screen number traces to a saved response file. Shrink the caption to what the data shows on the day.
-- Gate: [`frame_qa.py`] passes every capture (flicker, blinks, flashes, route hold) and a contact sheet exists [`contact_sheet.py`].
+- Gate: the rig's sharpness gate passed (`gate-<name>.json`), and [`take_qa.py`] rates every take PASS, or CHECK with every flag looked at and ruled in the ledger (`--allow` / `--accept`). It runs frame QA (skipped and repeat frames, flicker, flashes, luma jumps off cuts, glitches), a per-frame sharpness scan and contact sheets. FAIL means patch (one-frame whole or pane patch, [`frame_patch.py`]) or retake. See `references/qa.md` for the known benign CHECKs (eased glides, still holds, intended state changes).
 
 ### 4. Generated footage (only if the story needs a real-world moment)
 Use generated shots only where a person or vehicle needs the product at that moment. Never as decoration, and never where a real capture or a real shoot is cheap. **Plan a real shoot anyway**: the blind test needs real twins, and filming gets the details right by construction.
@@ -103,6 +107,7 @@ Fixed order: trim, privacy blur at native resolution, repair the generator's own
 
 ### 7. Judge (independent lanes, default to kill)
 Run these as separate agents. They should not be the lane that made the shot. Briefs are in `references/judges.md`.
+0. **Every judge plays the deliverable first.** Open it in the installed Google Chrome (not a bundled Chromium, which often cannot decode H.264). Click every tab, condition and play control, and confirm each video's duration is above 0 and its currentTime advances. Check that sampled frames are not black or placeholders, and play files to the end. If a judge cannot play the deliverable, the verdict is BLOCKED, never PASS.
 1. **Claims red team.** Two named hostile experts grade every caption S1, S2 or S3. Keep **one kill register** across the whole film family and re-run it before every publish. Killed claims came back in "approved" cuts.
 2. **Lawyer.** Rules on each scene under the advertising rules. Made footage never sits under, or within one shot of, a "real", "live", "captured" or "our rig" caption. Every made shot gets a "Made with AI" tag. A label cannot rescue a claim you cannot make: kill the scene instead.
 3. **Forensic red team.** Tries to prove each shot is AI on pause at 100 %. Looks for cadence, flicker, text, hands, mirror tells and panel-level tells such as the same screen everywhere.
@@ -143,6 +148,6 @@ Run these as separate agents. They should not be the lane that made the shot. Br
 - When a rule changes because of feedback, update this skill's references (or the project's house rules file) in the same session.
 
 ## Scripts (`scripts/`, all path-agnostic, `--help` on each)
-`film_rig.mjs` virtual-clock capture · `beat_grid.py` tempo, bars, snapping cuts · `flatspot.py` motion map and 6 s rule · `hf_job.py` cost-capped Higgsfield jobs · `conform_fix.py` conform and repeat repair · `grade_match.py` blur, grade, grain, conform pipeline · `screen_comp.py` real screen onto a tracked plate · `screen_road_match.py` plate yaw against screen heading · `paintout.py` same-frame paint-out · `ocr_gate.sh` local OCR text gate · `frame_qa.py` cadence, flicker, flashes, tail · `contact_sheet.py` review and forensic sheets · `blind_reel.py` blind-test key, reel and score · `deliver.py` loudness masters, audio-identical mux, review encodes.
+`film_rig.mjs` capture on a virtual clock (native until capture, refine hold, sharpness gate) · `take_qa.py` one PASS/CHECK/FAIL verdict per take · `sharpness.py` sharpness stills, scans and dips · `region_match.py` page-state gate against a plain-page reference · `frame_patch.py` one-frame whole and pane patches · `beat_grid.py` tempo, bars, snapping cuts · `flatspot.py` motion map and 6 s rule · `hf_job.py` cost-capped Higgsfield jobs · `conform_fix.py` conform and repeat repair · `grade_match.py` blur, grade, grain, conform pipeline · `screen_comp.py` real screen onto a tracked plate · `screen_road_match.py` plate yaw against screen heading · `paintout.py` same-frame paint-out · `ocr_gate.sh` local OCR text gate · `frame_qa.py` cadence, flicker, flashes, tail · `contact_sheet.py` review and forensic sheets · `blind_reel.py` blind-test key, reel and score · `deliver.py` loudness masters, audio-identical mux, review encodes.
 
-Python tools run with `python3 -I`. Dependencies are in `scripts/README.md`.
+Python tools run with `python3 -I`. Dependencies are in `scripts/README.md`. Self-tests: `node scripts/tests/rig_selftest.mjs` and `bash scripts/tests/qa_selftest.sh`.

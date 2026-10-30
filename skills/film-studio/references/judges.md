@@ -4,6 +4,20 @@ Each judge runs as its own agent, separate from the lane that made the work. Sta
 
 Every judge rules each item PASS, FIX (with the exact fix: region, frames, trim point) or KILL, with frame numbers and times.
 
+## Every judge: play the deliverable first (hard gate)
+A judge who has not watched the actual file play has not judged it. Two judges once passed a page whose videos never played: their bundled browser could not decode H.264, a "Play all" control only started the first video, and one tab showed "Not generated yet" tiles for clips that existed. The reviewer found all three in minutes. Before any ruling, every judge:
+1. Opens the deliverable in the **installed Google Chrome** (Playwright `channel: "chrome"`, or the user's own Chrome), not a bundled Chromium. Bundled builds often lack the H.264/AAC decoders. Use Safari as well where it can be run.
+2. For a page, clicks **every tab, condition, toggle and play control**. "Play all" and synced players count as controls: check that every video in the group starts and that the group stays together.
+3. For each video element or file, confirms that it really plays:
+   - `duration > 0`, and `currentTime` advances after play (sample it twice, a second apart);
+   - `readyState >= 2`;
+   - no `error` on the element.
+4. Confirms frames are not black or empty. Grab a frame at about 10 %, 50 % and 90 % of the duration and check mean luma is above the film's black floor, and that the content matches the shot list.
+5. For a file deliverable (MP4/MOV), plays it **to the end** in installed Chrome, and probes it with `ffprobe`: duration, frame count, codec, colour tags, audio present or deliberately silent.
+6. Treats any placeholder ("Not generated yet", a spinner, an empty tile, a 0:00 duration) for something that exists as a **FIX**, never a pass.
+7. Records the browser and version, the controls clicked, and the duration and currentTime readings in the verdict file.
+If the browser cannot be launched or a file cannot be decoded, the verdict is **BLOCKED** with the reason, never PASS.
+
 ## Claims red team
 "Two hostile experts: a domain expert from a competitor, and a sceptical journalist who pauses every frame. Grade every caption and every on-screen number:
 - S1: false on a pause;
@@ -25,7 +39,8 @@ Never imply customers. Specify the 'Made with AI' tag size and placement, and th
 
 ## Forensic red team
 "Try to prove each shot is AI, at 100 % on pause and at normal speed on a phone. Run:
-- the temporal and cadence script (repeat frames, uneven steps, flicker) [frame_qa.py];
+- the take verdict [take_qa.py: frame QA, sharpness scan and flagged-frame sheet], reading PASS/CHECK/FAIL as in references/qa.md; re-rule every CHECK on the frames, never on the count;
+- sharpness against the plain page at the same pose [sharpness.py still], and the region state across every join or dissolve [region_match.py] (a page that settles in two states swaps them at the cut);
 - OCR on sampled frames [ocr_gate.sh];
 - checks on hands, anatomy, physics, shadows against the light, reflections, repeated textures and warped geometry;
 - blur edges and pops;

@@ -34,8 +34,12 @@ What it measures (one decode, greyscale, 640 px wide unless --full):
                it. A comp whose screen is cleaner than its surround (ratio under about 0.8) is a forensic tell; aim
                for about 1.0. Background difference is then measured with the box masked out.
 
---strict exits 1 if repeats > 0, skips > 0, worst 5-phase deviation > 0.10, any flash, near-white frame, off-cut
-jump, glitch or a bright tail is found. Thresholds are the ones used on the Oct 2026 films; tune them with care and write down why.
+Verdict: FAIL on flashes, near-white frames, 1-2 frame glitches, a bright tail, a cleaner-than-surround screen or a
+5-phase deviation over 0.25; CHECK on repeat-like frames, skips, off-cut luma jumps or a 5-phase deviation of 0.10 to
+0.25 (often benign on screen captures: eased glides, still holds, intended state changes; look before ruling); else
+PASS. take_qa.py turns this into a take verdict and accepts reviewed frame ranges (references/qa.md).
+--strict exits 1 on any FAIL or CHECK reason. Thresholds are the ones used on the Oct 2026 films; tune them with care and
+write down why.
 Needs numpy and opencv-python; ffmpeg/ffprobe on PATH.
 """
 import argparse
@@ -217,29 +221,36 @@ def main():
                max_luma_jump=round(float(np.abs(dl).max()), 2), flashes=flashes[:40], near_white_frames=near_white[:40],
                off_cut_jumps=jumps[:40], glitches=glitches[:40], tail_mean_luma=None if tail_luma is None else round(tail_luma, 1),
                tail_ok=tail_ok, screen_vs_ring_noise=None if noise_ratio is None else round(noise_ratio, 2))
-    fails = []
+    # Two tiers. FAIL: faults a viewer sees and that have no benign reading. CHECK: flags that are often benign on
+    # screen captures (eased glides, still holds, intended state changes) and must be looked at, frame by frame.
+    hard, soft = [], []
     if repeats:
-        fails.append(f"{len(repeats)} repeat-like frames")
+        soft.append(f"{len(repeats)} repeat-like frames")
     if skips:
-        fails.append(f"{len(skips)} skipped-frame steps (motion jumps {min(s['ratio'] for s in skips):.1f}x to "
-                     f"{max(s['ratio'] for s in skips):.1f}x"
-                     + (" with a still background)" if skip_info.get("guarded") else ", unguarded: no still region)"))
-    if worst_phase > 0.10:
-        fails.append(f"uneven cadence (5-phase dev {worst_phase:.2f})")
+        soft.append(f"{len(skips)} skipped-frame steps (motion jumps {min(s['ratio'] for s in skips):.1f}x to "
+                    f"{max(s['ratio'] for s in skips):.1f}x"
+                    + (" with a still background)" if skip_info.get("guarded") else ", unguarded: no still region)"))
+    if worst_phase > 0.25:
+        hard.append(f"uneven cadence (5-phase dev {worst_phase:.2f}: a repeat or blend conform)")
+    elif worst_phase > 0.10:
+        soft.append(f"uneven cadence (5-phase dev {worst_phase:.2f})")
     if flashes:
-        fails.append(f"{len(flashes)} flashes")
+        hard.append(f"{len(flashes)} flashes")
     if near_white:
-        fails.append(f"{len(near_white)} near-white frames")
+        hard.append(f"{len(near_white)} near-white frames")
     if jumps:
-        fails.append(f"{len(jumps)} luma jumps off a cut")
+        soft.append(f"{len(jumps)} luma jumps off a cut")
     if glitches:
-        fails.append(f"{len(glitches)} 1-2 frame glitches")
+        hard.append(f"{len(glitches)} 1-2 frame glitches")
     if not tail_ok:
-        fails.append(f"bright tail (mean luma {tail_luma:.1f})")
+        hard.append(f"bright tail (mean luma {tail_luma:.1f})")
     if noise_ratio is not None and noise_ratio < 0.8:
-        fails.append(f"screen cleaner than surround (noise ratio {noise_ratio:.2f})")
+        hard.append(f"screen cleaner than surround (noise ratio {noise_ratio:.2f})")
+    fails = hard + soft
     rep["fails"] = fails
-    rep["verdict"] = "PASS" if not fails else "CHECK"
+    rep["fail_reasons"] = hard
+    rep["check_reasons"] = soft
+    rep["verdict"] = "FAIL" if hard else ("CHECK" if soft else "PASS")
     if a.tsv:
         with open(a.tsv, "w") as f:
             f.write("frame\tt\tluma\tbg_diff\tflow_p90" + ("\tscreen_hp\tring_hp" if a.box else "") + "\n")
